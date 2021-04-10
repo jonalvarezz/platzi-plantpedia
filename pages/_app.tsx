@@ -1,7 +1,12 @@
 import { AppProps } from 'next/app'
+import { UIProvider } from '@ui/Provider'
 
 const NextApp = ({ Component, pageProps }: AppProps) => {
-  return <Component {...pageProps} />
+  return (
+    <UIProvider>
+      <Component {...pageProps} />
+    </UIProvider>
+  )
 }
 
 export default NextApp

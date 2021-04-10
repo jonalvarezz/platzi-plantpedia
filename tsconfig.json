@@ -15,7 +15,12 @@
     "jsx": "preserve",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "preserveConstEnums": true
+    "preserveConstEnums": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ui/*": ["ui/*"],
+      "@components/*": ["components/*"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
