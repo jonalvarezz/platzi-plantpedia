@@ -1,5 +1,6 @@
-import Link from 'next/link'
 import Head from 'next/head'
+import { NavBar } from './NavBar'
+import { Button } from './Button'
 
 type LayoutProps = { title?: string }
 
@@ -14,16 +15,14 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <noscript id="mui-insertion-point" />
       </Head>
-      <header>
-        <nav>
-          <Link href="/">
-            <a>Home</a>
-          </Link>
-        </nav>
-      </header>
-
+      <NavBar title="🌿 Plantpedia">
+        <div>
+          <Button color="inherit" variant="text">
+            Login
+          </Button>
+        </div>
+      </NavBar>
       {children}
-
       <footer></footer>
     </div>
   )
