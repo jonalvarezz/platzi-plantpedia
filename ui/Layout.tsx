@@ -12,6 +12,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         <title>{!title ? siteTitle : `${title} | ${siteTitle}`}</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <noscript id="mui-insertion-point" />
       </Head>
       <header>
         <nav>
