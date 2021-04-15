@@ -22,7 +22,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
           </Button>
         </div>
       </NavBar>
-      {children}
+      <div className="container mx-auto max-w-screen-xl">{children}</div>
       <footer></footer>
     </div>
   )

@@ -19,4 +19,24 @@ export const theme = createMuiTheme({
   shape: {
     borderRadius: 2,
   },
+  typography: {
+    h1: {
+      fontSize: '3.75rem',
+    },
+    h2: {
+      fontSize: '3rem',
+    },
+    h3: {
+      fontSize: '2.25rem',
+      lineHeight: '2.5rem',
+    },
+    h4: {
+      fontSize: '1.875rem',
+      lineHeight: '2.25rem',
+    },
+    h5: {
+      fontSize: '1.5rem;',
+      lineHeight: '2rem',
+    },
+  },
 })
