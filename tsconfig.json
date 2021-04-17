@@ -20,9 +20,10 @@
     "baseUrl": ".",
     "paths": {
       "@ui/*": ["ui/*"],
+      "@api/*": ["api/*"],
       "@components/*": ["components/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "api/**/*.d.ts"],
   "exclude": ["node_modules"]
 }
