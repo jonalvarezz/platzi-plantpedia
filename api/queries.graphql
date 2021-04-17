@@ -1,8 +1,49 @@
-# Placeholder query to get graphql-codegen to work
 query getAllPlants {
   plantCollection(limit: 10) {
     items {
+      sys {
+        id
+      }
       slug
+      plantName
+      image {
+        url
+        width
+        height
+      }
+      description {
+        json
+      }
+      author {
+        ... on Author {
+          sys {
+            id
+          }
+          fullName
+          photo {
+            url
+            width
+            height
+          }
+          biography
+          twitter
+          linkedIn
+        }
+      }
+      categoriesCollection {
+        items {
+          ... on Category {
+            sys {
+              id
+            }
+            title
+            categoryDescription
+            icon {
+              url
+            }
+          }
+        }
+      }
     }
   }
 }
