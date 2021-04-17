@@ -1,0 +1,13 @@
+schema:
+  - 'https://graphql.contentful.com/content/v1/spaces/${SPACE_ID}':
+      headers:
+        Authorization: 'Bearer ${ACCESS_TOKEN}'
+documents:
+  - './api/**/*.graphql'
+generates:
+  './api/generated/graphql.d.ts':
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+    config:
+      noExport: true
