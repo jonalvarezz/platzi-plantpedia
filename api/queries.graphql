@@ -1,0 +1,8 @@
+# Placeholder query to get graphql-codegen to work
+query getAllPlants {
+  plantCollection(limit: 10) {
+    items {
+      slug
+    }
+  }
+}
