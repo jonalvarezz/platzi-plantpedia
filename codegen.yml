@@ -5,9 +5,8 @@ schema:
 documents:
   - './api/**/*.graphql'
 generates:
-  './api/generated/graphql.d.ts':
+  './api/generated/graphql.ts':
     plugins:
       - 'typescript'
       - 'typescript-operations'
-    config:
-      noExport: true
+      - 'typescript-graphql-request'

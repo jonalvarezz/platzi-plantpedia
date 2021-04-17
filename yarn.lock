@@ -621,6 +621,16 @@
     lodash "~4.17.20"
     tslib "~2.1.0"
 
+"@graphql-codegen/typescript-graphql-request@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-graphql-request/-/typescript-graphql-request-3.1.0.tgz#8c81d93fc58c7f5fffcebff6031fc17172421f46"
+  integrity sha512-YzW/UoSaJil25U0Rd2X0XtzmLc5nGOBDdJoa0MdMjj8/KYN0PiABlZHHOdCkcznOlf9afcNDyJRKEt+1DhiYjw==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "^1.18.3"
+    "@graphql-codegen/visitor-plugin-common" "^1.19.0"
+    auto-bind "~4.0.0"
+    tslib "~2.1.0"
+
 "@graphql-codegen/typescript-operations@^1.17.15":
   version "1.17.15"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-1.17.15.tgz#c992e29ead1cf5c3f65dbbe1f522b09be30c36d6"
