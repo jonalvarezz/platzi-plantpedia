@@ -39,17 +39,18 @@ export function PlantCollection({
 
 export default function PlantEntrySquare({ image, plantName, slug }: Plant) {
   return (
-    <div>
-      <img src={`${image.url}`} />
-      <div className="p-4">
-        <Typography variant="h2" className="break-words">
-          {plantName}
-        </Typography>
-        <Link href={`/entry/${slug}`} passHref>
-          <Button>Read more</Button>
-        </Link>
-      </div>
-    </div>
+    <Link href={`/entry/${slug}`}>
+      <a title={`Go to ${plantName}`}>
+        <div className="opacity-95 hover:opacity-100">
+          <img src={`${image.url}`} />
+          <div className="p-4">
+            <Typography variant="h5" component="a" className="break-words">
+              {plantName}
+            </Typography>
+          </div>
+        </div>
+      </a>
+    </Link>
   )
 }
 
@@ -60,12 +61,16 @@ export function PlantEntryVertical({
   slug,
 }: Plant) {
   return (
-    <div>
-      <img src={`${image.url}?w=465&h=568&fit=crop`} />
-      <div className="p-4">
-        <Typography variant="h2" className="break-words">
-          {plantName}
-        </Typography>
+    <div className="opacity-95 hover:opacity-100">
+      <Link href={`/entry/${slug}`}>
+        <a title={`Go to ${plantName}`}>
+          <img src={`${image.url}?w=624&h=762&fit=crop`} />
+          <Typography variant="h2" className="break-words pt-4 px-4">
+            {plantName}
+          </Typography>
+        </a>
+      </Link>
+      <div className="px-4 pb-4">
         <Excerpt
           richText={description}
           color="textSecondary"
