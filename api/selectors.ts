@@ -83,7 +83,7 @@ export const selectPlant = nonEmpty<PartialPlant, Plant>((partialPlant) => ({
   id: selectEntityId(partialPlant),
   slug: partialPlant.slug!,
   plantName: partialPlant.plantName!,
-  description: partialPlant.description!,
+  description: partialPlant.description!.json,
   image: selectImage(partialPlant.image),
   author: selectAuthor(partialPlant.author),
   categories: selectCategories(partialPlant.categoriesCollection),
