@@ -43,7 +43,11 @@ export function PlantEntryVertical({
         <Typography variant="h2" className="break-words">
           {plantName}
         </Typography>
-        <Excerpt richText={description} />
+        <Excerpt
+          richText={description}
+          color="textSecondary"
+          className="py-6"
+        />
         <Link href={`/entry/${slug}`} passHref>
           <Button>Read more</Button>
         </Link>
