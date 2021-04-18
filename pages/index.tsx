@@ -1,14 +1,19 @@
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Grid } from '@material-ui/core'
 import { Typography } from '@ui/Typography'
 import { Button } from '@ui/Button'
 import { Layout } from '@ui/Layout'
-import { usePlants } from '@api/plants'
+import { getAllPlants } from '@api'
 import { Excerpt } from '@components/Excerpt'
 
 export default function Home() {
-  const plants = usePlants()
+  const [plants, setPlants] = useState<Plant[]>([])
   console.log(plants)
+
+  useEffect(() => {
+    getAllPlants().then(setPlants)
+  }, [])
 
   return (
     <Layout>
