@@ -21,9 +21,10 @@
     "paths": {
       "@ui/*": ["ui/*"],
       "@api/*": ["api/*"],
+      "@api": ["api/index.ts"],
       "@components/*": ["components/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "api/**/*.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

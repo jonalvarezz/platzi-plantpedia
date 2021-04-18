@@ -1,61 +1,70 @@
-import get from 'lodash/get'
+import type {
+  Maybe,
+  ISys,
+  IAsset,
+  IAuthor,
+  ICategory,
+} from './generated/graphql'
 
-export const selectEntityId = (data: Json): string => {
-  const id: string | undefined = get(data, 'sys.id')
+export function nonEmpty<T, O = unknown>(selector: (entity: T) => O) {
+  return (entity: Maybe<T> | undefined | null) => {
+    if (entity == null) {
+      throw new Error(`unexpected empty object found`)
+    }
 
-  if (!id) {
-    throw new Error(
-      `Missing id field on\n: ${JSON.stringify(data, undefined, 2)}`
-    )
+    return selector(entity)
   }
-
-  return id
 }
 
-export const selectImage = (data: Json): Image => ({
-  url: get(data, 'url'),
-  width: get(data, 'width'),
-  height: get(data, 'height'),
-})
+type PartialEntityWithId = { sys: Pick<ISys, 'id'> }
+export const selectEntityId = ({ sys: { id } }: PartialEntityWithId): string =>
+  id
 
-export const selectAuthor = (data: Json): Author => ({
-  id: selectEntityId(data),
-  fullName: get(data, 'fullName'),
-  photo: get(data, 'picture'),
-  biography: get(data, 'biography'),
-  twitter: get(data, 'twitter'),
-  linkedIn: get(data, 'linkedin'),
-})
+type PartialImageFields = Pick<IAsset, 'url' | 'width' | 'height'>
+export const selectImage = nonEmpty<PartialImageFields, Image>(
+  (partialImage) => ({
+    url: partialImage.url!,
+    width: partialImage.width!,
+    height: partialImage.height!,
+  })
+)
 
-export const selectCategory = (data: Json): Category => ({
-  id: selectEntityId(data),
-  title: get(data, 'title'),
-  icon: get(data, 'icon'),
-  description: get(data, 'description'),
-})
+export const selectAuthor = nonEmpty<
+  PartialEntityWithId & { photo?: Maybe<PartialImageFields> } & Pick<
+      IAuthor,
+      'fullName' | 'biography' | 'twitter' | 'linkedIn'
+    >,
+  Author
+>((partialAuthor) => ({
+  id: selectEntityId(partialAuthor),
+  fullName: partialAuthor.fullName!,
+  photo: selectImage(partialAuthor.photo),
+  biography: partialAuthor.biography!,
+  twitter: partialAuthor.twitter!,
+  linkedIn: partialAuthor.linkedIn!,
+}))
 
-export const selectCategories = (data: Json): Category[] =>
-  selectListOf(data, selectCategory)
+type PartialCategory = PartialEntityWithId & {
+  icon?: Maybe<PartialImageFields>
+} & Pick<ICategory, 'title' | 'categoryDescription'>
+export const selectCategory = nonEmpty<PartialCategory, Category>(
+  (partialCategory) => ({
+    id: selectEntityId(partialCategory),
+    title: partialCategory.title!,
+    icon: selectImage(partialCategory.icon),
+    description: partialCategory.categoryDescription!,
+  })
+)
 
-export const selectPlant = (data: Json): Plant => ({
-  id: selectEntityId(data),
-  plantName: get(data, 'plantName'),
-  slug: get(data, 'slug'),
-  description: get(data, 'description'),
-  image: selectImage(get(data, 'image')),
-  categories: selectCategories(get(data, 'categoriesCollection.items')),
-  author: selectAuthor(get(data, 'author')),
-})
-
-export const selectPlants = (data: Json) =>
-  selectListOf<Plant>(data, selectPlant)
-
-function selectListOf<T>(list: Json, entitySelector: (data: Json) => T): T[] {
-  if (list == null || !Array.isArray(list)) {
-    throw new Error(
-      `Couldn't find list in ${JSON.stringify(list, undefined, 2)}`
-    )
-  }
-
-  return list.map((item) => entitySelector(item))
+type PartialCollection<T> = {
+  items: Array<Maybe<T>>
 }
+export function selectListOf<T, O>(entitySelector: (entity: T) => O) {
+  return nonEmpty<PartialCollection<T>, Array<O>>((partialCollection) =>
+    partialCollection.items.map(nonEmpty(entitySelector))
+  )
+}
+
+export const selectCategories = selectListOf<PartialCategory, Category>(
+  selectCategory
+)
