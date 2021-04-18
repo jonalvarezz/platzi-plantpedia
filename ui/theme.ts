@@ -20,6 +20,7 @@ export const theme = createMuiTheme({
     borderRadius: 2,
   },
   typography: {
+    fontFamily: 'inherit',
     h1: {
       fontSize: '3.75rem',
     },
