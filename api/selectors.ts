@@ -4,6 +4,7 @@ import type {
   IAsset,
   IAuthor,
   ICategory,
+  IPlant,
 } from './generated/graphql'
 
 export function nonEmpty<T, O = unknown>(selector: (entity: T) => O) {
@@ -29,20 +30,20 @@ export const selectImage = nonEmpty<PartialImageFields, Image>(
   })
 )
 
-export const selectAuthor = nonEmpty<
-  PartialEntityWithId & { photo?: Maybe<PartialImageFields> } & Pick<
-      IAuthor,
-      'fullName' | 'biography' | 'twitter' | 'linkedIn'
-    >,
-  Author
->((partialAuthor) => ({
-  id: selectEntityId(partialAuthor),
-  fullName: partialAuthor.fullName!,
-  photo: selectImage(partialAuthor.photo),
-  biography: partialAuthor.biography!,
-  twitter: partialAuthor.twitter!,
-  linkedIn: partialAuthor.linkedIn!,
-}))
+type PartialAuthor = PartialEntityWithId & {
+  photo?: Maybe<PartialImageFields>
+} & Pick<IAuthor, 'fullName' | 'biography' | 'twitter' | 'linkedIn'>
+
+export const selectAuthor = nonEmpty<PartialAuthor, Author>(
+  (partialAuthor) => ({
+    id: selectEntityId(partialAuthor),
+    fullName: partialAuthor.fullName!,
+    photo: selectImage(partialAuthor.photo),
+    biography: partialAuthor.biography!,
+    twitter: partialAuthor.twitter!,
+    linkedIn: partialAuthor.linkedIn!,
+  })
+)
 
 type PartialCategory = PartialEntityWithId & {
   icon?: Maybe<PartialImageFields>
@@ -65,6 +66,23 @@ export function selectListOf<T, O>(entitySelector: (entity: T) => O) {
   )
 }
 
-export const selectCategories = selectListOf<PartialCategory, Category>(
-  selectCategory
-)
+export const selectCategories = selectListOf(selectCategory)
+
+type PartialPlant = Pick<IPlant, 'slug' | 'plantName'> &
+  PartialEntityWithId & { description?: Maybe<{ json: Json }> } & {
+    image?: Maybe<PartialImageFields>
+  } & { categoriesCollection?: Maybe<PartialCollection<PartialCategory>> } & {
+    author?: Maybe<PartialAuthor>
+  }
+
+export const selectPlant = nonEmpty<PartialPlant, Plant>((partialPlant) => ({
+  id: selectEntityId(partialPlant),
+  slug: partialPlant.slug!,
+  plantName: partialPlant.plantName!,
+  description: partialPlant.description!,
+  image: selectImage(partialPlant.image),
+  author: selectAuthor(partialPlant.author),
+  categories: selectCategories(partialPlant.categoriesCollection),
+}))
+
+export const selectPlants = selectListOf(selectPlant)

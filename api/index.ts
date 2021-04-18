@@ -15,23 +15,9 @@ const client = new GraphQLClient(
 const api = getSdk(client)
 
 export function getAllPlants(): Promise<Plant[]> {
-  return api.getAllPlants().then((responseData) =>
-    responseData.plantCollection!.items.map((responseItem, index) => {
-      if (responseItem == null) {
-        throw new Error(`Corrupted object at pos. ${index}`)
-      }
-
-      return {
-        id: selectors.selectEntityId(responseItem),
-        slug: responseItem.slug!,
-        plantName: responseItem.plantName!,
-        description: responseItem.description!,
-        image: selectors.selectImage(responseItem.image),
-        author: selectors.selectAuthor(responseItem.author),
-        categories: selectors.selectCategories(
-          responseItem.categoriesCollection
-        ),
-      }
-    })
-  )
+  return api
+    .getAllPlants()
+    .then((responseData) =>
+      selectors.selectPlants(responseData.plantCollection)
+    )
 }
