@@ -7,6 +7,8 @@ import type {
   IPlant,
 } from './generated/graphql'
 
+// Generic utilities
+// ----------------------------------------------------------------
 export function nonEmpty<T, O = unknown>(selector: (entity: T) => O) {
   return (entity: Maybe<T> | undefined | null) => {
     if (entity == null) {
@@ -17,10 +19,21 @@ export function nonEmpty<T, O = unknown>(selector: (entity: T) => O) {
   }
 }
 
+type PartialCollection<T> = {
+  items: Array<Maybe<T>>
+}
+export function selectListOf<T, O>(entitySelector: (entity: T) => O) {
+  return nonEmpty<PartialCollection<T>, Array<O>>((partialCollection) =>
+    partialCollection.items.map(nonEmpty(entitySelector))
+  )
+}
+
 type PartialEntityWithId = { sys: Pick<ISys, 'id'> }
 export const selectEntityId = ({ sys: { id } }: PartialEntityWithId): string =>
   id
 
+// Entities selectors
+// ----------------------------------------------------------------
 type PartialImageFields = Pick<IAsset, 'url' | 'width' | 'height'>
 export const selectImage = nonEmpty<PartialImageFields, Image>(
   (partialImage) => ({
@@ -56,15 +69,6 @@ export const selectCategory = nonEmpty<PartialCategory, Category>(
     description: partialCategory.categoryDescription!,
   })
 )
-
-type PartialCollection<T> = {
-  items: Array<Maybe<T>>
-}
-export function selectListOf<T, O>(entitySelector: (entity: T) => O) {
-  return nonEmpty<PartialCollection<T>, Array<O>>((partialCollection) =>
-    partialCollection.items.map(nonEmpty(entitySelector))
-  )
-}
 
 export const selectCategories = selectListOf(selectCategory)
 
