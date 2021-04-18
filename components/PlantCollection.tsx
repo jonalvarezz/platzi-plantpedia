@@ -7,11 +7,13 @@ import { Excerpt } from '@components/Excerpt'
 type PlantCollectionProps = {
   plants: Plant[]
   variant?: 'square' | 'vertical'
+  className?: string
 }
 
 export function PlantCollection({
   plants,
   variant = 'square',
+  className,
 }: PlantCollectionProps) {
   let gridItemProps: GridProps = { xs: 6, md: 4 }
   let Component: (props: Plant) => JSX.Element = PlantEntrySquare
@@ -25,9 +27,9 @@ export function PlantCollection({
   }
 
   return (
-    <Grid container component="ul" spacing={4}>
+    <Grid container component="ul" spacing={4} className={className}>
       {plants.map((plant) => (
-        <Grid key={plant.id} item {...gridItemProps}>
+        <Grid key={plant.id} role="listitem" item {...gridItemProps}>
           <Component {...plant} />
         </Grid>
       ))}
