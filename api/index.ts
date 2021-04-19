@@ -23,3 +23,13 @@ export function getAllPlants(
       selectors.selectPlants(responseData.plantCollection)
     )
 }
+
+export function getPlant(slug: string): Promise<Plant> {
+  return api.getPlant({ slug }).then((responseData) => {
+    if (responseData == null || responseData.plantCollection == null) {
+      throw new Error(`Plant with slug: "${slug}" not found`)
+    }
+
+    return selectors.selectPlant(responseData.plantCollection.items[0])
+  })
+}
