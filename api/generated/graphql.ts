@@ -870,6 +870,59 @@ export type ICfAuthorNestedFilter = {
   AND?: Maybe<Array<Maybe<ICfAuthorNestedFilter>>>;
 };
 
+export type IAssetFieldsFragment = (
+  { __typename?: 'Asset' }
+  & Pick<IAsset, 'title' | 'url' | 'width' | 'height'>
+);
+
+export type IAuthorFieldsFragment = (
+  { __typename?: 'Author' }
+  & Pick<IAuthor, 'fullName' | 'biography' | 'twitter' | 'linkedIn'>
+  & { sys: (
+    { __typename?: 'Sys' }
+    & Pick<ISys, 'id'>
+  ), photo?: Maybe<(
+    { __typename?: 'Asset' }
+    & IAssetFieldsFragment
+  )> }
+);
+
+export type ICategoryFieldsFragment = (
+  { __typename?: 'Category' }
+  & Pick<ICategory, 'title' | 'categoryDescription'>
+  & { sys: (
+    { __typename?: 'Sys' }
+    & Pick<ISys, 'id'>
+  ), icon?: Maybe<(
+    { __typename?: 'Asset' }
+    & IAssetFieldsFragment
+  )> }
+);
+
+export type IPlantFieldsFragment = (
+  { __typename?: 'Plant' }
+  & Pick<IPlant, 'slug' | 'plantName'>
+  & { sys: (
+    { __typename?: 'Sys' }
+    & Pick<ISys, 'id'>
+  ), image?: Maybe<(
+    { __typename?: 'Asset' }
+    & IAssetFieldsFragment
+  )>, description?: Maybe<(
+    { __typename?: 'PlantDescription' }
+    & Pick<IPlantDescription, 'json'>
+  )>, author?: Maybe<(
+    { __typename?: 'Author' }
+    & IAuthorFieldsFragment
+  )>, categoriesCollection?: Maybe<(
+    { __typename?: 'PlantCategoriesCollection' }
+    & { items: Array<Maybe<(
+      { __typename?: 'Category' }
+      & ICategoryFieldsFragment
+    )>> }
+  )> }
+);
+
 export type IGetAllPlantsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -879,96 +932,79 @@ export type IGetAllPlantsQuery = (
     { __typename?: 'PlantCollection' }
     & { items: Array<Maybe<(
       { __typename?: 'Plant' }
-      & Pick<IPlant, 'slug' | 'plantName'>
-      & { sys: (
-        { __typename?: 'Sys' }
-        & Pick<ISys, 'id'>
-      ), image?: Maybe<(
-        { __typename?: 'Asset' }
-        & Pick<IAsset, 'url' | 'width' | 'height'>
-      )>, description?: Maybe<(
-        { __typename?: 'PlantDescription' }
-        & Pick<IPlantDescription, 'json'>
-      )>, author?: Maybe<(
-        { __typename?: 'Author' }
-        & Pick<IAuthor, 'fullName' | 'biography' | 'twitter' | 'linkedIn'>
-        & { sys: (
-          { __typename?: 'Sys' }
-          & Pick<ISys, 'id'>
-        ), photo?: Maybe<(
-          { __typename?: 'Asset' }
-          & Pick<IAsset, 'url' | 'width' | 'height'>
-        )> }
-      )>, categoriesCollection?: Maybe<(
-        { __typename?: 'PlantCategoriesCollection' }
-        & { items: Array<Maybe<(
-          { __typename?: 'Category' }
-          & Pick<ICategory, 'title' | 'categoryDescription'>
-          & { sys: (
-            { __typename?: 'Sys' }
-            & Pick<ISys, 'id'>
-          ), icon?: Maybe<(
-            { __typename?: 'Asset' }
-            & Pick<IAsset, 'url'>
-          )> }
-        )>> }
-      )> }
+      & IPlantFieldsFragment
     )>> }
   )> }
 );
 
-
+export const AssetFieldsFragmentDoc = gql`
+    fragment AssetFields on Asset {
+  title
+  url
+  width
+  height
+}
+    `;
+export const AuthorFieldsFragmentDoc = gql`
+    fragment AuthorFields on Author {
+  sys {
+    id
+  }
+  fullName
+  photo {
+    ...AssetFields
+  }
+  biography
+  twitter
+  linkedIn
+}
+    ${AssetFieldsFragmentDoc}`;
+export const CategoryFieldsFragmentDoc = gql`
+    fragment CategoryFields on Category {
+  sys {
+    id
+  }
+  title
+  categoryDescription
+  icon {
+    ...AssetFields
+  }
+}
+    ${AssetFieldsFragmentDoc}`;
+export const PlantFieldsFragmentDoc = gql`
+    fragment PlantFields on Plant {
+  sys {
+    id
+  }
+  slug
+  plantName
+  image {
+    ...AssetFields
+  }
+  description {
+    json
+  }
+  author {
+    ...AuthorFields
+  }
+  categoriesCollection {
+    items {
+      ...CategoryFields
+    }
+  }
+}
+    ${AssetFieldsFragmentDoc}
+${AuthorFieldsFragmentDoc}
+${CategoryFieldsFragmentDoc}`;
 export const GetAllPlantsDocument = gql`
     query getAllPlants {
   plantCollection(limit: 10) {
     items {
-      sys {
-        id
-      }
-      slug
-      plantName
-      image {
-        url
-        width
-        height
-      }
-      description {
-        json
-      }
-      author {
-        ... on Author {
-          sys {
-            id
-          }
-          fullName
-          photo {
-            url
-            width
-            height
-          }
-          biography
-          twitter
-          linkedIn
-        }
-      }
-      categoriesCollection {
-        items {
-          ... on Category {
-            sys {
-              id
-            }
-            title
-            categoryDescription
-            icon {
-              url
-            }
-          }
-        }
-      }
+      ...PlantFields
     }
   }
 }
-    `;
+    ${PlantFieldsFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>;
 

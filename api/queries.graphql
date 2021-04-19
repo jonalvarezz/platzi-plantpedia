@@ -1,49 +1,60 @@
+fragment AssetFields on Asset {
+  title
+  url
+  width
+  height
+}
+
+fragment AuthorFields on Author {
+  sys {
+    id
+  }
+  fullName
+  photo {
+    ...AssetFields
+  }
+  biography
+  twitter
+  linkedIn
+}
+
+fragment CategoryFields on Category {
+  sys {
+    id
+  }
+  title
+  categoryDescription
+  icon {
+    ...AssetFields
+  }
+}
+
+fragment PlantFields on Plant {
+  sys {
+    id
+  }
+  slug
+  plantName
+  image {
+    ...AssetFields
+  }
+  description {
+    json
+  }
+  author {
+    ...AuthorFields
+  }
+  categoriesCollection {
+    items {
+      ...CategoryFields
+    }
+  }
+}
+
 query getAllPlants {
   plantCollection(limit: 10) {
     items {
-      sys {
-        id
-      }
-      slug
-      plantName
-      image {
-        url
-        width
-        height
-      }
-      description {
-        json
-      }
-      author {
-        ... on Author {
-          sys {
-            id
-          }
-          fullName
-          photo {
-            url
-            width
-            height
-          }
-          biography
-          twitter
-          linkedIn
-        }
-      }
-      categoriesCollection {
-        items {
-          ... on Category {
-            sys {
-              id
-            }
-            title
-            categoryDescription
-            icon {
-              url
-            }
-          }
-        }
-      }
+      ...PlantFields
     }
   }
 }

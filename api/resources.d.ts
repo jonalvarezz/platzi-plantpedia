@@ -7,6 +7,7 @@ type Json =
   | Json[]
 
 type Image = {
+  title: string
   url: string
   width: number
   height: number

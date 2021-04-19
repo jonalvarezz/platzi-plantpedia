@@ -34,9 +34,10 @@ export const selectEntityId = ({ sys: { id } }: PartialEntityWithId): string =>
 
 // Entities selectors
 // ----------------------------------------------------------------
-type PartialImageFields = Pick<IAsset, 'url' | 'width' | 'height'>
+type PartialImageFields = Pick<IAsset, 'title' | 'url' | 'width' | 'height'>
 export const selectImage = nonEmpty<PartialImageFields, Image>(
   (partialImage) => ({
+    title: partialImage.title!,
     url: partialImage.url!,
     width: partialImage.width!,
     height: partialImage.height!,
