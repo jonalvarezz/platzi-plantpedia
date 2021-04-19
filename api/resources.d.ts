@@ -40,3 +40,9 @@ type Plant = {
   categories: Category[]
   author: Author
 }
+
+type PaginatedList<T> = {
+  limit: number
+  skip: number
+  items: T[]
+}

@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request'
-import { getSdk } from './generated/graphql'
+import { getSdk, IGetAllPlantsQueryVariables } from './generated/graphql'
 import * as selectors from './selectors'
 
 const client = new GraphQLClient(
@@ -14,9 +14,11 @@ const client = new GraphQLClient(
 
 const api = getSdk(client)
 
-export function getAllPlants(): Promise<Plant[]> {
+export function getAllPlants(
+  args?: IGetAllPlantsQueryVariables
+): Promise<Plant[]> {
   return api
-    .getAllPlants()
+    .getAllPlants({ limit: 10, skip: 0, ...args })
     .then((responseData) =>
       selectors.selectPlants(responseData.plantCollection)
     )

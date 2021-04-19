@@ -67,6 +67,7 @@ export type IAssetCollection = {
 
 export type IAssetFilter = {
   sys?: Maybe<ISysFilter>;
+  contentfulMetadata?: Maybe<IContentfulMetadataFilter>;
   title_exists?: Maybe<Scalars['Boolean']>;
   title?: Maybe<Scalars['String']>;
   title_not?: Maybe<Scalars['String']>;
@@ -256,6 +257,7 @@ export type IAuthorCollection = {
 
 export type IAuthorFilter = {
   sys?: Maybe<ISysFilter>;
+  contentfulMetadata?: Maybe<IContentfulMetadataFilter>;
   photo_exists?: Maybe<Scalars['Boolean']>;
   fullName_exists?: Maybe<Scalars['Boolean']>;
   fullName?: Maybe<Scalars['String']>;
@@ -374,6 +376,7 @@ export type ICategoryCollection = {
 
 export type ICategoryFilter = {
   sys?: Maybe<ISysFilter>;
+  contentfulMetadata?: Maybe<IContentfulMetadataFilter>;
   title_exists?: Maybe<Scalars['Boolean']>;
   title?: Maybe<Scalars['String']>;
   title_not?: Maybe<Scalars['String']>;
@@ -431,6 +434,17 @@ export type IContentfulMetadata = {
   tags: Array<Maybe<IContentfulTag>>;
 };
 
+export type IContentfulMetadataFilter = {
+  tags_exists?: Maybe<Scalars['Boolean']>;
+  tags?: Maybe<IContentfulMetadataTagsFilter>;
+};
+
+export type IContentfulMetadataTagsFilter = {
+  id_contains_all?: Maybe<Array<Maybe<Scalars['String']>>>;
+  id_contains_some?: Maybe<Array<Maybe<Scalars['String']>>>;
+  id_contains_none?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 /**
  * Represents a tag entity for finding and organizing content easily.
  *     Find out more here: https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/content-tags
@@ -455,6 +469,24 @@ export type IEntryCollection = {
   limit: Scalars['Int'];
   items: Array<Maybe<IEntry>>;
 };
+
+export type IEntryFilter = {
+  sys?: Maybe<ISysFilter>;
+  contentfulMetadata?: Maybe<IContentfulMetadataFilter>;
+  OR?: Maybe<Array<Maybe<IEntryFilter>>>;
+  AND?: Maybe<Array<Maybe<IEntryFilter>>>;
+};
+
+export enum IEntryOrder {
+  SysIdAsc = 'sys_id_ASC',
+  SysIdDesc = 'sys_id_DESC',
+  SysPublishedAtAsc = 'sys_publishedAt_ASC',
+  SysPublishedAtDesc = 'sys_publishedAt_DESC',
+  SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+  SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+  SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+  SysPublishedVersionDesc = 'sys_publishedVersion_DESC'
+}
 
 
 export enum IImageFormat {
@@ -657,6 +689,7 @@ export type IPlantDescriptionLinks = {
 export type IPlantFilter = {
   author?: Maybe<ICfAuthorNestedFilter>;
   sys?: Maybe<ISysFilter>;
+  contentfulMetadata?: Maybe<IContentfulMetadataFilter>;
   plantName_exists?: Maybe<Scalars['Boolean']>;
   plantName?: Maybe<Scalars['String']>;
   plantName_not?: Maybe<Scalars['String']>;
@@ -718,6 +751,7 @@ export type IQuery = {
   authorCollection?: Maybe<IAuthorCollection>;
   category?: Maybe<ICategory>;
   categoryCollection?: Maybe<ICategoryCollection>;
+  entryCollection?: Maybe<IEntryCollection>;
 };
 
 
@@ -788,6 +822,16 @@ export type IQueryCategoryCollectionArgs = {
   order?: Maybe<Array<Maybe<ICategoryOrder>>>;
 };
 
+
+export type IQueryEntryCollectionArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  preview?: Maybe<Scalars['Boolean']>;
+  locale?: Maybe<Scalars['String']>;
+  where?: Maybe<IEntryFilter>;
+  order?: Maybe<Array<Maybe<IEntryOrder>>>;
+};
+
 export type ISys = {
   __typename?: 'Sys';
   id: Scalars['String'];
@@ -837,6 +881,7 @@ export type ISysFilter = {
 
 export type ICfAuthorNestedFilter = {
   sys?: Maybe<ISysFilter>;
+  contentfulMetadata?: Maybe<IContentfulMetadataFilter>;
   photo_exists?: Maybe<Scalars['Boolean']>;
   fullName_exists?: Maybe<Scalars['Boolean']>;
   fullName?: Maybe<Scalars['String']>;
@@ -923,10 +968,31 @@ export type IPlantFieldsFragment = (
   )> }
 );
 
-export type IGetAllPlantsQueryVariables = Exact<{ [key: string]: never; }>;
+export type IGetAllPlantsQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  order?: Maybe<Array<Maybe<IPlantOrder>> | Maybe<IPlantOrder>>;
+}>;
 
 
 export type IGetAllPlantsQuery = (
+  { __typename?: 'Query' }
+  & { plantCollection?: Maybe<(
+    { __typename?: 'PlantCollection' }
+    & Pick<IPlantCollection, 'total' | 'skip' | 'limit'>
+    & { items: Array<Maybe<(
+      { __typename?: 'Plant' }
+      & IPlantFieldsFragment
+    )>> }
+  )> }
+);
+
+export type IGetPlantQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type IGetPlantQuery = (
   { __typename?: 'Query' }
   & { plantCollection?: Maybe<(
     { __typename?: 'PlantCollection' }
@@ -997,8 +1063,20 @@ export const PlantFieldsFragmentDoc = gql`
 ${AuthorFieldsFragmentDoc}
 ${CategoryFieldsFragmentDoc}`;
 export const GetAllPlantsDocument = gql`
-    query getAllPlants {
-  plantCollection(limit: 10) {
+    query getAllPlants($limit: Int = 10, $skip: Int = 0, $order: [PlantOrder] = sys_publishedAt_DESC) {
+  plantCollection(limit: $limit, skip: $skip, order: $order) {
+    total
+    skip
+    limit
+    items {
+      ...PlantFields
+    }
+  }
+}
+    ${PlantFieldsFragmentDoc}`;
+export const GetPlantDocument = gql`
+    query getPlant($slug: String!) {
+  plantCollection(where: {slug: $slug}, limit: 1) {
     items {
       ...PlantFields
     }
@@ -1014,6 +1092,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     getAllPlants(variables?: IGetAllPlantsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetAllPlantsQuery> {
       return withWrapper(() => client.request<IGetAllPlantsQuery>(GetAllPlantsDocument, variables, requestHeaders));
+    },
+    getPlant(variables: IGetPlantQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetPlantQuery> {
+      return withWrapper(() => client.request<IGetPlantQuery>(GetPlantDocument, variables, requestHeaders));
     }
   };
 }
