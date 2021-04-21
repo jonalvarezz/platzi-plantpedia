@@ -8,7 +8,7 @@ type HomeProps = {
 }
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  const plants = await getAllPlants()
+  const plants = await getAllPlants({ limit: 8 })
 
   return {
     props: { plants },
@@ -26,7 +26,10 @@ export default function Home({
           variant="vertical"
           className="mb-24"
         />
-        <PlantCollection plants={plants.slice(0, 6)} variant="square" />
+        <PlantCollection
+          plants={plants.length > 8 ? plants.slice(2, 8) : plants}
+          variant="square"
+        />
       </main>
     </Layout>
   )
