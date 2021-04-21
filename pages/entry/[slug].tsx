@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { getPlant } from '@api'
+import { getPlant, QueryStatus } from '@api'
 
 import { Layout } from '@ui/Layout'
 import { Typography } from '@ui/Typography'
@@ -12,28 +12,31 @@ export default function PlantEntryPage() {
   const router = useRouter()
   const slug = router.query.slug
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [status, setStatus] = useState<QueryStatus>('idle')
   const [plant, setPlant] = useState<Plant | null>(null)
   useEffect(() => {
     if (typeof slug === 'string') {
+      setStatus('loading')
       getPlant(slug)
         .then(setPlant)
         .then(() => {
-          setIsLoading(false)
+          setStatus('success')
+        })
+        .catch(() => {
+          setStatus('error')
         })
     }
   }, [slug])
 
-  if (!slug) {
-    // 404
+  if (status === 'error') {
     return (
       <Layout>
-        <main className="pt-16">404, my friendo</main>
+        <main className="pt-16 text-center">404, my friendo</main>
       </Layout>
     )
   }
 
-  if (isLoading || plant == null) {
+  if (status === 'loading' || plant == null) {
     return (
       <Layout>
         <main className="pt-16">Loading...</main>
