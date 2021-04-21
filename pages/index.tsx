@@ -1,16 +1,23 @@
-import { useState, useEffect } from 'react'
+import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import { Layout } from '@ui/Layout'
 import { getAllPlants } from '@api'
 import { PlantCollection } from '@components/PlantCollection'
 
-export default function Home() {
-  const [plants, setPlants] = useState<Plant[]>([])
-  console.log(plants)
+type HomeProps = {
+  plants: Plant[]
+}
 
-  useEffect(() => {
-    getAllPlants().then(setPlants)
-  }, [])
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  const plants = await getAllPlants()
 
+  return {
+    props: { plants },
+  }
+}
+
+export default function Home({
+  plants,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
       <main className="pt-16">
