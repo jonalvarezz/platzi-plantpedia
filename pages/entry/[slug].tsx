@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { getPlant, QueryStatus } from '@api'
+import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
+import { getPlant, getAllPlants } from '@api'
 
 import { Layout } from '@ui/Layout'
 import { Typography } from '@ui/Typography'
@@ -8,38 +7,64 @@ import { Grid } from '@ui/Grid'
 
 import { RichText } from '@components/RichText'
 
-export default function PlantEntryPage() {
-  const router = useRouter()
-  const slug = router.query.slug
+type PlantEntryPageProps = {
+  plant: Plant | null
+  status: 'error' | 'success'
+}
 
-  const [status, setStatus] = useState<QueryStatus>('idle')
-  const [plant, setPlant] = useState<Plant | null>(null)
-  useEffect(() => {
-    if (typeof slug === 'string') {
-      setStatus('loading')
-      getPlant(slug)
-        .then(setPlant)
-        .then(() => {
-          setStatus('success')
-        })
-        .catch(() => {
-          setStatus('error')
-        })
+export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
+  params,
+}) => {
+  const slug = params?.slug
+
+  if (typeof slug !== 'string') {
+    return {
+      props: {
+        plant: null,
+        status: 'error',
+      },
     }
-  }, [slug])
+  }
 
-  if (status === 'error') {
+  try {
+    const plant = await getPlant(slug)
+    return {
+      props: {
+        plant,
+        status: 'success',
+      },
+    }
+  } catch (e) {
+    return {
+      props: {
+        plant: null,
+        status: 'error',
+      },
+    }
+  }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  // Match home query.
+  // @TODO how do we generate all of our pages if we don't know the number? 🤔
+  const plantEntriesToGenerate = await getAllPlants({ limit: 8 })
+
+  return {
+    paths: plantEntriesToGenerate.map(({ slug }) => `/entry/${slug}`),
+
+    // Return 404 for plant entries that were not included.
+    fallback: false,
+  }
+}
+
+export default function PlantEntryPage({
+  plant,
+  status,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  if (status === 'error' || plant == null) {
     return (
       <Layout>
         <main className="pt-16 text-center">404, my friendo</main>
-      </Layout>
-    )
-  }
-
-  if (status === 'loading' || plant == null) {
-    return (
-      <Layout>
-        <main className="pt-16">Loading...</main>
       </Layout>
     )
   }

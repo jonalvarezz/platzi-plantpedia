@@ -24,8 +24,6 @@ export function getAllPlants(
     )
 }
 
-export type QueryStatus = 'idle' | 'loading' | 'error' | 'success'
-
 export function getPlant(slug: string): Promise<Plant> {
   return api.getPlant({ slug }).then((responseData) => {
     if (
