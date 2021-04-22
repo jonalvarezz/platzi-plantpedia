@@ -2,10 +2,18 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, create a `.env.local` file with your Contentful secrets:
 
 ```bash
-NEXT_PUBLIC_SPACE_ID={SPACE_ID} NEXT_PUBLIC_ACCESS_TOKEN={ACCESS_TOKEN} yarn dev
+cp .env.local.example .env.local
+```
+
+Create a new API Key in Contentful: "Your Space > Settings > API Keys", then replace `SPACE_ID` and `ACCESS_TOKEN` with your values.
+
+Second, run the development server:
+
+```bash
+yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
