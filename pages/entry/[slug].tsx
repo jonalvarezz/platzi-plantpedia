@@ -81,7 +81,6 @@ export default function PlantEntryPage({
             <figure>
               <Image
                 width={500}
-                height={calcAspectRatio('4:3', 500)}
                 aspectRatio="4:3"
                 layout="intrinsic"
                 src={plant.image.url}
@@ -108,18 +107,20 @@ export default function PlantEntryPage({
 
 type ImageProps = {
   width: number
-  layout: 'fill' | 'fixed' | 'intrinsic' | 'responsive'
-  aspectRatio: AspectRatio
-  fit?: 'pad' | 'fill' | 'scale' | 'crop' | 'thumb'
-} & NextImageProps
+  height?: never
+  layout: ImageLayout
+  aspectRatio?: AspectRatio
+  fit?: ImageFit
+} & DistributiveOmit<NextImageProps, 'height'>
 
 function Image({
   width,
-  height,
   fit = 'fill',
-  aspectRatio,
+  aspectRatio = '4:3',
   ...nextImageProps
 }: ImageProps) {
+  const height = calcAspectRatio(aspectRatio, width)
+
   const imageLoader = (loaderArgs: ImageLoaderProps) => {
     const h = calcAspectRatio(aspectRatio, loaderArgs.width)
 
@@ -136,7 +137,17 @@ function Image({
   )
 }
 
+type ImageFit = 'pad' | 'fill' | 'scale' | 'crop' | 'thumb'
+
 type AspectRatio = '16:9' | '4:3' | '1:1' | '3:2' | '9:16'
+
+// Next.js sadly don't export it
+type ImageLayout = 'fill' | 'fixed' | 'intrinsic' | 'responsive'
+
+// https://davidgomes.com/pick-omit-over-union-types-in-typescript/
+type DistributiveOmit<T, K extends keyof T> = T extends unknown
+  ? Omit<T, K>
+  : never
 
 function calcAspectRatio(aspectRatio: AspectRatio, width: number): number {
   if (aspectRatio === '16:9') return width * (9 / 16)
