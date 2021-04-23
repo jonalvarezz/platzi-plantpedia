@@ -2,7 +2,9 @@ import Link from 'next/link'
 import { Grid, GridProps } from '@material-ui/core'
 import { Typography } from '@ui/Typography'
 import { Button } from '@ui/Button'
+
 import { Excerpt } from '@components/Excerpt'
+import { Image } from '@components/Image'
 
 type PlantCollectionProps = {
   plants: Plant[]
@@ -42,7 +44,12 @@ export default function PlantEntrySquare({ image, plantName, slug }: Plant) {
     <Link href={`/entry/${slug}`}>
       <a title={`Go to ${plantName}`}>
         <div className="opacity-95 hover:opacity-100">
-          <img src={`${image.url}`} />
+          <Image
+            src={image.url}
+            layout="intrinsic"
+            width={460}
+            aspectRatio="4:3"
+          />
           <div className="p-4">
             <Typography variant="h5" component="a" className="break-words">
               {plantName}
@@ -64,7 +71,12 @@ export function PlantEntryVertical({
     <div className="opacity-95 hover:opacity-100">
       <Link href={`/entry/${slug}`}>
         <a title={`Go to ${plantName}`}>
-          <img src={`${image.url}?w=624&h=762&fit=crop`} />
+          <Image
+            src={image.url}
+            width={624}
+            layout="intrinsic"
+            aspectRatio="9:12"
+          />
           <Typography variant="h2" className="break-words pt-4 px-4">
             {plantName}
           </Typography>

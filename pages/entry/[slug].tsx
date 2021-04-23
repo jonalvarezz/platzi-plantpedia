@@ -77,7 +77,7 @@ export default function PlantEntryPage({
           <Grid item xs={12} md={8} lg={9} component="article">
             <figure>
               <Image
-                width={500}
+                width={952}
                 aspectRatio="4:3"
                 layout="intrinsic"
                 src={plant.image.url}

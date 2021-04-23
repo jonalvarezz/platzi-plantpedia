@@ -37,7 +37,7 @@ export function Image({
 
 export type ImageFit = 'pad' | 'fill' | 'scale' | 'crop' | 'thumb'
 
-export type AspectRatio = '16:9' | '4:3' | '1:1' | '3:2' | '9:16'
+export type AspectRatio = '16:9' | '4:3' | '1:1' | '3:2' | '9:12'
 
 // Next.js sadly don't export it
 export type ImageLayout = 'fill' | 'fixed' | 'intrinsic' | 'responsive'
@@ -47,11 +47,16 @@ type DistributiveOmit<T, K extends keyof T> = T extends unknown
   ? Omit<T, K>
   : never
 
-function calcAspectRatio(aspectRatio: AspectRatio, width: number): number {
-  if (aspectRatio === '16:9') return width * (9 / 16)
-  if (aspectRatio === '4:3') return width * (3 / 4)
-  if (aspectRatio === '3:2') return width * (2 / 3)
-  if (aspectRatio === '9:16') return width * (16 / 9)
+const aspectRatioToRatio: Record<AspectRatio, number> = {
+  '1:1': 1,
+  '16:9': 9 / 16,
+  '4:3': 3 / 4,
+  '3:2': 2 / 3,
+  '9:12': 12 / 9,
+}
 
-  return width // 1:1
+function calcAspectRatio(aspectRatio: AspectRatio, width: number): number {
+  const ratio = aspectRatioToRatio[aspectRatio]
+
+  return Math.floor(width * ratio)
 }
