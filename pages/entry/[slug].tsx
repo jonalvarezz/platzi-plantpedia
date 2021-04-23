@@ -1,3 +1,7 @@
+import NextImage, {
+  ImageLoaderProps,
+  ImageProps as NextImageProps,
+} from 'next/image'
 import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
 import { getPlant, getAllPlants } from '@api'
 
@@ -75,7 +79,14 @@ export default function PlantEntryPage({
         <Grid container spacing={4}>
           <Grid item xs={12} md={8} lg={9} component="article">
             <figure>
-              <img src={plant.image.url} alt={plant.image.title} />
+              <Image
+                width={500}
+                height={calcAspectRatio('4:3', 500)}
+                aspectRatio="4:3"
+                layout="intrinsic"
+                src={plant.image.url}
+                alt={plant.image.title}
+              />
             </figure>
             <div className="px-12 pt-8">
               <Typography variant="h2">{plant.plantName}</Typography>
@@ -93,4 +104,45 @@ export default function PlantEntryPage({
       </main>
     </Layout>
   )
+}
+
+type ImageProps = {
+  width: number
+  layout: 'fill' | 'fixed' | 'intrinsic' | 'responsive'
+  aspectRatio: AspectRatio
+  fit?: 'pad' | 'fill' | 'scale' | 'crop' | 'thumb'
+} & NextImageProps
+
+function Image({
+  width,
+  height,
+  fit = 'fill',
+  aspectRatio,
+  ...nextImageProps
+}: ImageProps) {
+  const imageLoader = (loaderArgs: ImageLoaderProps) => {
+    const h = calcAspectRatio(aspectRatio, loaderArgs.width)
+
+    return `${loaderArgs.src}?w=${loaderArgs.width}&h=${h}&fit=${fit}`
+  }
+
+  return (
+    <NextImage
+      {...nextImageProps}
+      width={width}
+      height={height}
+      loader={imageLoader}
+    />
+  )
+}
+
+type AspectRatio = '16:9' | '4:3' | '1:1' | '3:2' | '9:16'
+
+function calcAspectRatio(aspectRatio: AspectRatio, width: number): number {
+  if (aspectRatio === '16:9') return width * (9 / 16)
+  if (aspectRatio === '4:3') return width * (3 / 4)
+  if (aspectRatio === '3:2') return width * (2 / 3)
+  if (aspectRatio === '9:16') return width * (16 / 9)
+
+  return width
 }
