@@ -108,7 +108,7 @@ export default function TopStories({
 type AuthorTopStoriesProps = Author
 
 function AuthorTopStories(author: AuthorTopStoriesProps) {
-  const { data: plants, status } = usePlantListByAuthor({
+  const { data: plants, isError, isSuccess } = usePlantListByAuthor({
     authorId: author.id,
     limit: 12,
   })
@@ -118,10 +118,10 @@ function AuthorTopStories(author: AuthorTopStoriesProps) {
       <section className="pb-16">
         <AuthorCard {...author} />
       </section>
-      {status === 'error' ? (
+      {isError ? (
         <Alert severity="error">Huh. Something went wrong.</Alert>
       ) : null}
-      {status === 'success' && plants.length === 0 ? (
+      {isSuccess && plants.length === 0 ? (
         <Alert severity="info">
           {author.fullName} doesn't have any story yet.
         </Alert>

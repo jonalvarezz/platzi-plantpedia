@@ -16,7 +16,17 @@ type QueryHookFunction<T, A> = (
   data: T
   status: QueryStatus
   error: Error | null
+  isSuccess: boolean
+  isError: boolean
+  isIdle: boolean
+  isLoading: boolean
 }
+const spreadQueryStatusToBooleans = (status: QueryStatus) => ({
+  isSuccess: status === 'success',
+  isError: status === 'error',
+  isIdle: status === 'idle',
+  isLoading: status === 'loading',
+})
 
 const client = new GraphQLClient(
   `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_SPACE_ID}`,
@@ -108,5 +118,6 @@ export const usePlantListByAuthor: QueryHookFunction<
     data: plantList,
     status,
     error,
+    ...spreadQueryStatusToBooleans(status),
   }
 }
