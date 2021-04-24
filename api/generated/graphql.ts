@@ -1037,6 +1037,41 @@ export type IGetCategoryListQuery = (
   )> }
 );
 
+export type IGetAuthorListQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  order?: Maybe<Array<Maybe<IAuthorOrder>> | Maybe<IAuthorOrder>>;
+}>;
+
+
+export type IGetAuthorListQuery = (
+  { __typename?: 'Query' }
+  & { authorCollection?: Maybe<(
+    { __typename?: 'AuthorCollection' }
+    & { items: Array<Maybe<(
+      { __typename?: 'Author' }
+      & IAuthorFieldsFragment
+    )>> }
+  )> }
+);
+
+export type IGetPlantListByAuthorQueryVariables = Exact<{
+  authorId: Scalars['String'];
+  limit?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type IGetPlantListByAuthorQuery = (
+  { __typename?: 'Query' }
+  & { plantCollection?: Maybe<(
+    { __typename?: 'PlantCollection' }
+    & { items: Array<Maybe<(
+      { __typename?: 'Plant' }
+      & IPlantFieldsFragment
+    )>> }
+  )> }
+);
+
 export const AssetFieldsFragmentDoc = gql`
     fragment AssetFields on Asset {
   title
@@ -1127,6 +1162,24 @@ export const GetCategoryListDocument = gql`
   }
 }
     ${CategoryFieldsFragmentDoc}`;
+export const GetAuthorListDocument = gql`
+    query getAuthorList($limit: Int = 10, $skip: Int = 0, $order: [AuthorOrder] = sys_publishedAt_DESC) {
+  authorCollection(limit: $limit, skip: $skip, order: $order) {
+    items {
+      ...AuthorFields
+    }
+  }
+}
+    ${AuthorFieldsFragmentDoc}`;
+export const GetPlantListByAuthorDocument = gql`
+    query getPlantListByAuthor($authorId: String!, $limit: Int = 10) {
+  plantCollection(limit: $limit, where: {author: {sys: {id: $authorId}}}) {
+    items {
+      ...PlantFields
+    }
+  }
+}
+    ${PlantFieldsFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>;
 
@@ -1142,6 +1195,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getCategoryList(variables?: IGetCategoryListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetCategoryListQuery> {
       return withWrapper(() => client.request<IGetCategoryListQuery>(GetCategoryListDocument, variables, requestHeaders));
+    },
+    getAuthorList(variables?: IGetAuthorListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetAuthorListQuery> {
+      return withWrapper(() => client.request<IGetAuthorListQuery>(GetAuthorListDocument, variables, requestHeaders));
+    },
+    getPlantListByAuthor(variables: IGetPlantListByAuthorQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetPlantListByAuthorQuery> {
+      return withWrapper(() => client.request<IGetPlantListByAuthorQuery>(GetPlantListByAuthorDocument, variables, requestHeaders));
     }
   };
 }

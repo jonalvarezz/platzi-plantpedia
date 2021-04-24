@@ -3,6 +3,8 @@ import {
   getSdk,
   IGetPlantListQueryVariables,
   IGetCategoryListQueryVariables,
+  IGetAuthorListQueryVariables,
+  IGetPlantListByAuthorQueryVariables,
 } from './generated/graphql'
 import * as selectors from './selectors'
 
@@ -49,5 +51,25 @@ export function getCategoryList(
     .getCategoryList({ limit: 10, skip: 0, ...args })
     .then((responseData) =>
       selectors.selectCategories(responseData.categoryCollection)
+    )
+}
+
+export function getAuthorList(
+  args?: IGetAuthorListQueryVariables
+): Promise<Author[]> {
+  return api
+    .getAuthorList({ limit: 10, skip: 0, ...args })
+    .then((responseData) =>
+      selectors.selectAuthors(responseData.authorCollection)
+    )
+}
+
+export function getPlantListByAuthor(
+  args: IGetPlantListByAuthorQueryVariables
+): Promise<Plant[]> {
+  return api
+    .getPlantListByAuthor(args)
+    .then((responseData) =>
+      selectors.selectPlants(responseData.plantCollection)
     )
 }

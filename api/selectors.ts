@@ -58,6 +58,7 @@ export const selectAuthor = nonEmpty<PartialAuthor, Author>(
     linkedIn: partialAuthor.linkedIn!,
   })
 )
+export const selectAuthors = selectListOf(selectAuthor)
 
 type PartialCategory = PartialEntityWithId & {
   icon?: Maybe<PartialImageFields>

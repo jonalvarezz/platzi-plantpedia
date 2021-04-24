@@ -86,3 +86,26 @@ query getCategoryList(
     }
   }
 }
+
+query getAuthorList(
+  $limit: Int = 10
+  $skip: Int = 0
+  $order: [AuthorOrder] = sys_publishedAt_DESC
+) {
+  authorCollection(limit: $limit, skip: $skip, order: $order) {
+    items {
+      ...AuthorFields
+    }
+  }
+}
+
+query getPlantListByAuthor($authorId: String!, $limit: Int = 10) {
+  plantCollection(
+    limit: $limit
+    where: { author: { sys: { id: $authorId } } }
+  ) {
+    items {
+      ...PlantFields
+    }
+  }
+}
