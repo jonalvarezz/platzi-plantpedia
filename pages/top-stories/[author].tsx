@@ -121,7 +121,7 @@ function AuthorTopStories(author: AuthorTopStoriesProps) {
       {status === 'error' ? (
         <Alert severity="error">Huh. Something went wrong.</Alert>
       ) : null}
-      {plants.length === 0 ? (
+      {status === 'success' && plants.length === 0 ? (
         <Alert severity="info">
           {author.fullName} doesn't have any story yet.
         </Alert>
