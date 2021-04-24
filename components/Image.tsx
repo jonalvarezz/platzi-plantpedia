@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import NextImage, {
   ImageLoaderProps,
   ImageProps as NextImageProps,
@@ -19,11 +20,14 @@ export function Image({
 }: ImageProps) {
   const height = calcAspectRatio(aspectRatio, width)
 
-  const imageLoader = (loaderArgs: ImageLoaderProps) => {
-    const h = calcAspectRatio(aspectRatio, loaderArgs.width)
+  const imageLoader = useCallback(
+    (loaderArgs: ImageLoaderProps) => {
+      const h = calcAspectRatio(aspectRatio, loaderArgs.width)
 
-    return `${loaderArgs.src}?w=${loaderArgs.width}&h=${h}&fit=${fit}`
-  }
+      return `${loaderArgs.src}?w=${loaderArgs.width}&h=${h}&fit=${fit}`
+    },
+    [aspectRatio, fit]
+  )
 
   return (
     <NextImage
