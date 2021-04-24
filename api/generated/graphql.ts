@@ -137,13 +137,21 @@ export type IAssetFilter = {
 export type IAssetLinkingCollections = {
   __typename?: 'AssetLinkingCollections';
   entryCollection?: Maybe<IEntryCollection>;
+  categoryCollection?: Maybe<ICategoryCollection>;
   plantCollection?: Maybe<IPlantCollection>;
   authorCollection?: Maybe<IAuthorCollection>;
-  categoryCollection?: Maybe<ICategoryCollection>;
 };
 
 
 export type IAssetLinkingCollectionsEntryCollectionArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  preview?: Maybe<Scalars['Boolean']>;
+  locale?: Maybe<Scalars['String']>;
+};
+
+
+export type IAssetLinkingCollectionsCategoryCollectionArgs = {
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   preview?: Maybe<Scalars['Boolean']>;
@@ -160,14 +168,6 @@ export type IAssetLinkingCollectionsPlantCollectionArgs = {
 
 
 export type IAssetLinkingCollectionsAuthorCollectionArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-  preview?: Maybe<Scalars['Boolean']>;
-  locale?: Maybe<Scalars['String']>;
-};
-
-
-export type IAssetLinkingCollectionsCategoryCollectionArgs = {
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   preview?: Maybe<Scalars['Boolean']>;
@@ -337,6 +337,7 @@ export type ICategory = IEntry & {
   contentfulMetadata: IContentfulMetadata;
   linkedFrom?: Maybe<ICategoryLinkingCollections>;
   title?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
   icon?: Maybe<IAsset>;
   categoryDescription?: Maybe<Scalars['String']>;
 };
@@ -350,6 +351,12 @@ export type ICategoryLinkedFromArgs = {
 
 /** [See type definition](https://app.contentful.com/spaces/t888he5mrnzj/content_types/category) */
 export type ICategoryTitleArgs = {
+  locale?: Maybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/t888he5mrnzj/content_types/category) */
+export type ICategorySlugArgs = {
   locale?: Maybe<Scalars['String']>;
 };
 
@@ -384,6 +391,13 @@ export type ICategoryFilter = {
   title_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   title_contains?: Maybe<Scalars['String']>;
   title_not_contains?: Maybe<Scalars['String']>;
+  slug_exists?: Maybe<Scalars['Boolean']>;
+  slug?: Maybe<Scalars['String']>;
+  slug_not?: Maybe<Scalars['String']>;
+  slug_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug_contains?: Maybe<Scalars['String']>;
+  slug_not_contains?: Maybe<Scalars['String']>;
   icon_exists?: Maybe<Scalars['Boolean']>;
   categoryDescription_exists?: Maybe<Scalars['Boolean']>;
   categoryDescription?: Maybe<Scalars['String']>;
@@ -419,6 +433,8 @@ export type ICategoryLinkingCollectionsPlantCollectionArgs = {
 };
 
 export enum ICategoryOrder {
+  SlugAsc = 'slug_ASC',
+  SlugDesc = 'slug_DESC',
   SysIdAsc = 'sys_id_ASC',
   SysIdDesc = 'sys_id_DESC',
   SysPublishedAtAsc = 'sys_publishedAt_ASC',
@@ -745,12 +761,12 @@ export type IQuery = {
   __typename?: 'Query';
   asset?: Maybe<IAsset>;
   assetCollection?: Maybe<IAssetCollection>;
+  category?: Maybe<ICategory>;
+  categoryCollection?: Maybe<ICategoryCollection>;
   plant?: Maybe<IPlant>;
   plantCollection?: Maybe<IPlantCollection>;
   author?: Maybe<IAuthor>;
   authorCollection?: Maybe<IAuthorCollection>;
-  category?: Maybe<ICategory>;
-  categoryCollection?: Maybe<ICategoryCollection>;
   entryCollection?: Maybe<IEntryCollection>;
 };
 
@@ -769,6 +785,23 @@ export type IQueryAssetCollectionArgs = {
   locale?: Maybe<Scalars['String']>;
   where?: Maybe<IAssetFilter>;
   order?: Maybe<Array<Maybe<IAssetOrder>>>;
+};
+
+
+export type IQueryCategoryArgs = {
+  id: Scalars['String'];
+  preview?: Maybe<Scalars['Boolean']>;
+  locale?: Maybe<Scalars['String']>;
+};
+
+
+export type IQueryCategoryCollectionArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  preview?: Maybe<Scalars['Boolean']>;
+  locale?: Maybe<Scalars['String']>;
+  where?: Maybe<ICategoryFilter>;
+  order?: Maybe<Array<Maybe<ICategoryOrder>>>;
 };
 
 
@@ -803,23 +836,6 @@ export type IQueryAuthorCollectionArgs = {
   locale?: Maybe<Scalars['String']>;
   where?: Maybe<IAuthorFilter>;
   order?: Maybe<Array<Maybe<IAuthorOrder>>>;
-};
-
-
-export type IQueryCategoryArgs = {
-  id: Scalars['String'];
-  preview?: Maybe<Scalars['Boolean']>;
-  locale?: Maybe<Scalars['String']>;
-};
-
-
-export type IQueryCategoryCollectionArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-  preview?: Maybe<Scalars['Boolean']>;
-  locale?: Maybe<Scalars['String']>;
-  where?: Maybe<ICategoryFilter>;
-  order?: Maybe<Array<Maybe<ICategoryOrder>>>;
 };
 
 
@@ -934,7 +950,7 @@ export type IAuthorFieldsFragment = (
 
 export type ICategoryFieldsFragment = (
   { __typename?: 'Category' }
-  & Pick<ICategory, 'title' | 'categoryDescription'>
+  & Pick<ICategory, 'slug' | 'title' | 'categoryDescription'>
   & { sys: (
     { __typename?: 'Sys' }
     & Pick<ISys, 'id'>
@@ -1048,6 +1064,7 @@ export const CategoryFieldsFragmentDoc = gql`
   sys {
     id
   }
+  slug
   title
   categoryDescription
   icon {

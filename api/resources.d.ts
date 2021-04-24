@@ -15,6 +15,7 @@ type Image = {
 
 type Category = {
   id: string
+  slug: string
   title: string
   icon: Image
   description: string

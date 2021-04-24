@@ -61,11 +61,12 @@ export const selectAuthor = nonEmpty<PartialAuthor, Author>(
 
 type PartialCategory = PartialEntityWithId & {
   icon?: Maybe<PartialImageFields>
-} & Pick<ICategory, 'title' | 'categoryDescription'>
+} & Pick<ICategory, 'title' | 'slug' | 'categoryDescription'>
 export const selectCategory = nonEmpty<PartialCategory, Category>(
   (partialCategory) => ({
     id: selectEntityId(partialCategory),
     title: partialCategory.title!,
+    slug: partialCategory.slug!,
     icon: selectImage(partialCategory.icon),
     description: partialCategory.categoryDescription!,
   })
