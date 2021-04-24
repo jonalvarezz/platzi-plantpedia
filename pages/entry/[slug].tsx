@@ -1,5 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
-import { getPlant, getAllPlants } from '@api'
+import { getPlant, getPlantList } from '@api'
 
 import { Layout } from '@ui/Layout'
 import { Typography } from '@ui/Typography'
@@ -48,7 +48,7 @@ export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
 export const getStaticPaths: GetStaticPaths = async () => {
   // Match home query.
   // @TODO how do we generate all of our pages if we don't know the number? 🤔
-  const plantEntriesToGenerate = await getAllPlants({ limit: 8 })
+  const plantEntriesToGenerate = await getPlantList({ limit: 8 })
 
   return {
     paths: plantEntriesToGenerate.map(({ slug }) => `/entry/${slug}`),

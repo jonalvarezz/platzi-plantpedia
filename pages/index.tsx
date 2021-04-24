@@ -1,6 +1,6 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import { Layout } from '@ui/Layout'
-import { getAllPlants } from '@api'
+import { getPlantList } from '@api'
 import { PlantCollection } from '@components/PlantCollection'
 
 type HomeProps = {
@@ -8,7 +8,7 @@ type HomeProps = {
 }
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  const plants = await getAllPlants({ limit: 8 })
+  const plants = await getPlantList({ limit: 8 })
 
   return {
     props: { plants },

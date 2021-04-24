@@ -968,14 +968,14 @@ export type IPlantFieldsFragment = (
   )> }
 );
 
-export type IGetAllPlantsQueryVariables = Exact<{
+export type IGetPlantListQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
   order?: Maybe<Array<Maybe<IPlantOrder>> | Maybe<IPlantOrder>>;
 }>;
 
 
-export type IGetAllPlantsQuery = (
+export type IGetPlantListQuery = (
   { __typename?: 'Query' }
   & { plantCollection?: Maybe<(
     { __typename?: 'PlantCollection' }
@@ -1062,8 +1062,8 @@ export const PlantFieldsFragmentDoc = gql`
     ${AssetFieldsFragmentDoc}
 ${AuthorFieldsFragmentDoc}
 ${CategoryFieldsFragmentDoc}`;
-export const GetAllPlantsDocument = gql`
-    query getAllPlants($limit: Int = 10, $skip: Int = 0, $order: [PlantOrder] = sys_publishedAt_DESC) {
+export const GetPlantListDocument = gql`
+    query getPlantList($limit: Int = 10, $skip: Int = 0, $order: [PlantOrder] = sys_publishedAt_DESC) {
   plantCollection(limit: $limit, skip: $skip, order: $order) {
     total
     skip
@@ -1090,8 +1090,8 @@ export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>;
 const defaultWrapper: SdkFunctionWrapper = sdkFunction => sdkFunction();
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    getAllPlants(variables?: IGetAllPlantsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetAllPlantsQuery> {
-      return withWrapper(() => client.request<IGetAllPlantsQuery>(GetAllPlantsDocument, variables, requestHeaders));
+    getPlantList(variables?: IGetPlantListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetPlantListQuery> {
+      return withWrapper(() => client.request<IGetPlantListQuery>(GetPlantListDocument, variables, requestHeaders));
     },
     getPlant(variables: IGetPlantQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetPlantQuery> {
       return withWrapper(() => client.request<IGetPlantQuery>(GetPlantDocument, variables, requestHeaders));

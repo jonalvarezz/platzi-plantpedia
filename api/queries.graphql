@@ -51,7 +51,7 @@ fragment PlantFields on Plant {
   }
 }
 
-query getAllPlants(
+query getPlantList(
   $limit: Int = 10
   $skip: Int = 0
   $order: [PlantOrder] = sys_publishedAt_DESC
