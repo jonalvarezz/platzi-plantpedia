@@ -6,14 +6,24 @@ import {
   IGetAuthorListQueryVariables,
   IGetPlantListByAuthorQueryVariables,
 } from './generated/graphql'
+import { useState, useEffect } from 'react'
 import * as selectors from './selectors'
 
+type QueryStatus = 'success' | 'error' | 'loading' | 'idle'
+type QueryHookFunction<T, A> = (
+  args: A
+) => {
+  data: T
+  status: QueryStatus
+  error: Error | null
+}
+
 const client = new GraphQLClient(
-  `https://graphql.contentful.com/content/v1/spaces/${process.env.SPACE_ID}`,
+  `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_SPACE_ID}`,
   {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
     },
   }
 )
@@ -72,4 +82,31 @@ export function getPlantListByAuthor(
     .then((responseData) =>
       selectors.selectPlants(responseData.plantCollection)
     )
+}
+export const usePlantListByAuthor: QueryHookFunction<
+  Plant[],
+  IGetPlantListByAuthorQueryVariables
+> = (args) => {
+  const [plantList, setPlantList] = useState<Plant[]>([])
+  const [status, setStatus] = useState<QueryStatus>('idle')
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    setStatus('loading')
+    getPlantListByAuthor(args)
+      .then((receivedPlants) => {
+        setPlantList(receivedPlants)
+        setStatus('success')
+      })
+      .catch((e) => {
+        setError(e)
+        setStatus('error')
+      })
+  }, [])
+
+  return {
+    data: plantList,
+    status,
+    error,
+  }
 }
