@@ -1003,6 +1003,24 @@ export type IGetPlantQuery = (
   )> }
 );
 
+export type IGetCategoryListQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  order?: Maybe<Array<Maybe<ICategoryOrder>> | Maybe<ICategoryOrder>>;
+}>;
+
+
+export type IGetCategoryListQuery = (
+  { __typename?: 'Query' }
+  & { categoryCollection?: Maybe<(
+    { __typename?: 'CategoryCollection' }
+    & { items: Array<Maybe<(
+      { __typename?: 'Category' }
+      & ICategoryFieldsFragment
+    )>> }
+  )> }
+);
+
 export const AssetFieldsFragmentDoc = gql`
     fragment AssetFields on Asset {
   title
@@ -1083,6 +1101,15 @@ export const GetPlantDocument = gql`
   }
 }
     ${PlantFieldsFragmentDoc}`;
+export const GetCategoryListDocument = gql`
+    query getCategoryList($limit: Int = 10, $skip: Int = 0, $order: [CategoryOrder] = sys_publishedAt_DESC) {
+  categoryCollection(limit: $limit, skip: $skip, order: $order) {
+    items {
+      ...CategoryFields
+    }
+  }
+}
+    ${CategoryFieldsFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>;
 
@@ -1095,6 +1122,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getPlant(variables: IGetPlantQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetPlantQuery> {
       return withWrapper(() => client.request<IGetPlantQuery>(GetPlantDocument, variables, requestHeaders));
+    },
+    getCategoryList(variables?: IGetCategoryListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetCategoryListQuery> {
+      return withWrapper(() => client.request<IGetCategoryListQuery>(GetCategoryListDocument, variables, requestHeaders));
     }
   };
 }

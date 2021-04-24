@@ -1,5 +1,9 @@
 import { GraphQLClient } from 'graphql-request'
-import { getSdk, IGetPlantListQueryVariables } from './generated/graphql'
+import {
+  getSdk,
+  IGetPlantListQueryVariables,
+  IGetCategoryListQueryVariables,
+} from './generated/graphql'
 import * as selectors from './selectors'
 
 const client = new GraphQLClient(
@@ -36,4 +40,14 @@ export function getPlant(slug: string): Promise<Plant> {
 
     return selectors.selectPlant(responseData.plantCollection.items[0])
   })
+}
+
+export function getCategoryList(
+  args?: IGetCategoryListQueryVariables
+): Promise<Category[]> {
+  return api
+    .getCategoryList({ limit: 10, skip: 0, ...args })
+    .then((responseData) =>
+      selectors.selectCategories(responseData.categoryCollection)
+    )
 }

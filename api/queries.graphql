@@ -73,3 +73,15 @@ query getPlant($slug: String!) {
     }
   }
 }
+
+query getCategoryList(
+  $limit: Int = 10
+  $skip: Int = 0
+  $order: [CategoryOrder] = sys_publishedAt_DESC
+) {
+  categoryCollection(limit: $limit, skip: $skip, order: $order) {
+    items {
+      ...CategoryFields
+    }
+  }
+}
