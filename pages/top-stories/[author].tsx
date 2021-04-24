@@ -6,6 +6,7 @@ import { Typography } from '@ui/Typography'
 import { VerticalTabs, TabItem } from '@ui/Tabs'
 import { Alert } from '@ui/Alert'
 import { PlantCollection } from '@components/PlantCollection'
+import { AuthorCard } from '@components/AuthorCard'
 
 import { getAuthorList, usePlantListByAuthor } from '@api'
 
@@ -116,7 +117,9 @@ function AuthorTopStories(author: AuthorTopStoriesProps) {
 
   return (
     <div>
-      <section>{author.fullName}</section>
+      <section className="pb-16">
+        <AuthorCard {...author} />
+      </section>
       <PlantCollection plants={plants} />
     </div>
   )
