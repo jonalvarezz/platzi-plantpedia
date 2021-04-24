@@ -24,6 +24,7 @@ type Category = {
 type Author = {
   id: string
   fullName: string
+  handle: string
   photo: Image
   biography: Json
   twitter: string

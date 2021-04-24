@@ -46,12 +46,13 @@ export const selectImage = nonEmpty<PartialImageFields, Image>(
 
 type PartialAuthor = PartialEntityWithId & {
   photo?: Maybe<PartialImageFields>
-} & Pick<IAuthor, 'fullName' | 'biography' | 'twitter' | 'linkedIn'>
+} & Pick<IAuthor, 'fullName' | 'handle' | 'biography' | 'twitter' | 'linkedIn'>
 
 export const selectAuthor = nonEmpty<PartialAuthor, Author>(
   (partialAuthor) => ({
     id: selectEntityId(partialAuthor),
     fullName: partialAuthor.fullName!,
+    handle: partialAuthor.handle!,
     photo: selectImage(partialAuthor.photo),
     biography: partialAuthor.biography!,
     twitter: partialAuthor.twitter!,

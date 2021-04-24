@@ -137,13 +137,21 @@ export type IAssetFilter = {
 export type IAssetLinkingCollections = {
   __typename?: 'AssetLinkingCollections';
   entryCollection?: Maybe<IEntryCollection>;
+  authorCollection?: Maybe<IAuthorCollection>;
   categoryCollection?: Maybe<ICategoryCollection>;
   plantCollection?: Maybe<IPlantCollection>;
-  authorCollection?: Maybe<IAuthorCollection>;
 };
 
 
 export type IAssetLinkingCollectionsEntryCollectionArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  preview?: Maybe<Scalars['Boolean']>;
+  locale?: Maybe<Scalars['String']>;
+};
+
+
+export type IAssetLinkingCollectionsAuthorCollectionArgs = {
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   preview?: Maybe<Scalars['Boolean']>;
@@ -160,14 +168,6 @@ export type IAssetLinkingCollectionsCategoryCollectionArgs = {
 
 
 export type IAssetLinkingCollectionsPlantCollectionArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-  preview?: Maybe<Scalars['Boolean']>;
-  locale?: Maybe<Scalars['String']>;
-};
-
-
-export type IAssetLinkingCollectionsAuthorCollectionArgs = {
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   preview?: Maybe<Scalars['Boolean']>;
@@ -205,6 +205,7 @@ export type IAuthor = IEntry & {
   linkedFrom?: Maybe<IAuthorLinkingCollections>;
   photo?: Maybe<IAsset>;
   fullName?: Maybe<Scalars['String']>;
+  handle?: Maybe<Scalars['String']>;
   biography?: Maybe<Scalars['String']>;
   twitter?: Maybe<Scalars['String']>;
   linkedIn?: Maybe<Scalars['String']>;
@@ -226,6 +227,12 @@ export type IAuthorPhotoArgs = {
 
 /** Plant entry creator [See type definition](https://app.contentful.com/spaces/t888he5mrnzj/content_types/author) */
 export type IAuthorFullNameArgs = {
+  locale?: Maybe<Scalars['String']>;
+};
+
+
+/** Plant entry creator [See type definition](https://app.contentful.com/spaces/t888he5mrnzj/content_types/author) */
+export type IAuthorHandleArgs = {
   locale?: Maybe<Scalars['String']>;
 };
 
@@ -266,6 +273,13 @@ export type IAuthorFilter = {
   fullName_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   fullName_contains?: Maybe<Scalars['String']>;
   fullName_not_contains?: Maybe<Scalars['String']>;
+  handle_exists?: Maybe<Scalars['Boolean']>;
+  handle?: Maybe<Scalars['String']>;
+  handle_not?: Maybe<Scalars['String']>;
+  handle_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  handle_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  handle_contains?: Maybe<Scalars['String']>;
+  handle_not_contains?: Maybe<Scalars['String']>;
   biography_exists?: Maybe<Scalars['Boolean']>;
   biography?: Maybe<Scalars['String']>;
   biography_not?: Maybe<Scalars['String']>;
@@ -316,6 +330,8 @@ export type IAuthorLinkingCollectionsPlantCollectionArgs = {
 export enum IAuthorOrder {
   FullNameAsc = 'fullName_ASC',
   FullNameDesc = 'fullName_DESC',
+  HandleAsc = 'handle_ASC',
+  HandleDesc = 'handle_DESC',
   TwitterAsc = 'twitter_ASC',
   TwitterDesc = 'twitter_DESC',
   LinkedInAsc = 'linkedIn_ASC',
@@ -761,12 +777,12 @@ export type IQuery = {
   __typename?: 'Query';
   asset?: Maybe<IAsset>;
   assetCollection?: Maybe<IAssetCollection>;
+  author?: Maybe<IAuthor>;
+  authorCollection?: Maybe<IAuthorCollection>;
   category?: Maybe<ICategory>;
   categoryCollection?: Maybe<ICategoryCollection>;
   plant?: Maybe<IPlant>;
   plantCollection?: Maybe<IPlantCollection>;
-  author?: Maybe<IAuthor>;
-  authorCollection?: Maybe<IAuthorCollection>;
   entryCollection?: Maybe<IEntryCollection>;
 };
 
@@ -785,6 +801,23 @@ export type IQueryAssetCollectionArgs = {
   locale?: Maybe<Scalars['String']>;
   where?: Maybe<IAssetFilter>;
   order?: Maybe<Array<Maybe<IAssetOrder>>>;
+};
+
+
+export type IQueryAuthorArgs = {
+  id: Scalars['String'];
+  preview?: Maybe<Scalars['Boolean']>;
+  locale?: Maybe<Scalars['String']>;
+};
+
+
+export type IQueryAuthorCollectionArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  preview?: Maybe<Scalars['Boolean']>;
+  locale?: Maybe<Scalars['String']>;
+  where?: Maybe<IAuthorFilter>;
+  order?: Maybe<Array<Maybe<IAuthorOrder>>>;
 };
 
 
@@ -819,23 +852,6 @@ export type IQueryPlantCollectionArgs = {
   locale?: Maybe<Scalars['String']>;
   where?: Maybe<IPlantFilter>;
   order?: Maybe<Array<Maybe<IPlantOrder>>>;
-};
-
-
-export type IQueryAuthorArgs = {
-  id: Scalars['String'];
-  preview?: Maybe<Scalars['Boolean']>;
-  locale?: Maybe<Scalars['String']>;
-};
-
-
-export type IQueryAuthorCollectionArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-  preview?: Maybe<Scalars['Boolean']>;
-  locale?: Maybe<Scalars['String']>;
-  where?: Maybe<IAuthorFilter>;
-  order?: Maybe<Array<Maybe<IAuthorOrder>>>;
 };
 
 
@@ -906,6 +922,13 @@ export type ICfAuthorNestedFilter = {
   fullName_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   fullName_contains?: Maybe<Scalars['String']>;
   fullName_not_contains?: Maybe<Scalars['String']>;
+  handle_exists?: Maybe<Scalars['Boolean']>;
+  handle?: Maybe<Scalars['String']>;
+  handle_not?: Maybe<Scalars['String']>;
+  handle_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  handle_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  handle_contains?: Maybe<Scalars['String']>;
+  handle_not_contains?: Maybe<Scalars['String']>;
   biography_exists?: Maybe<Scalars['Boolean']>;
   biography?: Maybe<Scalars['String']>;
   biography_not?: Maybe<Scalars['String']>;
@@ -938,7 +961,7 @@ export type IAssetFieldsFragment = (
 
 export type IAuthorFieldsFragment = (
   { __typename?: 'Author' }
-  & Pick<IAuthor, 'fullName' | 'biography' | 'twitter' | 'linkedIn'>
+  & Pick<IAuthor, 'fullName' | 'handle' | 'biography' | 'twitter' | 'linkedIn'>
   & { sys: (
     { __typename?: 'Sys' }
     & Pick<ISys, 'id'>
@@ -1086,6 +1109,7 @@ export const AuthorFieldsFragmentDoc = gql`
     id
   }
   fullName
+  handle
   photo {
     ...AssetFields
   }
