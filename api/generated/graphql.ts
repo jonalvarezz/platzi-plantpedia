@@ -1028,6 +1028,7 @@ export type IGetPlantListQuery = (
 
 export type IGetPlantQueryVariables = Exact<{
   slug: Scalars['String'];
+  preview?: Maybe<Scalars['Boolean']>;
 }>;
 
 
@@ -1169,8 +1170,8 @@ export const GetPlantListDocument = gql`
 }
     ${PlantFieldsFragmentDoc}`;
 export const GetPlantDocument = gql`
-    query getPlant($slug: String!) {
-  plantCollection(where: {slug: $slug}, limit: 1) {
+    query getPlant($slug: String!, $preview: Boolean = false) {
+  plantCollection(where: {slug: $slug}, preview: $preview, limit: 1) {
     items {
       ...PlantFields
     }

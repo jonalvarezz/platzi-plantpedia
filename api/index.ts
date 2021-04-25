@@ -50,8 +50,15 @@ export function getPlantList(
     )
 }
 
-export function getPlant(slug: string): Promise<Plant> {
-  return api.getPlant({ slug }).then((responseData) => {
+// This request handler has support for Preview content
+export function getPlant(slug: string, isPreview = false): Promise<Plant> {
+  const extraHeaders: HeadersInit = {}
+  if (isPreview) {
+    // Use the preview access token for auth
+    extraHeaders['Authorization'] = `Bearer ${process.env.PREVIEW_ACCESS_TOKEN}`
+  }
+
+  return api.getPlant({ slug }, extraHeaders).then((responseData) => {
     if (
       responseData == null ||
       responseData.plantCollection == null ||

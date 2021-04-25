@@ -68,8 +68,8 @@ query getPlantList(
   }
 }
 
-query getPlant($slug: String!) {
-  plantCollection(where: { slug: $slug }, limit: 1) {
+query getPlant($slug: String!, $preview: Boolean = false) {
+  plantCollection(where: { slug: $slug }, preview: $preview, limit: 1) {
     items {
       ...PlantFields
     }
