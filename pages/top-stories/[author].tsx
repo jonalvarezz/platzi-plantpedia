@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { useRouter } from 'next/router'
 
 import { Layout } from '@ui/Layout'
 import { Typography } from '@ui/Typography'
@@ -12,7 +12,6 @@ import { getAuthorList, usePlantListByAuthor } from '@api'
 
 type TopStoriesPageProps = {
   authors: Author[]
-  currentAuthor: Author['handle']
   status: 'error' | 'sucess'
 }
 
@@ -42,7 +41,6 @@ export const getServerSideProps: GetServerSideProps<TopStoriesPageProps> = async
     return {
       props: {
         authors,
-        currentAuthor: authorHandle,
         status: 'sucess',
       },
     }
@@ -50,7 +48,6 @@ export const getServerSideProps: GetServerSideProps<TopStoriesPageProps> = async
     return {
       props: {
         authors: [],
-        currentAuthor: authorHandle,
         status: 'error',
       },
     }
@@ -59,10 +56,12 @@ export const getServerSideProps: GetServerSideProps<TopStoriesPageProps> = async
 
 export default function TopStories({
   authors,
-  currentAuthor,
   status,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [currentTab, setCurrentTab] = useState(currentAuthor)
+  const router = useRouter()
+  // Heads-up: `router.query` comes populated from the server as we are using `getServerSideProps`
+  // which means, `router.query.author` will be ready since the very first render.
+  const currentAuthor = router.query.author
 
   if (authors.length === 0 || status === 'error') {
     return (
@@ -95,11 +94,17 @@ export default function TopStories({
         <div className="text-center pb-16">
           <Typography variant="h2">Top 10 Stories</Typography>
         </div>
-        <VerticalTabs
-          tabs={tabs}
-          currentTab={currentTab}
-          onTabChange={(_, newValue) => setCurrentTab(newValue)}
-        />
+        {typeof currentAuthor !== 'string' ? null : (
+          <VerticalTabs
+            tabs={tabs}
+            currentTab={currentAuthor}
+            onTabChange={(_, author) => {
+              router.push(`/top-stories/${author}`, undefined, {
+                shallow: true,
+              })
+            }}
+          />
+        )}
       </main>
     </Layout>
   )
