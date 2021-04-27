@@ -1,7 +1,7 @@
 import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
 import { getPlant, getPlantList } from '@api'
 
-import { Layout } from '@ui/Layout'
+import { Layout } from '@components/Layout'
 import { Typography } from '@ui/Typography'
 import { Grid } from '@ui/Grid'
 

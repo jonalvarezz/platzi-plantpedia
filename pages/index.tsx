@@ -1,5 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import { Layout } from '@ui/Layout'
+import { Layout } from '@components/Layout'
 import { getPlantList } from '@api'
 import { PlantCollection } from '@components/PlantCollection'
 

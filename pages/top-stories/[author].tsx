@@ -1,7 +1,7 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 
-import { Layout } from '@ui/Layout'
+import { Layout } from '@components/Layout'
 import { Typography } from '@ui/Typography'
 import { VerticalTabs, TabItem } from '@ui/Tabs'
 import { Alert } from '@ui/Alert'

@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import { NavBar } from './NavBar'
-import { Button } from './Button'
+import { NavBar } from '@ui/NavBar'
+import { Button } from '@ui/Button'
 
 type LayoutProps = { title?: string }
 

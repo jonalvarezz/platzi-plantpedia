@@ -1,5 +1,5 @@
 import { Button } from '@ui/Button'
-import { Layout } from '@ui/Layout'
+import { Layout } from '@components/Layout'
 import { Typography } from '@ui/Typography'
 
 export default function UIPage() {
