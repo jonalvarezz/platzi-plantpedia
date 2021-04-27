@@ -2,6 +2,8 @@ import Head from 'next/head'
 import { NavBar } from '@ui/NavBar'
 import { Button } from '@ui/Button'
 
+import { PreviewModeBanner } from '@components/PreviewModeBanner'
+
 type LayoutProps = { title?: string }
 
 const siteTitle = "🌿 Platzi's Plantpedia"
@@ -15,6 +17,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <noscript id="mui-insertion-point" />
       </Head>
+      <PreviewModeBanner />
       <NavBar title="🌿 Plantpedia">
         <div>
           <Button color="inherit" variant="text">
