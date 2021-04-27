@@ -1,12 +1,12 @@
 import { NextApiHandler } from 'next'
 
-const exitPreview: NextApiHandler = (_, res) => {
+const exitPreview: NextApiHandler = (_, response) => {
   // Exit the current user from "Preview Mode".
-  res.clearPreviewData()
+  response.clearPreviewData()
 
   // 307 (temporary) redirect to homepage
-  res.redirect('/')
-  res.end()
+  response.redirect('/')
+  response.end()
 }
 
 export default exitPreview

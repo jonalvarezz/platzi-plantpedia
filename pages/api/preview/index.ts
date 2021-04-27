@@ -1,16 +1,16 @@
 import { NextApiHandler } from 'next'
 import { getPlant } from '@api'
 
-const enablePreview: NextApiHandler = async (req, res) => {
-  const slug = req.query.slug
+const enablePreview: NextApiHandler = async (request, response) => {
+  const slug = request.query.slug
   // Check the secret and next parameters
   // This secret should only be known to this API route and the CMS
   if (
-    req.query.secret !== process.env.PREVIEW_SECRET ||
+    request.query.secret !== process.env.PREVIEW_SECRET ||
     typeof slug !== 'string' ||
     slug == ''
   ) {
-    return res.status(401).json({ message: 'Invalid token' })
+    return response.status(401).json({ message: 'Invalid token' })
   }
 
   try {
@@ -18,16 +18,16 @@ const enablePreview: NextApiHandler = async (req, res) => {
     const plant = await getPlant(slug, true)
 
     // Enable Preview Mode by setting the cookies
-    res.setPreviewData({})
+    response.setPreviewData({})
 
     // Redirect to the path from the fetched plant
-    // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
-    res.redirect(`/entry/${plant.slug}`)
+    // We don't redirect to request.query.slug as that might lead to open redirect vulnerabilities
+    response.redirect(`/entry/${plant.slug}`)
   } catch (e) {
     if (process.env.NODE_ENV !== 'production') {
       console.error(e)
     }
-    return res.status(401).json({ message: 'Invalid slug' })
+    return response.status(401).json({ message: 'Invalid slug' })
   }
 }
 
