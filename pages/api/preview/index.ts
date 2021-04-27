@@ -23,7 +23,8 @@ const enablePreview: NextApiHandler = async (req, res) => {
     // Redirect to the path from the fetched plant
     // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
     res.redirect(`/entry/${plant.slug}`)
-  } catch {
+  } catch (e) {
+    console.error(e)
     return res.status(401).json({ message: 'Invalid slug' })
   }
 }

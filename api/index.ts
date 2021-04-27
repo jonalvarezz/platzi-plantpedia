@@ -58,17 +58,19 @@ export function getPlant(slug: string, isPreview = false): Promise<Plant> {
     extraHeaders['Authorization'] = `Bearer ${process.env.PREVIEW_ACCESS_TOKEN}`
   }
 
-  return api.getPlant({ slug }, extraHeaders).then((responseData) => {
-    if (
-      responseData == null ||
-      responseData.plantCollection == null ||
-      responseData.plantCollection.items.length < 1
-    ) {
-      throw new Error(`Plant with slug: "${slug}" not found`)
-    }
+  return api
+    .getPlant({ slug, preview: isPreview }, extraHeaders)
+    .then((responseData) => {
+      if (
+        responseData == null ||
+        responseData.plantCollection == null ||
+        responseData.plantCollection.items.length < 1
+      ) {
+        throw new Error(`Plant with slug: "${slug}" not found`)
+      }
 
-    return selectors.selectPlant(responseData.plantCollection.items[0])
-  })
+      return selectors.selectPlant(responseData.plantCollection.items[0])
+    })
 }
 
 export function getCategoryList(
