@@ -51,7 +51,11 @@ export function getPlantList(
 }
 
 // This request handler has support for Preview content
-export function getPlant(slug: string, isPreview = false): Promise<Plant> {
+export function getPlant(
+  slug: string,
+  isPreview = false,
+  locale?: string
+): Promise<Plant> {
   const extraHeaders: HeadersInit = {}
   if (isPreview) {
     // Use the preview access token for auth
@@ -59,7 +63,7 @@ export function getPlant(slug: string, isPreview = false): Promise<Plant> {
   }
 
   return api
-    .getPlant({ slug, preview: isPreview }, extraHeaders)
+    .getPlant({ slug, preview: isPreview, locale }, extraHeaders)
     .then((responseData) => {
       if (
         responseData == null ||

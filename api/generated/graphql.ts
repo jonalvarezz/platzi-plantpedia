@@ -137,13 +137,21 @@ export type IAssetFilter = {
 export type IAssetLinkingCollections = {
   __typename?: 'AssetLinkingCollections';
   entryCollection?: Maybe<IEntryCollection>;
+  plantCollection?: Maybe<IPlantCollection>;
   authorCollection?: Maybe<IAuthorCollection>;
   categoryCollection?: Maybe<ICategoryCollection>;
-  plantCollection?: Maybe<IPlantCollection>;
 };
 
 
 export type IAssetLinkingCollectionsEntryCollectionArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  preview?: Maybe<Scalars['Boolean']>;
+  locale?: Maybe<Scalars['String']>;
+};
+
+
+export type IAssetLinkingCollectionsPlantCollectionArgs = {
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   preview?: Maybe<Scalars['Boolean']>;
@@ -160,14 +168,6 @@ export type IAssetLinkingCollectionsAuthorCollectionArgs = {
 
 
 export type IAssetLinkingCollectionsCategoryCollectionArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-  preview?: Maybe<Scalars['Boolean']>;
-  locale?: Maybe<Scalars['String']>;
-};
-
-
-export type IAssetLinkingCollectionsPlantCollectionArgs = {
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   preview?: Maybe<Scalars['Boolean']>;
@@ -777,12 +777,12 @@ export type IQuery = {
   __typename?: 'Query';
   asset?: Maybe<IAsset>;
   assetCollection?: Maybe<IAssetCollection>;
+  plant?: Maybe<IPlant>;
+  plantCollection?: Maybe<IPlantCollection>;
   author?: Maybe<IAuthor>;
   authorCollection?: Maybe<IAuthorCollection>;
   category?: Maybe<ICategory>;
   categoryCollection?: Maybe<ICategoryCollection>;
-  plant?: Maybe<IPlant>;
-  plantCollection?: Maybe<IPlantCollection>;
   entryCollection?: Maybe<IEntryCollection>;
 };
 
@@ -801,6 +801,23 @@ export type IQueryAssetCollectionArgs = {
   locale?: Maybe<Scalars['String']>;
   where?: Maybe<IAssetFilter>;
   order?: Maybe<Array<Maybe<IAssetOrder>>>;
+};
+
+
+export type IQueryPlantArgs = {
+  id: Scalars['String'];
+  preview?: Maybe<Scalars['Boolean']>;
+  locale?: Maybe<Scalars['String']>;
+};
+
+
+export type IQueryPlantCollectionArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  preview?: Maybe<Scalars['Boolean']>;
+  locale?: Maybe<Scalars['String']>;
+  where?: Maybe<IPlantFilter>;
+  order?: Maybe<Array<Maybe<IPlantOrder>>>;
 };
 
 
@@ -835,23 +852,6 @@ export type IQueryCategoryCollectionArgs = {
   locale?: Maybe<Scalars['String']>;
   where?: Maybe<ICategoryFilter>;
   order?: Maybe<Array<Maybe<ICategoryOrder>>>;
-};
-
-
-export type IQueryPlantArgs = {
-  id: Scalars['String'];
-  preview?: Maybe<Scalars['Boolean']>;
-  locale?: Maybe<Scalars['String']>;
-};
-
-
-export type IQueryPlantCollectionArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-  preview?: Maybe<Scalars['Boolean']>;
-  locale?: Maybe<Scalars['String']>;
-  where?: Maybe<IPlantFilter>;
-  order?: Maybe<Array<Maybe<IPlantOrder>>>;
 };
 
 
@@ -1011,6 +1011,7 @@ export type IGetPlantListQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
   order?: Maybe<Array<Maybe<IPlantOrder>> | Maybe<IPlantOrder>>;
+  locale?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1029,6 +1030,7 @@ export type IGetPlantListQuery = (
 export type IGetPlantQueryVariables = Exact<{
   slug: Scalars['String'];
   preview?: Maybe<Scalars['Boolean']>;
+  locale?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1158,8 +1160,8 @@ export const PlantFieldsFragmentDoc = gql`
 ${AuthorFieldsFragmentDoc}
 ${CategoryFieldsFragmentDoc}`;
 export const GetPlantListDocument = gql`
-    query getPlantList($limit: Int = 10, $skip: Int = 0, $order: [PlantOrder] = sys_publishedAt_DESC) {
-  plantCollection(limit: $limit, skip: $skip, order: $order) {
+    query getPlantList($limit: Int = 10, $skip: Int = 0, $order: [PlantOrder] = sys_publishedAt_DESC, $locale: String) {
+  plantCollection(limit: $limit, skip: $skip, order: $order, locale: $locale) {
     total
     skip
     limit
@@ -1170,8 +1172,13 @@ export const GetPlantListDocument = gql`
 }
     ${PlantFieldsFragmentDoc}`;
 export const GetPlantDocument = gql`
-    query getPlant($slug: String!, $preview: Boolean = false) {
-  plantCollection(where: {slug: $slug}, preview: $preview, limit: 1) {
+    query getPlant($slug: String!, $preview: Boolean = false, $locale: String) {
+  plantCollection(
+    where: {slug: $slug}
+    preview: $preview
+    limit: 1
+    locale: $locale
+  ) {
     items {
       ...PlantFields
     }

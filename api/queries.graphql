@@ -57,8 +57,9 @@ query getPlantList(
   $limit: Int = 10
   $skip: Int = 0
   $order: [PlantOrder] = sys_publishedAt_DESC
+  $locale: String
 ) {
-  plantCollection(limit: $limit, skip: $skip, order: $order) {
+  plantCollection(limit: $limit, skip: $skip, order: $order, locale: $locale) {
     total
     skip
     limit
@@ -68,8 +69,13 @@ query getPlantList(
   }
 }
 
-query getPlant($slug: String!, $preview: Boolean = false) {
-  plantCollection(where: { slug: $slug }, preview: $preview, limit: 1) {
+query getPlant($slug: String!, $preview: Boolean = false, $locale: String) {
+  plantCollection(
+    where: { slug: $slug }
+    preview: $preview
+    limit: 1
+    locale: $locale
+  ) {
     items {
       ...PlantFields
     }
