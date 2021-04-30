@@ -1,3 +1,4 @@
+import { flatMap } from 'lodash'
 import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
 import { getPlant, getPlantList } from '@api'
 
@@ -16,6 +17,7 @@ type PlantEntryPageProps = {
 export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
   params,
   preview,
+  locale,
 }) => {
   const slug = params?.slug
 
@@ -29,7 +31,7 @@ export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
   }
 
   try {
-    const plant = await getPlant(slug, preview)
+    const plant = await getPlant(slug, preview, locale)
     return {
       props: {
         plant,
@@ -51,18 +53,28 @@ type PathType = {
   params: {
     slug: string
   }
+  locale: string
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+  if (locales == null) {
+    throw new Error(
+      'Locales are not defined. Did you forget to configure them in next.config.js?'
+    )
+  }
+
   // Match home query.
   // @TODO how do we generate all of our pages if we don't know the number? 🤔
   const plantEntriesToGenerate = await getPlantList({ limit: 8 })
 
-  const paths: PathType[] = plantEntriesToGenerate.map(({ slug }) => ({
-    params: {
-      slug,
-    },
-  }))
+  const paths: PathType[] = flatMap(
+    plantEntriesToGenerate.map(({ slug }) => ({
+      params: {
+        slug,
+      },
+    })),
+    (path) => locales.map((loc) => ({ ...path, locale: loc }))
+  )
 
   return {
     paths,
