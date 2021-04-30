@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
 import { getPlant, getPlantList } from '@api'
 
@@ -68,8 +67,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths,
 
-    // Use a Fallback in the component while the server gets the data
-    fallback: true,
+    // Block until the server gets its data. Like in Server side rendering
+    fallback: 'blocking',
   }
 }
 
@@ -77,16 +76,6 @@ export default function PlantEntryPage({
   plant,
   status,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const router = useRouter()
-
-  if (router.isFallback) {
-    return (
-      <Layout>
-        <main className="pt-16 text-center">Loading, my besto friendo</main>
-      </Layout>
-    )
-  }
-
   if (status === 'error' || plant == null) {
     return (
       <Layout>
