@@ -46,13 +46,25 @@ export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
   }
 }
 
+type PathType = {
+  params: {
+    slug: string
+  }
+}
+
 export const getStaticPaths: GetStaticPaths = async () => {
   // Match home query.
   // @TODO how do we generate all of our pages if we don't know the number? 🤔
   const plantEntriesToGenerate = await getPlantList({ limit: 8 })
 
+  const paths: PathType[] = plantEntriesToGenerate.map(({ slug }) => ({
+    params: {
+      slug,
+    },
+  }))
+
   return {
-    paths: plantEntriesToGenerate.map(({ slug }) => `/entry/${slug}`),
+    paths,
 
     // Return 404 for plant entries that were not included.
     fallback: false,
