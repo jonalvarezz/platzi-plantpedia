@@ -7,8 +7,8 @@ type HomeProps = {
   plants: Plant[]
 }
 
-export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  const plants = await getPlantList({ limit: 8 })
+export const getStaticProps: GetStaticProps<HomeProps> = async ({ locale }) => {
+  const plants = await getPlantList({ limit: 8, locale })
 
   return {
     props: { plants },
