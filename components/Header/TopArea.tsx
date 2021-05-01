@@ -21,6 +21,7 @@ export function TopArea() {
         </Typography>
         {locales.map((loc) => (
           <Button
+            key={loc}
             variant={loc === locale ? 'outlined' : 'text'}
             className="ml-1"
           >
