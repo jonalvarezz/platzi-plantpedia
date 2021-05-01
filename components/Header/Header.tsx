@@ -8,16 +8,18 @@ export function Header() {
   return (
     <>
       <PreviewModeBanner />
-      <div className="px-8 py-3">
-        <TopArea />
-      </div>
-      <NavBar title="🌿 Plantpedia">
-        <div>
-          <Button color="inherit" variant="text">
-            Login
-          </Button>
+      <div className="mx-auto" style={{ maxWidth: '98%' }}>
+        <div className="px-8 py-3">
+          <TopArea />
         </div>
-      </NavBar>
+        <NavBar title="🌿 Plantpedia">
+          <div>
+            <Button color="inherit" variant="text">
+              Login
+            </Button>
+          </div>
+        </NavBar>
+      </div>
     </>
   )
 }
