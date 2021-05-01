@@ -1,5 +1,4 @@
-import { AppBar, IconButton, Toolbar } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
+import { AppBar, Toolbar } from '@material-ui/core'
 
 import { Typography } from './Typography'
 
@@ -17,16 +16,8 @@ export function NavBar({ title, children }: Props) {
       className="border-b-2 border-t-2 border-grey-200"
     >
       <Toolbar>
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          className="mr-2"
-        >
-          <MenuIcon />
-        </IconButton>
         <Typography variant="h6" className="flex-grow" component="h1">
-          {title}
+          <a href="/">{title}</a>
         </Typography>
         {children}
       </Toolbar>
