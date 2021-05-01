@@ -1,9 +1,5 @@
 import Head from 'next/head'
-import { NavBar } from '@ui/NavBar'
-import { Button } from '@ui/Button'
-
-import { PreviewModeBanner } from '@components/PreviewModeBanner'
-import { TopArea } from '@components/TopArea'
+import { Header } from '@components/Header/Header'
 
 type LayoutProps = { title?: string }
 
@@ -18,15 +14,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <noscript id="mui-insertion-point" />
       </Head>
-      <PreviewModeBanner />
-      <TopArea />
-      <NavBar title="🌿 Plantpedia">
-        <div>
-          <Button color="inherit" variant="text">
-            Login
-          </Button>
-        </div>
-      </NavBar>
+      <Header />
       <div className="container mx-auto max-w-screen-xl">{children}</div>
       <footer></footer>
     </div>
