@@ -3,6 +3,7 @@ import { NavBar } from '@ui/NavBar'
 import { Button } from '@ui/Button'
 
 import { PreviewModeBanner } from '@components/PreviewModeBanner'
+import { TopArea } from '@components/TopArea'
 
 type LayoutProps = { title?: string }
 
@@ -18,6 +19,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         <noscript id="mui-insertion-point" />
       </Head>
       <PreviewModeBanner />
+      <TopArea />
       <NavBar title="🌿 Plantpedia">
         <div>
           <Button color="inherit" variant="text">
