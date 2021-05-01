@@ -13,23 +13,21 @@ export function TopArea() {
   }
 
   return (
-    <div className="px-8 py-2">
-      <Grid container justify="space-between">
-        <Grid item></Grid>
-        <Grid item>
-          <Typography variant="body2" component="span" className="pr-3">
-            Language:
-          </Typography>
-          {locales.map((loc) => (
-            <Button
-              variant={loc === locale ? 'outlined' : 'text'}
-              className="ml-1"
-            >
-              {loc}
-            </Button>
-          ))}
-        </Grid>
+    <Grid container justify="space-between">
+      <Grid item></Grid>
+      <Grid item>
+        <Typography variant="body2" component="span" className="pr-3">
+          Language:
+        </Typography>
+        {locales.map((loc) => (
+          <Button
+            variant={loc === locale ? 'outlined' : 'text'}
+            className="ml-1"
+          >
+            {loc}
+          </Button>
+        ))}
       </Grid>
-    </div>
+    </Grid>
   )
 }

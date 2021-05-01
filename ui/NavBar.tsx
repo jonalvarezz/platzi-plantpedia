@@ -14,7 +14,7 @@ export function NavBar({ title, children }: Props) {
       position="static"
       color="transparent"
       elevation={0}
-      className="border-b-2 border-grey-200"
+      className="border-b-2 border-t-2 border-grey-200"
     >
       <Toolbar>
         <IconButton

@@ -1,6 +1,8 @@
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import { grey, common, lightGreen } from '@material-ui/core/colors'
 
+const muiTheme = createMuiTheme()
+
 // Build your own theme with the Color Theme tool
 // @see https://material.io/resources/color/
 export const theme = createMuiTheme({
@@ -38,6 +40,16 @@ export const theme = createMuiTheme({
     h5: {
       fontSize: '1.5rem;',
       lineHeight: '2rem',
+    },
+  },
+  overrides: {
+    MuiToolbar: {
+      regular: {
+        minHeight: muiTheme.spacing(10),
+        [muiTheme.breakpoints.up('sm')]: {
+          minHeight: muiTheme.spacing(12),
+        },
+      },
     },
   },
 })

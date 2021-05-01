@@ -8,7 +8,9 @@ export function Header() {
   return (
     <>
       <PreviewModeBanner />
-      <TopArea />
+      <div className="px-8 py-3">
+        <TopArea />
+      </div>
       <NavBar title="🌿 Plantpedia">
         <div>
           <Button color="inherit" variant="text">
