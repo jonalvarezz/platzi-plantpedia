@@ -2,6 +2,7 @@ import { GraphQLClient } from 'graphql-request'
 import {
   getSdk,
   IGetPlantListQueryVariables,
+  ISearchPlantQueryVariables,
   IGetCategoryListQueryVariables,
   IGetAuthorListQueryVariables,
   IGetPlantListByAuthorQueryVariables,
@@ -63,7 +64,7 @@ export function getPlant(
   }
 
   return api
-    .getPlant({ slug, preview: isPreview, locale }, extraHeaders)
+    .getPlant({ slug, preview: isPreview, locale, limit: 1 }, extraHeaders)
     .then((responseData) => {
       if (
         responseData == null ||
@@ -75,6 +76,20 @@ export function getPlant(
 
       return selectors.selectPlant(responseData.plantCollection.items[0])
     })
+}
+
+export function searchPlants({
+  term,
+  locale,
+  limit = 8,
+}: ISearchPlantQueryVariables): Promise<Plant[]> {
+  return api.searchPlant({ term, locale, limit }).then((responseData) => {
+    if (responseData == null || responseData.plantCollection == null) {
+      return []
+    }
+
+    return selectors.selectPlants(responseData.plantCollection)
+  })
 }
 
 export function getCategoryList(

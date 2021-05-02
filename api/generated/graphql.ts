@@ -1045,6 +1045,24 @@ export type IGetPlantQuery = (
   )> }
 );
 
+export type ISearchPlantQueryVariables = Exact<{
+  term: Scalars['String'];
+  locale?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ISearchPlantQuery = (
+  { __typename?: 'Query' }
+  & { plantCollection?: Maybe<(
+    { __typename?: 'PlantCollection' }
+    & { items: Array<Maybe<(
+      { __typename?: 'Plant' }
+      & IPlantFieldsFragment
+    )>> }
+  )> }
+);
+
 export type IGetCategoryListQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
@@ -1185,6 +1203,19 @@ export const GetPlantDocument = gql`
   }
 }
     ${PlantFieldsFragmentDoc}`;
+export const SearchPlantDocument = gql`
+    query searchPlant($term: String!, $locale: String, $limit: Int = 10) {
+  plantCollection(
+    where: {plantName_contains: $term}
+    limit: $limit
+    locale: $locale
+  ) {
+    items {
+      ...PlantFields
+    }
+  }
+}
+    ${PlantFieldsFragmentDoc}`;
 export const GetCategoryListDocument = gql`
     query getCategoryList($limit: Int = 10, $skip: Int = 0, $order: [CategoryOrder] = sys_publishedAt_DESC) {
   categoryCollection(limit: $limit, skip: $skip, order: $order) {
@@ -1217,6 +1248,7 @@ export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>;
 
 
 const defaultWrapper: SdkFunctionWrapper = sdkFunction => sdkFunction();
+
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
     getPlantList(variables?: IGetPlantListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetPlantListQuery> {
@@ -1224,6 +1256,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getPlant(variables: IGetPlantQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetPlantQuery> {
       return withWrapper(() => client.request<IGetPlantQuery>(GetPlantDocument, variables, requestHeaders));
+    },
+    searchPlant(variables: ISearchPlantQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ISearchPlantQuery> {
+      return withWrapper(() => client.request<ISearchPlantQuery>(SearchPlantDocument, variables, requestHeaders));
     },
     getCategoryList(variables?: IGetCategoryListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetCategoryListQuery> {
       return withWrapper(() => client.request<IGetCategoryListQuery>(GetCategoryListDocument, variables, requestHeaders));
