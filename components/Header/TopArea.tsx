@@ -20,13 +20,21 @@ export function TopArea() {
           Language:
         </Typography>
         {locales.map((loc) => (
-          <Button
+          <form
+            action="/api/language"
+            method="POST"
             key={loc}
-            variant={loc === locale ? 'outlined' : 'text'}
-            className="ml-1"
+            className="inline-block"
           >
-            {loc}
-          </Button>
+            <input name="preferredLocale" value={loc} type="hidden"></input>
+            <Button
+              variant={loc === locale ? 'outlined' : 'text'}
+              className="ml-1"
+              type="submit"
+            >
+              {loc}
+            </Button>
+          </form>
         ))}
       </Grid>
     </Grid>
