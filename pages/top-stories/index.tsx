@@ -1,4 +1,4 @@
-import Error from 'next/error'
+import Error from '../_error'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { getAuthorList } from '@api'
 

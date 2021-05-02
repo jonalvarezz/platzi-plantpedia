@@ -5,9 +5,10 @@ import ServerError from './500'
 
 type ErrorPageProps = {
   statusCode?: number
+  message?: string
 }
 
-const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode }) => {
+const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode, message }) => {
   if (statusCode === 404) {
     return <NotFound />
   }
@@ -16,13 +17,16 @@ const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode }) => {
     return <ServerError statusCode={statusCode} />
   }
 
+  let errorMessage = message
+  if (!message) {
+    errorMessage = statusCode
+      ? `An error ${statusCode} occurred on server`
+      : 'An error occurred on client'
+  }
+
   return (
     <Layout>
-      <main className="pt-16 text-center">
-        {statusCode
-          ? `An error ${statusCode} occurred on server`
-          : 'An error occurred on client'}
-      </main>
+      <main className="pt-16 text-center">{errorMessage}</main>
     </Layout>
   )
 }
