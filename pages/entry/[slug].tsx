@@ -1,4 +1,5 @@
 import { flatMap } from 'lodash'
+import ErrorPage from '../_error'
 import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
 import { getPlant, getPlantList } from '@api'
 
@@ -23,10 +24,7 @@ export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
 
   if (typeof slug !== 'string') {
     return {
-      props: {
-        plant: null,
-        status: 'error',
-      },
+      notFound: true,
     }
   }
 
@@ -41,10 +39,7 @@ export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
     }
   } catch (e) {
     return {
-      props: {
-        plant: null,
-        status: 'error',
-      },
+      notFound: true,
     }
   }
 }
@@ -89,11 +84,7 @@ export default function PlantEntryPage({
   status,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   if (status === 'error' || plant == null) {
-    return (
-      <Layout>
-        <main className="pt-16 text-center">404, my friendo</main>
-      </Layout>
-    )
+    return <ErrorPage statusCode={200} />
   }
 
   return (
