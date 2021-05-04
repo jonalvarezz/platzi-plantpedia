@@ -1,5 +1,4 @@
-import { useState, ChangeEventHandler, useEffect, useCallback } from 'react'
-import { debounce } from 'lodash'
+import { useState, ChangeEventHandler, useEffect } from 'react'
 
 import {
   OutlinedInput,
@@ -17,23 +16,22 @@ import { searchPlants } from '@api'
 export default function Search() {
   const [term, setTerm] = useState('')
   const [results, setResults] = useState<Plant[]>([])
-  const debouncedSearchPlants = useCallback(
-    debounce((term: string) => {
-      searchPlants({ term, limit: 10 }).then((data) => setResults(data))
-    }, 500),
-    []
-  )
+  // Debounce the value.
+  // Remember: With lodash you must use either useCallback or useRef
+  const searchTerm = useDebounce(term, 500)
 
   const updateTerm: ChangeEventHandler<HTMLInputElement> = (event) =>
     setTerm(event.currentTarget.value)
 
   useEffect(() => {
-    if (term.trim().length < 3) {
+    if (searchTerm.trim().length < 3) {
       return
     }
 
-    debouncedSearchPlants(term)
-  }, [term])
+    searchPlants({ term: searchTerm, limit: 10 }).then((data) =>
+      setResults(data)
+    )
+  }, [searchTerm])
 
   return (
     <Layout>
@@ -60,4 +58,22 @@ export default function Search() {
       </main>
     </Layout>
   )
+}
+
+function useDebounce<T>(value: T, wait = 0) {
+  const [debouncedValue, setDebouncedValue] = useState(value)
+
+  useEffect(() => {
+    // Update the inner state after <wait> ms
+    const timeoutId = window.setTimeout(() => {
+      setDebouncedValue(value)
+    }, wait)
+
+    // Clear timeout in case a new value is received
+    return () => {
+      window.clearTimeout(timeoutId)
+    }
+  }, [value])
+
+  return debouncedValue
 }
