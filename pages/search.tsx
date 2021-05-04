@@ -1,4 +1,5 @@
-import { useState, ChangeEventHandler, useEffect } from 'react'
+import { useState, ChangeEventHandler, useEffect, useCallback } from 'react'
+import { debounce } from 'lodash'
 
 import {
   OutlinedInput,
@@ -16,6 +17,12 @@ import { searchPlants } from '@api'
 export default function Search() {
   const [term, setTerm] = useState('')
   const [results, setResults] = useState<Plant[]>([])
+  const debouncedSearchPlants = useCallback(
+    debounce((term: string) => {
+      searchPlants({ term, limit: 10 }).then((data) => setResults(data))
+    }, 500),
+    []
+  )
 
   const updateTerm: ChangeEventHandler<HTMLInputElement> = (event) =>
     setTerm(event.currentTarget.value)
@@ -25,10 +32,7 @@ export default function Search() {
       return
     }
 
-    searchPlants({
-      term,
-      limit: 10,
-    }).then((data) => setResults(data))
+    debouncedSearchPlants(term)
   }, [term])
 
   return (
