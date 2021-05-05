@@ -1049,6 +1049,7 @@ export type ISearchPlantQueryVariables = Exact<{
   term: Scalars['String'];
   locale?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -1056,6 +1057,7 @@ export type ISearchPlantQuery = (
   { __typename?: 'Query' }
   & { plantCollection?: Maybe<(
     { __typename?: 'PlantCollection' }
+    & Pick<IPlantCollection, 'total' | 'skip' | 'limit'>
     & { items: Array<Maybe<(
       { __typename?: 'Plant' }
       & IPlantFieldsFragment
@@ -1204,12 +1206,16 @@ export const GetPlantDocument = gql`
 }
     ${PlantFieldsFragmentDoc}`;
 export const SearchPlantDocument = gql`
-    query searchPlant($term: String!, $locale: String, $limit: Int = 10) {
+    query searchPlant($term: String!, $locale: String, $limit: Int = 10, $skip: Int = 0) {
   plantCollection(
     where: {plantName_contains: $term}
-    limit: $limit
     locale: $locale
+    limit: $limit
+    skip: $skip
   ) {
+    total
+    skip
+    limit
     items {
       ...PlantFields
     }

@@ -82,12 +82,21 @@ query getPlant($slug: String!, $preview: Boolean = false, $locale: String) {
   }
 }
 
-query searchPlant($term: String!, $locale: String, $limit: Int = 10) {
+query searchPlant(
+  $term: String!
+  $locale: String
+  $limit: Int = 10
+  $skip: Int = 0
+) {
   plantCollection(
     where: { plantName_contains: $term }
-    limit: $limit
     locale: $locale
+    limit: $limit
+    skip: $skip
   ) {
+    total
+    skip
+    limit
     items {
       ...PlantFields
     }

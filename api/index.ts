@@ -41,6 +41,8 @@ const client = new GraphQLClient(
 
 const api = getSdk(client)
 
+export const sdk = api
+
 export function getPlantList(
   args?: IGetPlantListQueryVariables
 ): Promise<Plant[]> {
