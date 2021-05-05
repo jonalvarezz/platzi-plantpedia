@@ -64,7 +64,7 @@ export function getPlant(
   }
 
   return api
-    .getPlant({ slug, preview: isPreview, locale, limit: 1 }, extraHeaders)
+    .getPlant({ slug, preview: isPreview, locale }, extraHeaders)
     .then((responseData) => {
       if (
         responseData == null ||
