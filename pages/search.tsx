@@ -1,4 +1,5 @@
 import React, { useState, ChangeEventHandler, useEffect } from 'react'
+import { get } from 'lodash'
 
 import {
   OutlinedInput,
@@ -7,6 +8,7 @@ import {
   FormControl,
 } from '@ui/FormField'
 import { SearchIcon } from '@ui/icon/Search'
+import { Typography } from '@ui/Typography'
 
 import { Layout } from '@components/Layout'
 import { PlantCollection } from '@components/PlantCollection'
@@ -16,7 +18,7 @@ import { useInfinitePlantSearch } from '@api/useInfinitePlantSearch'
 export default function Search() {
   const [term, setTerm] = useState('')
   const searchTerm = useDebounce(term, 500)
-  const { data, isLoading } = useInfinitePlantSearch(
+  const { data, status } = useInfinitePlantSearch(
     { term: searchTerm },
     {
       enabled: searchTerm.trim().length > 1,
@@ -26,6 +28,9 @@ export default function Search() {
 
   const updateTerm: ChangeEventHandler<HTMLInputElement> = (event) =>
     setTerm(event.currentTarget.value)
+
+  const emptyResults =
+    status === 'success' && get(data, 'pages[0].length', 0) === 0
 
   return (
     <Layout>
@@ -47,13 +52,20 @@ export default function Search() {
           </FormControl>
         </div>
         <div>
-          {isLoading || data == null
-            ? null
-            : data.pages.map((plants, index) => (
+          {emptyResults ? (
+            <Typography variant="body1">
+              {`Sorry, we couldn't find anything by \"${term}\"`}
+            </Typography>
+          ) : null}
+        </div>
+        <div>
+          {status === 'success' && data != null
+            ? data.pages.map((plants, index) => (
                 <React.Fragment key={`page-${index}`}>
                   <PlantCollection plants={plants} variant="square" />
                 </React.Fragment>
-              ))}
+              ))
+            : null}
         </div>
       </main>
     </Layout>
