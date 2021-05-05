@@ -1,4 +1,4 @@
-import { useState, ChangeEventHandler, useEffect } from 'react'
+import React, { useState, ChangeEventHandler, useEffect } from 'react'
 
 import {
   OutlinedInput,
@@ -11,27 +11,21 @@ import { SearchIcon } from '@ui/icon/Search'
 import { Layout } from '@components/Layout'
 import { PlantCollection } from '@components/PlantCollection'
 
-import { searchPlants } from '@api'
+import { useInfinitePlantSearch } from '@api/useInfinitePlantSearch'
 
 export default function Search() {
   const [term, setTerm] = useState('')
-  const [results, setResults] = useState<Plant[]>([])
-  // Debounce the value.
-  // Remember: With lodash you must use either useCallback or useRef
   const searchTerm = useDebounce(term, 500)
+  const { data, isLoading } = useInfinitePlantSearch(
+    { term: searchTerm },
+    {
+      enabled: searchTerm.trim().length > 1,
+      staleTime: Infinity,
+    }
+  )
 
   const updateTerm: ChangeEventHandler<HTMLInputElement> = (event) =>
     setTerm(event.currentTarget.value)
-
-  useEffect(() => {
-    if (searchTerm.trim().length < 3) {
-      return
-    }
-
-    searchPlants({ term: searchTerm, limit: 10 }).then((data) =>
-      setResults(data)
-    )
-  }, [searchTerm])
 
   return (
     <Layout>
@@ -53,7 +47,13 @@ export default function Search() {
           </FormControl>
         </div>
         <div>
-          <PlantCollection plants={results} variant="square" />
+          {isLoading || data == null
+            ? null
+            : data.pages.map((plants, index) => (
+                <React.Fragment key={`page-${index}`}>
+                  <PlantCollection plants={plants} variant="square" />
+                </React.Fragment>
+              ))}
         </div>
       </main>
     </Layout>
