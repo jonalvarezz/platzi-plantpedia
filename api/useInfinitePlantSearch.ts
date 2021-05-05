@@ -10,16 +10,17 @@ import {
 import { sdk } from './index'
 import { selectPlants } from './selectors'
 
-type InfinitePlantListArgs = Pick<ISearchPlantQueryVariables, 'term' | 'skip'>
+type InfinitePlantListArgs = Pick<ISearchPlantQueryVariables, 'term'>
 
 type QueryKey = ['searchPlants', InfinitePlantListArgs]
 
 const fetchPlants: QueryFunction<ISearchPlantQuery, QueryKey> = ({
   queryKey,
+  pageParam = 0,
 }) => {
-  const [_key, { term, skip }] = queryKey
+  const [_key, { term }] = queryKey
 
-  return sdk.searchPlant({ term, limit: 10, skip })
+  return sdk.searchPlant({ term, limit: 2, skip: pageParam })
 }
 
 type Options = Pick<
@@ -28,10 +29,10 @@ type Options = Pick<
 >
 
 export function useInfinitePlantSearch(
-  { term, skip = 0 }: InfinitePlantListArgs,
+  args: InfinitePlantListArgs,
   options?: Options
 ) {
-  return useInfiniteQuery(['searchPlants', { term, skip }], fetchPlants, {
+  return useInfiniteQuery(['searchPlants', args], fetchPlants, {
     ...options,
     select: (data) => ({
       ...data,
