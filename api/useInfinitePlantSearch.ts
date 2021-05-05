@@ -10,7 +10,7 @@ import {
 import { sdk } from './index'
 import { selectPlants } from './selectors'
 
-type InfinitePlantListArgs = Pick<ISearchPlantQueryVariables, 'term'>
+type InfinitePlantListArgs = Pick<ISearchPlantQueryVariables, 'term' | 'limit'>
 
 type QueryKey = ['searchPlants', InfinitePlantListArgs]
 
@@ -18,9 +18,9 @@ const fetchPlants: QueryFunction<ISearchPlantQuery, QueryKey> = ({
   queryKey,
   pageParam = 0,
 }) => {
-  const [_key, { term }] = queryKey
+  const [_key, { term, limit }] = queryKey
 
-  return sdk.searchPlant({ term, limit: 2, skip: pageParam })
+  return sdk.searchPlant({ term, limit, skip: pageParam })
 }
 
 type Options = Pick<
