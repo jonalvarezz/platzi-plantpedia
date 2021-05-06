@@ -1,5 +1,5 @@
 import React, { useState, ChangeEventHandler, useEffect } from 'react'
-import { get } from 'lodash'
+import { flatMap, get } from 'lodash'
 import clsx from 'clsx'
 
 import {
@@ -40,6 +40,11 @@ export default function Search() {
   const emptyResults =
     status === 'success' && get(data, 'pages[0].length', 0) === 0
 
+  let results: Plant[] = []
+  if (data?.pages != null) {
+    results = flatMap(data.pages)
+  }
+
   return (
     <Layout>
       <main className="pt-16 text-center">
@@ -67,13 +72,9 @@ export default function Search() {
           ) : null}
         </div>
         <div>
-          {status === 'success' && data != null
-            ? data.pages.map((plants, index) => (
-                <React.Fragment key={`page-${index}`}>
-                  <PlantCollection plants={plants} variant="square" />
-                </React.Fragment>
-              ))
-            : null}
+          {status === 'success' && data != null ? (
+            <PlantCollection plants={results} variant="square" />
+          ) : null}
         </div>
         {!hasNextPage ? null : (
           <div className="text-center p4">
