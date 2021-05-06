@@ -16,6 +16,8 @@ export function Header() {
         </div>
         <NavBar title="🌿 Plantpedia">
           <div>
+            <NavLink href="/top-stories">Top Stories</NavLink>
+            <NavLink href="/search">Search</NavLink>
           </div>
         </NavBar>
       </div>
