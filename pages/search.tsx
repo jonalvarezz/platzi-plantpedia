@@ -47,8 +47,8 @@ export default function Search() {
 
   return (
     <Layout>
-      <main className="pt-16 text-center">
-        <div className="max-w-5xl mx-auto mb-6">
+      <main className="pt-16 text-center px-4">
+        <div className="max-w-3xl mx-auto mb-6">
           <FormControl fullWidth className="" variant="outlined">
             <InputLabel htmlFor="search-term-field">Search term</InputLabel>
             <OutlinedInput
