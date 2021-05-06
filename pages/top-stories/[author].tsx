@@ -8,7 +8,8 @@ import { Alert } from '@ui/Alert'
 import { PlantCollection } from '@components/PlantCollection'
 import { AuthorCard } from '@components/AuthorCard'
 
-import { getAuthorList, usePlantListByAuthor } from '@api'
+import { getAuthorList } from '@api'
+import { usePlantListByAuthor } from '@api/query/usePlantListByAuthor'
 
 import ErrorPage from '../_error'
 
@@ -96,10 +97,15 @@ export default function TopStories({
 type AuthorTopStoriesProps = Author
 
 function AuthorTopStories(author: AuthorTopStoriesProps) {
-  const { data: plants, isError, isSuccess } = usePlantListByAuthor({
-    authorId: author.id,
-    limit: 12,
-  })
+  const { data: plants, isError, isSuccess } = usePlantListByAuthor(
+    {
+      authorId: author.id,
+      limit: 12,
+    },
+    {
+      staleTime: 1000 * 60 * 5, // 5min
+    }
+  )
 
   return (
     <div>
@@ -109,12 +115,12 @@ function AuthorTopStories(author: AuthorTopStoriesProps) {
       {isError ? (
         <Alert severity="error">Huh. Something went wrong.</Alert>
       ) : null}
-      {isSuccess && plants.length === 0 ? (
+      {isSuccess && plants != null && plants.length === 0 ? (
         <Alert severity="info">
           {author.fullName} doesn't have any story yet.
         </Alert>
       ) : null}
-      <PlantCollection plants={plants} />
+      {isSuccess && plants != null ? <PlantCollection plants={plants} /> : null}
     </div>
   )
 }
