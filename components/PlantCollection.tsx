@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import Link from 'next/link'
 import { Grid, GridProps } from '@material-ui/core'
 import { Typography } from '@ui/Typography'
@@ -14,9 +15,33 @@ type PlantCollectionProps = {
 
 export function PlantCollection({
   plants,
-  variant = 'square',
+  variant,
   className,
 }: PlantCollectionProps) {
+  return (
+    <Grid container component="ul" spacing={4} className={className}>
+      {plants.map((plant) => (
+        <MemoizedPlantEntry plant={plant} variant={variant} />
+      ))}
+    </Grid>
+  )
+}
+
+const isEqual = (previousProps: PlantEntryType, newProps: PlantEntryType) => {
+  // What's the property React has to know the component has to be updated?
+  // Even though lodash.isEqual could be used here, it could also lead to perf issues
+  // for big & deep nested objects.
+  // "Cherry-picking" the important props for the app gives the best result here
+  return previousProps.plant.plantName === newProps.plant.plantName
+}
+const MemoizedPlantEntry = memo(PlantEntry, isEqual)
+
+type PlantEntryType = {
+  plant: Plant
+  variant?: string
+}
+
+export function PlantEntry({ plant, variant = 'square' }: PlantEntryType) {
   let gridItemProps: GridProps = { xs: 6, md: 4 }
   let Component: (props: Plant) => JSX.Element = PlantEntrySquare
 
@@ -29,17 +54,13 @@ export function PlantCollection({
   }
 
   return (
-    <Grid container component="ul" spacing={4} className={className}>
-      {plants.map((plant) => (
-        <Grid key={plant.id} role="listitem" item {...gridItemProps}>
-          <Component {...plant} />
-        </Grid>
-      ))}
+    <Grid key={plant.id} role="listitem" item {...gridItemProps}>
+      <Component {...plant} />
     </Grid>
   )
 }
 
-export default function PlantEntrySquare({ image, plantName, slug }: Plant) {
+export function PlantEntrySquare({ image, plantName, slug }: Plant) {
   return (
     <Link href={`/entry/${slug}`}>
       <a title={`Go to ${plantName}`}>
