@@ -21,7 +21,7 @@ export function PlantCollection({
   return (
     <Grid container component="ul" spacing={4} className={className}>
       {plants.map((plant) => (
-        <MemoizedPlantEntry plant={plant} variant={variant} />
+        <MemoizedPlantEntry key={plant.id} plant={plant} variant={variant} />
       ))}
     </Grid>
   )
@@ -72,7 +72,7 @@ export function PlantEntrySquare({ image, plantName, slug }: Plant) {
             aspectRatio="4:3"
           />
           <div className="p-4">
-            <Typography variant="h5" component="a" className="break-words">
+            <Typography variant="h5" className="break-words">
               {plantName}
             </Typography>
           </div>
