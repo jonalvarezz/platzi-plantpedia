@@ -1,3 +1,5 @@
+import { PropsWithChildren } from 'react'
+import Link, { LinkProps } from 'next/link'
 import { NavBar } from '@ui/NavBar'
 import { Button } from '@ui/Button'
 
@@ -14,12 +16,19 @@ export function Header() {
         </div>
         <NavBar title="🌿 Plantpedia">
           <div>
-            <Button color="inherit" variant="text">
-              Login
-            </Button>
           </div>
         </NavBar>
       </div>
     </>
+  )
+}
+
+function NavLink({ children, ...linkProps }: PropsWithChildren<LinkProps>) {
+  return (
+    <Link {...linkProps} passHref>
+      <Button color="inherit" variant="text" component="a">
+        {children}
+      </Button>
+    </Link>
   )
 }
