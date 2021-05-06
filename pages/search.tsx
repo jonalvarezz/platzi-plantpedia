@@ -15,7 +15,7 @@ import { Button } from '@ui/Button'
 import { Layout } from '@components/Layout'
 import { PlantCollection } from '@components/PlantCollection'
 
-import { useInfinitePlantSearch } from '@api/useInfinitePlantSearch'
+import { useInfinitePlantSearch } from '@api/query/useInfinitePlantSearch'
 
 export default function Search() {
   const [term, setTerm] = useState('')

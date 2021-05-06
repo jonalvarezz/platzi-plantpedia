@@ -6,9 +6,9 @@ import {
 import {
   ISearchPlantQueryVariables,
   ISearchPlantQuery,
-} from './generated/graphql'
-import { sdk } from './index'
-import { selectPlants } from './selectors'
+} from '../generated/graphql'
+import { sdk } from '../index'
+import { selectPlants } from '../selectors'
 
 type InfinitePlantListArgs = Pick<ISearchPlantQueryVariables, 'term' | 'limit'>
 
