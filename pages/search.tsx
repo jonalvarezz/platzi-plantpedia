@@ -1,5 +1,6 @@
 import React, { useState, ChangeEventHandler, useEffect } from 'react'
 import { get } from 'lodash'
+import clsx from 'clsx'
 
 import {
   OutlinedInput,
@@ -9,6 +10,7 @@ import {
 } from '@ui/FormField'
 import { SearchIcon } from '@ui/icon/Search'
 import { Typography } from '@ui/Typography'
+import { Button } from '@ui/Button'
 
 import { Layout } from '@components/Layout'
 import { PlantCollection } from '@components/PlantCollection'
@@ -18,7 +20,13 @@ import { useInfinitePlantSearch } from '@api/useInfinitePlantSearch'
 export default function Search() {
   const [term, setTerm] = useState('')
   const searchTerm = useDebounce(term, 500)
-  const { data, status } = useInfinitePlantSearch(
+  const {
+    data,
+    status,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfinitePlantSearch(
     { term: searchTerm },
     {
       enabled: searchTerm.trim().length > 1,
@@ -67,6 +75,18 @@ export default function Search() {
               ))
             : null}
         </div>
+        {!hasNextPage ? null : (
+          <div className="text-center p4">
+            <Button
+              variant="outlined"
+              disabled={isFetchingNextPage}
+              className={clsx({ 'animate-pulse': isFetchingNextPage })}
+              onClick={() => fetchNextPage()}
+            >
+              {isFetchingNextPage ? 'Loading' : 'Load more'}
+            </Button>
+          </div>
+        )}
       </main>
     </Layout>
   )
