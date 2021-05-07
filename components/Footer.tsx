@@ -2,10 +2,11 @@ import { Grid } from '@ui/Grid'
 import { Typography } from '@ui/Typography'
 
 export const Footer = () => (
-  <footer className="mt-24 pt-20 pb-6 bg-black text-gray-300">
+  <footer className="mt-24 pt-20 pb-6 bg-black text-gray-300 overflow-hidden">
     <div className="max-w-screen-xl mx-auto w-95">
       <Grid container spacing={4}>
-        <Grid item xs={12} sm={5} className="text-center sm:text-left">
+        <Grid item xs={12} sm={5} className="text-center sm:text-left relative">
+          <PlantpediaLogo />
           <Typography variant="h5" component="a" href="/" title="Go home">
             Platzi's Plantpedia
           </Typography>
@@ -67,3 +68,30 @@ export const Footer = () => (
     </div>
   </footer>
 )
+
+function PlantpediaLogo() {
+  return (
+    <>
+      <div className="absolute" />
+      <style jsx>
+        {`
+          div {
+            width: 205px;
+            height: 216px;
+            background: url(/leaf.png) center center no-repeat;
+            opacity: 0.2;
+            bottom: 0;
+            left: -40px;
+            transform: rotate(120deg);
+          }
+
+          @media screen and (min-width: 600px) {
+            div {
+              bottom: 17px;
+            }
+          }
+        `}
+      </style>
+    </>
+  )
+}
