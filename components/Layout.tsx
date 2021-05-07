@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { Header } from '@components/Header/Header'
+import { Footer } from '@components/Footer'
 
 type LayoutProps = { title?: string }
 
@@ -7,7 +8,7 @@ const siteTitle = "🌿 Platzi's Plantpedia"
 
 export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
   return (
-    <div>
+    <>
       <Head>
         <title>{!title ? siteTitle : `${title} | ${siteTitle}`}</title>
         <meta charSet="utf-8" />
@@ -16,7 +17,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
       </Head>
       <Header />
       <div className="container mx-auto max-w-screen-xl">{children}</div>
-      <footer></footer>
-    </div>
+      <Footer />
+    </>
   )
 }
