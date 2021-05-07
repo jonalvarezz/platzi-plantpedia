@@ -74,22 +74,20 @@ export default function TopStories({
 
   return (
     <Layout>
-      <main className="pt-16">
-        <Typography variant="h2" className="text-center mb-16">
-          Top 10 Stories
-        </Typography>
-        {typeof currentAuthor !== 'string' ? null : (
-          <VerticalTabs
-            tabs={tabs}
-            currentTab={currentAuthor}
-            onTabChange={(_, author) => {
-              router.push(`/top-stories/${author}`, undefined, {
-                shallow: true,
-              })
-            }}
-          />
-        )}
-      </main>
+      <Typography variant="h2" className="text-center mb-16">
+        Top 10 Stories
+      </Typography>
+      {typeof currentAuthor !== 'string' ? null : (
+        <VerticalTabs
+          tabs={tabs}
+          currentTab={currentAuthor}
+          onTabChange={(_, author) => {
+            router.push(`/top-stories/${author}`, undefined, {
+              shallow: true,
+            })
+          }}
+        />
+      )}
     </Layout>
   )
 }

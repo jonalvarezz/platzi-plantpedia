@@ -21,17 +21,15 @@ export default function Home({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
-      <main className="pt-16">
-        <PlantCollection
-          plants={plants.slice(0, 2)}
-          variant="vertical"
-          className="mb-24"
-        />
-        <PlantCollection
-          plants={plants.length > 8 ? plants.slice(2, 8) : plants}
-          variant="square"
-        />
-      </main>
+      <PlantCollection
+        plants={plants.slice(0, 2)}
+        variant="vertical"
+        className="mb-24"
+      />
+      <PlantCollection
+        plants={plants.length > 8 ? plants.slice(2, 8) : plants}
+        variant="square"
+      />
     </Layout>
   )
 }

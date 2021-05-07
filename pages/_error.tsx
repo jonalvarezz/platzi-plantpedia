@@ -26,7 +26,7 @@ const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode, message }) => {
 
   return (
     <Layout>
-      <main className="pt-16 text-center">{errorMessage}</main>
+      <div className="text-center">{errorMessage}</div>
     </Layout>
   )
 }

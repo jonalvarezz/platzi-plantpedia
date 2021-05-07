@@ -7,7 +7,7 @@ export default function NotFoundPage({
 }) {
   return (
     <Layout>
-      <main className="pt-16 text-center">{statusCode}, my friendo</main>
+      <div className="text-center">{statusCode}, my friendo</div>
     </Layout>
   )
 }

@@ -89,32 +89,30 @@ export default function PlantEntryPage({
 
   return (
     <Layout>
-      <main className="pt-16">
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={8} lg={9} component="article">
-            <figure>
-              <Image
-                width={952}
-                aspectRatio="4:3"
-                layout="intrinsic"
-                src={plant.image.url}
-                alt={plant.image.title}
-              />
-            </figure>
-            <div className="px-12 pt-8">
-              <Typography variant="h2">{plant.plantName}</Typography>
-            </div>
-            <div className="p-10">
-              <RichText richText={plant.description} />
-            </div>
-          </Grid>
-          <Grid item xs={12} md={4} lg={3} component="section">
-            <Typography variant="h5" component="h3">
-              Recent Posts
-            </Typography>
-          </Grid>
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={8} lg={9} component="article">
+          <figure>
+            <Image
+              width={952}
+              aspectRatio="4:3"
+              layout="intrinsic"
+              src={plant.image.url}
+              alt={plant.image.title}
+            />
+          </figure>
+          <div className="px-12 pt-8">
+            <Typography variant="h2">{plant.plantName}</Typography>
+          </div>
+          <div className="p-10">
+            <RichText richText={plant.description} />
+          </div>
         </Grid>
-      </main>
+        <Grid item xs={12} md={4} lg={3} component="section">
+          <Typography variant="h5" component="h3">
+            Recent Posts
+          </Typography>
+        </Grid>
+      </Grid>
     </Layout>
   )
 }

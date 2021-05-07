@@ -22,7 +22,9 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         />
       </Head>
       <Header />
-      <div className="container mx-auto max-w-screen-xl w-95">{children}</div>
+      <div className="container mx-auto max-w-screen-xl w-95">
+        <main className="pt-16">{children}</main>
+      </div>
       <Footer />
     </>
   )
