@@ -4,7 +4,7 @@ import { Footer } from '@components/Footer'
 
 type LayoutProps = { title?: string }
 
-const siteTitle = "🌿 Platzi's Plantpedia"
+const siteTitle = "Platzi's Plantpedia"
 
 export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
   return (
