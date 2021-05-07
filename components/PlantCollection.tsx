@@ -72,7 +72,7 @@ export function PlantEntrySquare({ image, plantName, slug }: Plant) {
             aspectRatio="4:3"
           />
           <div className="p-4">
-            <Typography variant="h5" className="break-words">
+            <Typography variant="h4" className="break-words">
               {plantName}
             </Typography>
           </div>

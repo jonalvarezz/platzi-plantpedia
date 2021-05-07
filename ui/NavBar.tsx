@@ -16,7 +16,7 @@ export function NavBar({ title, children }: Props) {
       className="border-b-2 border-t-2 border-grey-200"
     >
       <Toolbar>
-        <Typography variant="h6" className="flex-grow" component="h1">
+        <Typography variant="h4" className="flex-grow" component="h1">
           <a href="/">{title}</a>
         </Typography>
         {children}

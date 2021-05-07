@@ -74,10 +74,10 @@ export default function TopStories({
 
   return (
     <Layout>
-      <main className="pt-10">
-        <div className="text-center pb-16">
-          <Typography variant="h2">Top 10 Stories</Typography>
-        </div>
+      <main className="pt-16">
+        <Typography variant="h2" className="text-center mb-16">
+          Top 10 Stories
+        </Typography>
         {typeof currentAuthor !== 'string' ? null : (
           <VerticalTabs
             tabs={tabs}
