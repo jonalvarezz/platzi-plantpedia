@@ -45,7 +45,7 @@ function PlantpediaNoLoVeniasVenirLogo({ title }: { title: string }) {
   const [faviconIndex, setFaviconIndex] = useState(0)
   const [isHovering, setIsHovering] = useState(false)
 
-  const toggleCrazyness = () => setIsHovering(!isHovering)
+  const toggleCraziness = () => setIsHovering(!isHovering)
 
   useEffect(() => {
     if (!isHovering) return
@@ -57,6 +57,7 @@ function PlantpediaNoLoVeniasVenirLogo({ title }: { title: string }) {
         return nextValue
       })
     }, 150)
+
     return () => {
       clearTimeout(intervalId)
     }
@@ -76,8 +77,8 @@ function PlantpediaNoLoVeniasVenirLogo({ title }: { title: string }) {
         variant="h4"
         className="flex-grow"
         component="h1"
-        onMouseEnter={toggleCrazyness}
-        onMouseLeave={toggleCrazyness}
+        onMouseEnter={toggleCraziness}
+        onMouseLeave={toggleCraziness}
       >
         <a href="/">{title}</a>
       </Typography>
