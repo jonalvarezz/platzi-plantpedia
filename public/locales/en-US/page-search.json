@@ -1,0 +1,7 @@
+{
+  "search": "Search",
+  "term": "Search term",
+  "notFound": "Doh! we couldn't find anything by \"{{term}}\"",
+  "loading": "Loading",
+  "loadMore": "Load more"
+}

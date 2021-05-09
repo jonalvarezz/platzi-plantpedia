@@ -1,4 +1,7 @@
 import React, { useState, ChangeEventHandler, useEffect } from 'react'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
+import { GetStaticProps } from 'next'
 import { flatMap, get } from 'lodash'
 import clsx from 'clsx'
 
@@ -17,7 +20,14 @@ import { PlantCollection } from '@components/PlantCollection'
 
 import { useInfinitePlantSearch } from '@api/query/useInfinitePlantSearch'
 
+export const getServerSideProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale!)),
+  },
+})
+
 export default function Search() {
+  const { t } = useTranslation(['page-search'])
   const [term, setTerm] = useState('')
   const searchTerm = useDebounce(term, 500)
   const {
@@ -48,11 +58,11 @@ export default function Search() {
   return (
     <Layout>
       <Typography variant="h2" className="text-center">
-        Search
+        {t('search')}
       </Typography>
       <div className="max-w-3xl mx-auto mb-8 mt-10">
         <FormControl fullWidth className="" variant="outlined">
-          <InputLabel htmlFor="search-term-field">Search term</InputLabel>
+          <InputLabel htmlFor="search-term-field">{t('term')}</InputLabel>
           <OutlinedInput
             id="search-term-field"
             value={term}
@@ -62,15 +72,13 @@ export default function Search() {
                 <SearchIcon />
               </InputAdornment>
             }
-            labelWidth={100}
+            labelWidth={90}
           />
         </FormControl>
       </div>
       <div>
         {emptyResults ? (
-          <Typography variant="body1">
-            {`Sorry, we couldn't find anything by \"${term}\"`}
-          </Typography>
+          <Typography variant="body1">{t('notFound', { term })}</Typography>
         ) : null}
       </div>
       <div>
@@ -86,7 +94,7 @@ export default function Search() {
             className={clsx({ 'animate-pulse': isFetchingNextPage })}
             onClick={() => fetchNextPage()}
           >
-            {isFetchingNextPage ? 'Loading' : 'Load more'}
+            {isFetchingNextPage ? t('loading') : t('loadMore')}
           </Button>
         </div>
       )}
