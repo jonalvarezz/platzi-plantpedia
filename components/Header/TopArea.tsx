@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 
 import { Grid } from '@ui/Grid'
 import { Typography } from '@ui/Typography'
@@ -6,6 +7,7 @@ import { Button } from '@ui/Button'
 
 export function TopArea() {
   const { locales, locale } = useRouter()
+  const { t } = useTranslation(['common'])
 
   // Locales aren't configured
   if (locales == undefined || locale == undefined) {
@@ -17,7 +19,7 @@ export function TopArea() {
       <Grid item></Grid>
       <Grid item>
         <Typography variant="body2" component="span" className="pr-3">
-          Language:
+          {t('language')}:
         </Typography>
         {locales.map((loc) => (
           <form
