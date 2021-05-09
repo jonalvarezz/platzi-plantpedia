@@ -1,8 +1,14 @@
+import clsx from 'clsx'
 import { Grid } from '@ui/Grid'
 import { Typography } from '@ui/Typography'
 
-export const Footer = () => (
-  <footer className="mt-24 pt-20 pb-6 bg-black text-gray-300 overflow-hidden">
+export const Footer = ({ className }: { className?: string }) => (
+  <footer
+    className={clsx(
+      'pt-20 pb-6 bg-black text-gray-300 overflow-hidden',
+      className
+    )}
+  >
     <div className="max-w-screen-xl mx-auto w-95">
       <Grid container spacing={4}>
         <Grid item xs={12} sm={5} className="text-center sm:text-left relative">

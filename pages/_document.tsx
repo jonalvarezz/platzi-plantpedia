@@ -22,7 +22,7 @@ class MyDocument extends Document {
     return (
       <Html className="text-gray-900 leading-tight">
         <Head />
-        <body className="min-h-screen bg-gray-100">
+        <body className="min-h-screen bg-gray-100 overflow-x-hidden">
           <Main />
           <NextScript />
         </body>

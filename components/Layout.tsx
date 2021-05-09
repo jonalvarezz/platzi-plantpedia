@@ -6,6 +6,8 @@ type LayoutProps = { title?: string }
 
 const siteTitle = "Platzi's Plantpedia"
 
+const FOOTER_OFFSET = 450
+
 export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
   return (
     <>
@@ -22,10 +24,23 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         />
       </Head>
       <Header />
-      <div className="container mx-auto max-w-screen-xl w-95">
+      <div className="local-container container mx-auto max-w-screen-xl w-95">
         <main className="pt-16">{children}</main>
       </div>
-      <Footer />
+      <Footer className="absolute bottom-0 inset-x-0" />
+
+      {/* Keep the footer at the bottom */}
+      <style jsx>{`
+        .local-container {
+          padding-bottom: ${FOOTER_OFFSET}px;
+        }
+      `}</style>
+      <style jsx global>{`
+        #__next {
+          min-height: 100vh;
+          position: relative;
+        }
+      `}</style>
     </>
   )
 }
