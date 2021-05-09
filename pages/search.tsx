@@ -21,9 +21,7 @@ import { PlantCollection } from '@components/PlantCollection'
 import { useInfinitePlantSearch } from '@api/query/useInfinitePlantSearch'
 
 export const getServerSideProps: GetStaticProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale!)),
-  },
+  props: await serverSideTranslations(locale!),
 })
 
 export default function Search() {

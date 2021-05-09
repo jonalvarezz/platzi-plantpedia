@@ -1,6 +1,13 @@
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
 import { Button } from '@ui/Button'
 import { Layout } from '@components/Layout'
 import { Typography } from '@ui/Typography'
+
+export const getServerSideProps: GetStaticProps = async ({ locale }) => ({
+  props: await serverSideTranslations(locale!),
+})
 
 export default function UIPage() {
   return (
@@ -52,8 +59,8 @@ export default function UIPage() {
       <Typography variant="overline" display="block" gutterBottom>
         overline text
       </Typography>
-      <Button>Default button</Button>{' '}
       <Button variant="outlined">Outlined button</Button>
+      <Button>Default button</Button>{' '}
     </Layout>
   )
 }
