@@ -3,7 +3,7 @@ import { NextApiHandler, NextApiResponse } from 'next'
 
 // Sadly, getting the locale info in API Routes is not officially supported.
 // It should match next.config::i18n.defaultLocale
-const DEFAULT_LOCALE = 'es'
+const DEFAULT_LOCALE = 'en-US'
 
 // Learn more: https://nextjs.org/docs/advanced-features/i18n-routing#leveraging-the-next_locale-cookie
 const PREFERRED_LOCALE_COOKIE = 'NEXT_LOCALE'
