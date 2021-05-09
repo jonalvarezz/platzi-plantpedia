@@ -2,7 +2,8 @@ import React, { useState, ChangeEventHandler, useEffect } from 'react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { GetStaticProps } from 'next'
-import { flatMap, get } from 'lodash'
+import get from 'lodash/get'
+import flatMap from 'lodash/flatMap'
 import clsx from 'clsx'
 
 import {
