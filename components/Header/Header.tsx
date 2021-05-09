@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react'
 import Link, { LinkProps } from 'next/link'
+import { useTranslation } from 'next-i18next'
 import { NavBar } from '@ui/NavBar'
 import { Button } from '@ui/Button'
 
@@ -7,6 +8,8 @@ import { PreviewModeBanner } from './PreviewModeBanner'
 import { TopArea } from './TopArea'
 
 export function Header() {
+  const { t } = useTranslation(['common'])
+
   return (
     <>
       <PreviewModeBanner />
@@ -16,7 +19,7 @@ export function Header() {
       <div className="mx-auto" style={{ maxWidth: '98%' }}>
         <NavBar title="🌿 Plantpedia">
           <div>
-            <NavLink href="/top-stories">Top Stories</NavLink>
+            <NavLink href="/top-stories">{t('topStories')}</NavLink>
           </div>
         </NavBar>
       </div>
