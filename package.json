@@ -42,7 +42,7 @@
     "graphql": "^15.5.0",
     "lodash": "^4.17.21",
     "next-i18next": "^8.3.0",
-    "postcss": "^8.2.15",
+    "postcss": "^8.3.0",
     "prettier": "^2.3.0",
     "react-query": "^3.16.0",
     "tailwindcss": "^2.1.2",
