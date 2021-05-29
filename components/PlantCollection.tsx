@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import Link from 'next/link'
-import { Grid, GridProps } from '@material-ui/core'
+import { Grid, GridProps } from '@ui/Grid'
 import { Typography } from '@ui/Typography'
 import { Button } from '@ui/Button'
 
