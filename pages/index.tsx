@@ -5,6 +5,7 @@ import { Layout } from '@components/Layout'
 import { getPlantList } from '@api'
 import { Hero } from '@components/Hero'
 import { PlantCollection } from '@components/PlantCollection'
+import { Authors } from '@components/Authors'
 
 type HomeProps = {
   plants: Plant[]
@@ -26,6 +27,7 @@ export default function Home({
   return (
     <Layout>
       <Hero {...plants[0]} className="mb-20" />
+      <Authors className="mb-10" />
       <PlantCollection
         plants={plants.slice(1, 3)}
         variant="vertical"
