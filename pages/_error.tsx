@@ -1,5 +1,7 @@
 import { NextPage } from 'next'
 import { Layout } from '@components/Layout'
+import { Typography } from '@ui/Typography'
+import { Button } from '@ui/Button'
 import NotFound from './404'
 import ServerError from './500'
 
@@ -20,13 +22,35 @@ const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode, message }) => {
   let errorMessage = message
   if (!message) {
     errorMessage = statusCode
-      ? `An error ${statusCode} occurred on server`
-      : 'An error occurred on client'
+      ? `An error occurred on the server`
+      : 'An error occurred on the client'
   }
 
   return (
     <Layout>
-      <div className="text-center">{errorMessage}</div>
+      <div className="text-center">
+        <Typography variant="h2" className="mb-6">
+          🦦 Doh!
+        </Typography>
+        <Typography variant="body1" className="mb-6">
+          {errorMessage}
+        </Typography>
+        {!statusCode ? null : (
+          <Typography variant="body1" className="mb-6">
+            <span className="bg-gray-300 inline-block">
+              ERRORCODE: {statusCode}
+            </span>
+          </Typography>
+        )}
+        <Button
+          color="primary"
+          variant="contained"
+          href="/"
+          title="Go back home"
+        >
+          Back home
+        </Button>
+      </div>
     </Layout>
   )
 }
