@@ -626,7 +626,7 @@ export type IPlant = IEntry & {
   slug?: Maybe<Scalars['String']>;
   description?: Maybe<IPlantDescription>;
   image?: Maybe<IAsset>;
-  categoriesCollection?: Maybe<IPlantCategoriesCollection>;
+  category?: Maybe<ICategory>;
   author?: Maybe<IAuthor>;
 };
 
@@ -663,9 +663,7 @@ export type IPlantImageArgs = {
 
 
 /** [See type definition](https://app.contentful.com/spaces/t888he5mrnzj/content_types/plant) */
-export type IPlantCategoriesCollectionArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
+export type IPlantCategoryArgs = {
   preview?: Maybe<Scalars['Boolean']>;
   locale?: Maybe<Scalars['String']>;
 };
@@ -675,14 +673,6 @@ export type IPlantCategoriesCollectionArgs = {
 export type IPlantAuthorArgs = {
   preview?: Maybe<Scalars['Boolean']>;
   locale?: Maybe<Scalars['String']>;
-};
-
-export type IPlantCategoriesCollection = {
-  __typename?: 'PlantCategoriesCollection';
-  total: Scalars['Int'];
-  skip: Scalars['Int'];
-  limit: Scalars['Int'];
-  items: Array<Maybe<ICategory>>;
 };
 
 export type IPlantCollection = {
@@ -719,6 +709,7 @@ export type IPlantDescriptionLinks = {
 };
 
 export type IPlantFilter = {
+  category?: Maybe<ICfCategoryNestedFilter>;
   author?: Maybe<ICfAuthorNestedFilter>;
   sys?: Maybe<ISysFilter>;
   contentfulMetadata?: Maybe<IContentfulMetadataFilter>;
@@ -740,7 +731,7 @@ export type IPlantFilter = {
   description_contains?: Maybe<Scalars['String']>;
   description_not_contains?: Maybe<Scalars['String']>;
   image_exists?: Maybe<Scalars['Boolean']>;
-  categoriesCollection_exists?: Maybe<Scalars['Boolean']>;
+  category_exists?: Maybe<Scalars['Boolean']>;
   author_exists?: Maybe<Scalars['Boolean']>;
   OR?: Maybe<Array<Maybe<IPlantFilter>>>;
   AND?: Maybe<Array<Maybe<IPlantFilter>>>;
@@ -954,6 +945,35 @@ export type ICfAuthorNestedFilter = {
   AND?: Maybe<Array<Maybe<ICfAuthorNestedFilter>>>;
 };
 
+export type ICfCategoryNestedFilter = {
+  sys?: Maybe<ISysFilter>;
+  contentfulMetadata?: Maybe<IContentfulMetadataFilter>;
+  title_exists?: Maybe<Scalars['Boolean']>;
+  title?: Maybe<Scalars['String']>;
+  title_not?: Maybe<Scalars['String']>;
+  title_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  title_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  title_contains?: Maybe<Scalars['String']>;
+  title_not_contains?: Maybe<Scalars['String']>;
+  slug_exists?: Maybe<Scalars['Boolean']>;
+  slug?: Maybe<Scalars['String']>;
+  slug_not?: Maybe<Scalars['String']>;
+  slug_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug_contains?: Maybe<Scalars['String']>;
+  slug_not_contains?: Maybe<Scalars['String']>;
+  icon_exists?: Maybe<Scalars['Boolean']>;
+  categoryDescription_exists?: Maybe<Scalars['Boolean']>;
+  categoryDescription?: Maybe<Scalars['String']>;
+  categoryDescription_not?: Maybe<Scalars['String']>;
+  categoryDescription_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  categoryDescription_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  categoryDescription_contains?: Maybe<Scalars['String']>;
+  categoryDescription_not_contains?: Maybe<Scalars['String']>;
+  OR?: Maybe<Array<Maybe<ICfCategoryNestedFilter>>>;
+  AND?: Maybe<Array<Maybe<ICfCategoryNestedFilter>>>;
+};
+
 export type IAssetFieldsFragment = (
   { __typename?: 'Asset' }
   & Pick<IAsset, 'title' | 'url' | 'width' | 'height'>
@@ -998,12 +1018,9 @@ export type IPlantFieldsFragment = (
   )>, author?: Maybe<(
     { __typename?: 'Author' }
     & IAuthorFieldsFragment
-  )>, categoriesCollection?: Maybe<(
-    { __typename?: 'PlantCategoriesCollection' }
-    & { items: Array<Maybe<(
-      { __typename?: 'Category' }
-      & ICategoryFieldsFragment
-    )>> }
+  )>, category?: Maybe<(
+    { __typename?: 'Category' }
+    & ICategoryFieldsFragment
   )> }
 );
 
@@ -1170,10 +1187,8 @@ export const PlantFieldsFragmentDoc = gql`
   author {
     ...AuthorFields
   }
-  categoriesCollection {
-    items {
-      ...CategoryFields
-    }
+  category {
+    ...CategoryFields
   }
 }
     ${AssetFieldsFragmentDoc}
@@ -1250,30 +1265,30 @@ export const GetPlantListByAuthorDocument = gql`
 }
     ${PlantFieldsFragmentDoc}`;
 
-export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>;
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string) => Promise<T>;
 
 
-const defaultWrapper: SdkFunctionWrapper = sdkFunction => sdkFunction();
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
     getPlantList(variables?: IGetPlantListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetPlantListQuery> {
-      return withWrapper(() => client.request<IGetPlantListQuery>(GetPlantListDocument, variables, requestHeaders));
+      return withWrapper((wrappedRequestHeaders) => client.request<IGetPlantListQuery>(GetPlantListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getPlantList');
     },
     getPlant(variables: IGetPlantQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetPlantQuery> {
-      return withWrapper(() => client.request<IGetPlantQuery>(GetPlantDocument, variables, requestHeaders));
+      return withWrapper((wrappedRequestHeaders) => client.request<IGetPlantQuery>(GetPlantDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getPlant');
     },
     searchPlant(variables: ISearchPlantQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ISearchPlantQuery> {
-      return withWrapper(() => client.request<ISearchPlantQuery>(SearchPlantDocument, variables, requestHeaders));
+      return withWrapper((wrappedRequestHeaders) => client.request<ISearchPlantQuery>(SearchPlantDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'searchPlant');
     },
     getCategoryList(variables?: IGetCategoryListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetCategoryListQuery> {
-      return withWrapper(() => client.request<IGetCategoryListQuery>(GetCategoryListDocument, variables, requestHeaders));
+      return withWrapper((wrappedRequestHeaders) => client.request<IGetCategoryListQuery>(GetCategoryListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCategoryList');
     },
     getAuthorList(variables?: IGetAuthorListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetAuthorListQuery> {
-      return withWrapper(() => client.request<IGetAuthorListQuery>(GetAuthorListDocument, variables, requestHeaders));
+      return withWrapper((wrappedRequestHeaders) => client.request<IGetAuthorListQuery>(GetAuthorListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAuthorList');
     },
     getPlantListByAuthor(variables: IGetPlantListByAuthorQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetPlantListByAuthorQuery> {
-      return withWrapper(() => client.request<IGetPlantListByAuthorQuery>(GetPlantListByAuthorDocument, variables, requestHeaders));
+      return withWrapper((wrappedRequestHeaders) => client.request<IGetPlantListByAuthorQuery>(GetPlantListByAuthorDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getPlantListByAuthor');
     }
   };
 }

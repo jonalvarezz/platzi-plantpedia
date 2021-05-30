@@ -79,7 +79,7 @@ export const selectCategories = selectListOf(selectCategory)
 type PartialPlant = Pick<IPlant, 'slug' | 'plantName'> &
   PartialEntityWithId & { description?: Maybe<{ json: Json }> } & {
     image?: Maybe<PartialImageFields>
-  } & { categoriesCollection?: Maybe<PartialCollection<PartialCategory>> } & {
+  } & { category?: Maybe<PartialCategory> } & {
     author?: Maybe<PartialAuthor>
   }
 
@@ -90,7 +90,7 @@ export const selectPlant = nonEmpty<PartialPlant, Plant>((partialPlant) => ({
   description: partialPlant.description!.json,
   image: selectImage(partialPlant.image),
   author: selectAuthor(partialPlant.author),
-  categories: selectCategories(partialPlant.categoriesCollection),
+  category: selectCategory(partialPlant.category),
 }))
 
 export const selectPlants = selectListOf(selectPlant)

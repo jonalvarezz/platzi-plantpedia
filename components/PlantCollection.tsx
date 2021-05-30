@@ -38,7 +38,7 @@ const MemoizedPlantEntry = memo(PlantEntry, isEqual)
 
 type PlantEntryType = {
   plant: Plant
-  variant?: string
+  variant?: 'square' | 'vertical'
 }
 
 export function PlantEntry({ plant, variant = 'square' }: PlantEntryType) {
@@ -73,6 +73,37 @@ export function PlantEntrySquare({ image, plantName, slug }: Plant) {
           />
           <div className="p-4">
             <Typography variant="h4" className="break-words">
+              {plantName}
+            </Typography>
+          </div>
+        </div>
+      </a>
+    </Link>
+  )
+}
+
+export function PlantEntryInline({
+  image,
+  plantName,
+  slug,
+  className,
+}: Plant & { className?: string }) {
+  return (
+    <Link href={`/entry/${slug}`}>
+      <a title={`Go to ${plantName}`}>
+        <div
+          className={`opacity-95 hover:opacity-100 flex items-end ${className}`}
+        >
+          <Image
+            src={image.url}
+            layout="fixed"
+            width={84}
+            aspectRatio="1:1"
+            fit="fill"
+            className="flex-none"
+          />
+          <div className="pl-2 flex-auto">
+            <Typography variant="h6" className="break-words">
               {plantName}
             </Typography>
           </div>

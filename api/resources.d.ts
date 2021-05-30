@@ -39,7 +39,7 @@ type Plant = {
   slug: string
   description: RichText
   image: Image
-  categories: Category[]
+  category: Category
   author: Author
 }
 

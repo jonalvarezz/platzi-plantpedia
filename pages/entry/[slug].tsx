@@ -12,9 +12,12 @@ import { Grid } from '@ui/Grid'
 
 import { RichText } from '@components/RichText'
 import { Image } from '@components/Image'
+import { AuthorCard } from '@components/AuthorCard'
+import { PlantEntryInline } from '@components/PlantCollection'
 
 type PlantEntryPageProps = {
   plant: Plant | null
+  otherEntries: Plant[] | null
   status: 'error' | 'success'
 }
 
@@ -33,11 +36,15 @@ export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
 
   try {
     const plant = await getPlant(slug, preview, locale)
+    const otherEntries = await getPlantList({
+      limit: 5,
+    })
     const i18nConf = await serverSideTranslations(locale!)
 
     return {
       props: {
         plant,
+        otherEntries,
         status: 'success',
         ...i18nConf,
       },
@@ -87,6 +94,7 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
 
 export default function PlantEntryPage({
   plant,
+  otherEntries,
   status,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { t } = useTranslation(['page-plant-entry'])
@@ -115,12 +123,22 @@ export default function PlantEntryPage({
             <RichText richText={plant.description} />
           </div>
         </Grid>
-        <Grid item xs={12} md={4} lg={3} component="section">
-          <Typography variant="h5" component="h3">
-            {t('recentPosts')}
-          </Typography>
+        <Grid item xs={12} md={4} lg={3} component="aside">
+          <section>
+            <Typography variant="h5" component="h3" className="mb-4">
+              {t('recentPosts')}
+            </Typography>
+            {otherEntries?.map((plantEntry) => (
+              <article className="mb-4" key={plantEntry.id}>
+                <PlantEntryInline {...plantEntry} />
+              </article>
+            ))}
+          </section>
         </Grid>
       </Grid>
+      <section className="my-4 border-t-2 border-b-2 border-gray-200 pt-12 pb-7">
+        <AuthorCard {...plant.author} />
+      </section>
     </Layout>
   )
 }

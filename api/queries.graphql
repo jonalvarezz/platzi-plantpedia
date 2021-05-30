@@ -46,10 +46,8 @@ fragment PlantFields on Plant {
   author {
     ...AuthorFields
   }
-  categoriesCollection {
-    items {
-      ...CategoryFields
-    }
+  category {
+    ...CategoryFields
   }
 }
 
