@@ -5,6 +5,7 @@ import {
   ISearchPlantQueryVariables,
   IGetCategoryListQueryVariables,
   IGetAuthorListQueryVariables,
+  IGetPlantListByCategoryQueryVariables,
 } from './generated/graphql'
 import * as selectors from './selectors'
 
@@ -91,4 +92,27 @@ export function getAuthorList(
     .then((responseData) =>
       selectors.selectAuthors(responseData.authorCollection)
     )
+}
+
+export function getPlantListByCategory(
+  args: IGetPlantListByCategoryQueryVariables
+): Promise<{ entries: Plant[]; category: Category }> {
+  return api
+    .getPlantListByCategory({ limit: 10, ...args })
+    .then((responseData) => {
+      if (
+        responseData == null ||
+        responseData.categoryCollection == null ||
+        responseData.categoryCollection.items.length < 1
+      ) {
+        throw new Error(`Category with slug: "${args.category}" not found`)
+      }
+
+      return {
+        category: selectors.selectCategories(
+          responseData.categoryCollection
+        )[0],
+        entries: selectors.selectPlants(responseData.plantCollection),
+      }
+    })
 }

@@ -1135,6 +1135,30 @@ export type IGetPlantListByAuthorQuery = (
   )> }
 );
 
+export type IGetPlantListByCategoryQueryVariables = Exact<{
+  category: Scalars['String'];
+  locale: Scalars['String'];
+  limit?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type IGetPlantListByCategoryQuery = (
+  { __typename?: 'Query' }
+  & { categoryCollection?: Maybe<(
+    { __typename?: 'CategoryCollection' }
+    & { items: Array<Maybe<(
+      { __typename?: 'Category' }
+      & ICategoryFieldsFragment
+    )>> }
+  )>, plantCollection?: Maybe<(
+    { __typename?: 'PlantCollection' }
+    & { items: Array<Maybe<(
+      { __typename?: 'Plant' }
+      & IPlantFieldsFragment
+    )>> }
+  )> }
+);
+
 export const AssetFieldsFragmentDoc = gql`
     fragment AssetFields on Asset {
   title
@@ -1264,6 +1288,25 @@ export const GetPlantListByAuthorDocument = gql`
   }
 }
     ${PlantFieldsFragmentDoc}`;
+export const GetPlantListByCategoryDocument = gql`
+    query getPlantListByCategory($category: String!, $locale: String!, $limit: Int = 10) {
+  categoryCollection(limit: 1, locale: $locale, where: {slug: $category}) {
+    items {
+      ...CategoryFields
+    }
+  }
+  plantCollection(
+    limit: $limit
+    locale: $locale
+    where: {category: {slug: $category}}
+  ) {
+    items {
+      ...PlantFields
+    }
+  }
+}
+    ${CategoryFieldsFragmentDoc}
+${PlantFieldsFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string) => Promise<T>;
 
@@ -1289,6 +1332,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getPlantListByAuthor(variables: IGetPlantListByAuthorQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetPlantListByAuthorQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<IGetPlantListByAuthorQuery>(GetPlantListByAuthorDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getPlantListByAuthor');
+    },
+    getPlantListByCategory(variables: IGetPlantListByCategoryQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IGetPlantListByCategoryQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<IGetPlantListByCategoryQuery>(GetPlantListByCategoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getPlantListByCategory');
     }
   };
 }

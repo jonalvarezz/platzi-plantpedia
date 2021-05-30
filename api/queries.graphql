@@ -135,3 +135,24 @@ query getPlantListByAuthor($authorId: String!, $limit: Int = 10) {
     }
   }
 }
+
+query getPlantListByCategory(
+  $category: String!
+  $locale: String!
+  $limit: Int = 10
+) {
+  categoryCollection(limit: 1, locale: $locale, where: { slug: $category }) {
+    items {
+      ...CategoryFields
+    }
+  }
+  plantCollection(
+    limit: $limit
+    locale: $locale
+    where: { category: { slug: $category } }
+  ) {
+    items {
+      ...PlantFields
+    }
+  }
+}
