@@ -1,0 +1,5 @@
+{
+  "spaceId": "YOUR_SPACE_ID",
+  "managementToken": "YOUR_MANAGEMENT_TOKEN",
+  "contentFile": "import/contentful-platzipedia.json"
+}
