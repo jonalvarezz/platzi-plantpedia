@@ -19,7 +19,6 @@ const language: NextApiHandler = (request, response) => {
   }
 
   if (request.method === 'POST') {
-    console.log(request.body)
     const newPreferredLocale = request.body.preferredLocale as
       | string
       | undefined
