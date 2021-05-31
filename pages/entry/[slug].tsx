@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { getPlant, QueryStatus } from '@api'
+import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
+
+import { getPlant, getPlantList } from '@api'
 
 import { Layout } from '@components/Layout'
 import { Typography } from '@ui/Typography'
@@ -9,44 +9,64 @@ import { Grid } from '@ui/Grid'
 import { RichText } from '@components/RichText'
 import { AuthorCard } from '@components/AuthorCard'
 
-export default function PlantEntryPage() {
-  const [status, setStatus] = useState<QueryStatus>('idle')
-  const [plant, setPlant] = useState<Plant | null>(null)
-  const router = useRouter()
-  const slug = router.query.slug
+type PlantEntryPageProps = {
+  plant: Plant
+}
 
-  useEffect(() => {
-    if (typeof slug !== 'string') {
-      return
+export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
+  params,
+}) => {
+  const slug = params?.slug
+
+  if (typeof slug !== 'string') {
+    return {
+      notFound: true,
     }
-    setStatus('loading')
-
-    getPlant(slug)
-      .then((receivedData) => {
-        setPlant(receivedData)
-        setStatus('success')
-      })
-      .catch(() => {
-        setStatus('error')
-      })
-  }, [slug])
-
-  if (status === 'idle' || status === 'loading') {
-    return (
-      <Layout>
-        <main className="pt-16 text-center">Loading awesomeness...</main>
-      </Layout>
-    )
   }
 
-  if (plant === null || status === 'error' || typeof slug !== 'string') {
-    return (
-      <Layout>
-        <main className="pt-16 text-center">404, my friendo</main>
-      </Layout>
-    )
-  }
+  try {
+    const plant = await getPlant(slug)
 
+    return {
+      props: {
+        plant,
+      },
+    }
+  } catch (e) {
+    return {
+      notFound: true,
+    }
+  }
+}
+
+type PathType = {
+  params: {
+    slug: string
+  }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  // Match home query.
+  // @TODO how do we generate all of our pages if we don't know the number? 🤔
+  const plantEntriesToGenerate = await getPlantList({ limit: 10 })
+
+  const paths: PathType[] = plantEntriesToGenerate.map(({ slug }) => ({
+    params: {
+      slug,
+    },
+  }))
+
+  return {
+    paths,
+
+    // Return 404 for plant entries that were not included.
+    fallback: false,
+  }
+}
+
+export default function PlantEntryPage({
+  plant,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
       <Grid container spacing={4}>
