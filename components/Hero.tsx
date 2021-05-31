@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { Typography } from '@ui/Typography'
-import { Image } from '@components/Image'
 
 type HeroProps = Plant & { className?: string }
 
@@ -9,12 +8,7 @@ export function Hero({ plantName, slug, image, className }: HeroProps) {
     <div className={className}>
       <div className="relative text-center">
         <div className="opacity-60 inline-block">
-          <Image
-            src={image.url}
-            layout="intrinsic"
-            width={600}
-            aspectRatio="9:12"
-          />
+          <img src={image.url} style={{ maxWidth: 600 }} />
         </div>
         <div className="text-container absolute">
           <Link href={`/entry/${slug}`}>
