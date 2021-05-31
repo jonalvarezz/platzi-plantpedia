@@ -43,6 +43,7 @@ export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
         otherEntries,
         categories,
       },
+      revalidate: 5 * 60, // once every five minutes
     }
   } catch (e) {
     return {
