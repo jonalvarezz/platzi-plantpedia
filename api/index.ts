@@ -9,6 +9,8 @@ import {
 } from './generated/graphql'
 import * as selectors from './selectors'
 
+export type QueryStatus = 'idle' | 'loading' | 'success' | 'error'
+
 const client = new GraphQLClient(
   `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_SPACE_ID}`,
   {

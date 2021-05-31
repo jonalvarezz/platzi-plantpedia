@@ -64,7 +64,7 @@ export function PlantEntrySquare({ image, plantName, slug }: Plant) {
     <Link href={`/entry/${slug}`}>
       <a title={`Go to ${plantName}`}>
         <div className="opacity-95 hover:opacity-100">
-          <img src={image.url} style={{ maxWidth: 460 }} />
+          <img src={image.url} width={460} />
           <div className="p-4">
             <Typography variant="h4" className="break-words">
               {plantName}
@@ -88,7 +88,7 @@ export function PlantEntryInline({
         <div
           className={`opacity-95 hover:opacity-100 flex items-end ${className}`}
         >
-          <img src={image.url} style={{ maxWidth: 84 }} className="flex-none" />
+          <img src={image.url} width={84} className="flex-none" />
           <div className="pl-2 flex-auto">
             <Typography variant="h6" className="break-words">
               {plantName}
@@ -110,7 +110,7 @@ export function PlantEntryVertical({
     <div className="opacity-95 hover:opacity-100">
       <Link href={`/entry/${slug}`}>
         <a title={`Go to ${plantName}`}>
-          <img src={image.url} style={{ maxWidth: 624 }} />
+          <img src={image.url} width={624} />
           <Typography variant="h2" className="break-words pt-4 px-4">
             {plantName}
           </Typography>

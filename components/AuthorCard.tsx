@@ -10,7 +10,7 @@ export function AuthorCard({
   return (
     <div className="md:flex">
       <div className="pr-8 pb-4 flex-shrink-0">
-        <img src={photo.url} style={{ maxWidth: 192 }} />
+        <img src={photo.url} width={192} />
       </div>
       <div>
         <Typography variant="h5" component="p">

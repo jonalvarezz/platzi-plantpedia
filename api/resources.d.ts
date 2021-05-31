@@ -6,6 +6,8 @@ type Json =
   | { [property: string]: Json }
   | Json[]
 
+// This matches our content model from our CMS (Contentful)
+
 type Image = {
   title: string
   url: string

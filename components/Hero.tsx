@@ -8,7 +8,7 @@ export function Hero({ plantName, slug, image, className }: HeroProps) {
     <div className={className}>
       <div className="relative text-center">
         <div className="opacity-60 inline-block">
-          <img src={image.url} style={{ maxWidth: 600 }} />
+          <img src={image.url} width={600} />
         </div>
         <div className="text-container absolute">
           <Link href={`/entry/${slug}`}>

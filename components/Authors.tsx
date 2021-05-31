@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { getAuthorList } from '@api'
+import { getAuthorList, QueryStatus } from '@api'
 import { Grid } from '@ui/Grid'
 import { Typography } from '@ui/Typography'
 
@@ -33,7 +33,7 @@ export function Authors({ className }: AuthorProps) {
         <Grid item key={id}>
           <Link href={`/top-stories/${handle}`}>
             <a title={`See latest stories from ${fullName}`}>
-              <img src={photo.url} style={{ maxWidth: 150 }} />
+              <img src={photo.url} width={150} />
               <Typography variant="h5" component="p">
                 {fullName}
               </Typography>
@@ -46,8 +46,7 @@ export function Authors({ className }: AuthorProps) {
 }
 
 function useAuthors() {
-  const [status, setStatus] =
-    useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [status, setStatus] = useState<QueryStatus>('idle')
   const [data, setData] = useState<Author[] | null>(null)
 
   useEffect(
