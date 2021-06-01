@@ -1,4 +1,3 @@
-import { memo } from 'react'
 import Link from 'next/link'
 import { Grid, GridProps } from '@ui/Grid'
 import { Typography } from '@ui/Typography'
@@ -20,20 +19,11 @@ export function PlantCollection({
   return (
     <Grid container component="ul" spacing={4} className={className}>
       {plants.map((plant) => (
-        <MemoizedPlantEntry key={plant.id} plant={plant} variant={variant} />
+        <PlantEntry key={plant.id} plant={plant} variant={variant} />
       ))}
     </Grid>
   )
 }
-
-const isEqual = (previousProps: PlantEntryType, newProps: PlantEntryType) => {
-  // What's the property React has to know the component has to be updated?
-  // Even though lodash.isEqual could be used here, it could also lead to perf issues
-  // for big & deep nested objects.
-  // "Cherry-picking" the important props for the app gives the best result here
-  return previousProps.plant.plantName === newProps.plant.plantName
-}
-const MemoizedPlantEntry = memo(PlantEntry, isEqual)
 
 type PlantEntryType = {
   plant: Plant
