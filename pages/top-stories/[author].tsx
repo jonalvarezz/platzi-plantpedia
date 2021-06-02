@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
@@ -13,7 +14,6 @@ import { IGetPlantListByAuthorQueryVariables } from '@api/generated/graphql'
 
 type TopStoriesPageProps = {
   authors: Author[]
-  currentAuthor: Author['handle']
   status: 'error' | 'sucess'
 }
 
@@ -42,7 +42,6 @@ export const getServerSideProps: GetServerSideProps<TopStoriesPageProps> =
       return {
         props: {
           authors,
-          currentAuthor: authorHandle,
           status: 'sucess',
         },
       }
@@ -50,7 +49,6 @@ export const getServerSideProps: GetServerSideProps<TopStoriesPageProps> =
       return {
         props: {
           authors: [],
-          currentAuthor: authorHandle,
           status: 'error',
         },
       }
@@ -59,12 +57,18 @@ export const getServerSideProps: GetServerSideProps<TopStoriesPageProps> =
 
 export default function TopStories({
   authors,
-  currentAuthor,
   status,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [currentTab, setCurrentTab] = useState(currentAuthor)
+  // Heads-up: `router.query` comes populated from the server as we are using `getServerSideProps`
+  // which means, `router.query.author` will be ready since the very first render.
+  const router = useRouter()
+  const currentAuthor = router.query.author
 
-  if (authors.length === 0 || status === 'error') {
+  if (
+    typeof currentAuthor !== 'string' ||
+    authors.length === 0 ||
+    status === 'error'
+  ) {
     return (
       <Layout>
         <main className="pt-10 px-6">
@@ -97,8 +101,12 @@ export default function TopStories({
         </div>
         <VerticalTabs
           tabs={tabs}
-          currentTab={currentTab}
-          onTabChange={(_, newValue) => setCurrentTab(newValue)}
+          currentTab={currentAuthor}
+          onTabChange={(_, newValue) => {
+            router.push(`/top-stories/${newValue}`, undefined, {
+              shallow: true,
+            })
+          }}
         />
       </main>
     </Layout>
