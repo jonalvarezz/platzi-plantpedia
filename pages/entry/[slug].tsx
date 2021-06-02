@@ -20,6 +20,7 @@ type PlantEntryPageProps = {
 
 export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
   params,
+  preview,
 }) => {
   const slug = params?.slug
 
@@ -30,7 +31,7 @@ export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
   }
 
   try {
-    const plant = await getPlant(slug)
+    const plant = await getPlant(slug, preview)
 
     // Sidebar – This could be a single request since we are using GraphQL :)
     const otherEntries = await getPlantList({
