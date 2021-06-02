@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getAuthorList, QueryStatus } from '@api'
 import { Grid } from '@ui/Grid'
 import { Typography } from '@ui/Typography'
+import { Image } from '@components/Image'
 
 type AuthorProps = {
   className?: string
@@ -33,7 +34,13 @@ export function Authors({ className }: AuthorProps) {
         <Grid item key={id}>
           <Link href={`/top-stories/${handle}`}>
             <a title={`See latest stories from ${fullName}`}>
-              <img src={photo.url} width={150} />
+              <Image
+                src={photo.url}
+                width={150}
+                aspectRatio="1:1"
+                fit="fill"
+                layout="intrinsic"
+              />
               <Typography variant="h5" component="p">
                 {fullName}
               </Typography>
