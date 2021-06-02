@@ -5,6 +5,7 @@ import {
   ISearchPlantQueryVariables,
   IGetCategoryListQueryVariables,
   IGetAuthorListQueryVariables,
+  IGetPlantListByAuthorQueryVariables,
   IGetPlantListByCategoryQueryVariables,
 } from './generated/graphql'
 import * as selectors from './selectors'
@@ -74,6 +75,16 @@ export function searchPlants({
 
     return selectors.selectPlants(responseData.plantCollection)
   })
+}
+
+export function getPlantListByAuthor(
+  args: IGetPlantListByAuthorQueryVariables
+): Promise<Plant[]> {
+  return api
+    .getPlantListByAuthor(args)
+    .then((responseData) =>
+      selectors.selectPlants(responseData.plantCollection)
+    )
 }
 
 export function getCategoryList(
