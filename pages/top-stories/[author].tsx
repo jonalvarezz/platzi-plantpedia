@@ -12,9 +12,10 @@ import { AuthorCard } from '@components/AuthorCard'
 import { getAuthorList, getPlantListByAuthor, QueryStatus } from '@api'
 import { IGetPlantListByAuthorQueryVariables } from '@api/generated/graphql'
 
+import ErrorPage from '../_error'
+
 type TopStoriesPageProps = {
   authors: Author[]
-  status: 'error' | 'sucess'
 }
 
 export const getServerSideProps: GetServerSideProps<TopStoriesPageProps> =
@@ -42,48 +43,26 @@ export const getServerSideProps: GetServerSideProps<TopStoriesPageProps> =
       return {
         props: {
           authors,
-          status: 'sucess',
         },
       }
     } catch (e) {
       return {
-        props: {
-          authors: [],
-          status: 'error',
-        },
+        notFound: true,
       }
     }
   }
 
 export default function TopStories({
   authors,
-  status,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   // Heads-up: `router.query` comes populated from the server as we are using `getServerSideProps`
   // which means, `router.query.author` will be ready since the very first render.
   const router = useRouter()
   const currentAuthor = router.query.author
 
-  if (
-    typeof currentAuthor !== 'string' ||
-    authors.length === 0 ||
-    status === 'error'
-  ) {
+  if (typeof currentAuthor !== 'string' || authors.length === 0) {
     return (
-      <Layout>
-        <main className="pt-10 px-6">
-          <div className="pb-16">
-            <Typography variant="h2">Huh, algo no está bien 🙇‍♀️</Typography>
-          </div>
-          <article>
-            <Alert severity="error">
-              {status === 'error'
-                ? 'Hubo un error consultando la información. Inspeccionar el request en la pestaña Network de DevTools podría dar más información'
-                : 'No se encontró la información. ¿Olvidaste configurar el contenido en Contentful?'}
-            </Alert>
-          </article>
-        </main>
-      </Layout>
+      <ErrorPage message="There is no information available. Did you forget to set up your Contenful space's content?" />
     )
   }
 

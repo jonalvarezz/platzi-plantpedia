@@ -1,6 +1,6 @@
-import Error from 'next/error'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { getAuthorList } from '@api'
+import Error from '../_error'
 
 /**
  * Redirects to /top-stories/<first-author-in-the-list>
