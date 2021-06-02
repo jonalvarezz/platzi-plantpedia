@@ -2,7 +2,11 @@ import { Layout } from '@components/Layout'
 import { Typography } from '@ui/Typography'
 import { Button } from '@ui/Button'
 
-export default function NotFoundPage() {
+export default function NotFoundPage({
+  statusCode = 500,
+}: {
+  statusCode?: number
+}) {
   return (
     <Layout>
       <div className="text-center">
@@ -13,7 +17,9 @@ export default function NotFoundPage() {
           It's not you, it's us. Please try it again in a few minutes.
         </Typography>
         <Typography variant="body1" className="mb-6">
-          <span className="bg-gray-300 inline-block">ERRORCODE: 505</span>
+          <span className="bg-gray-300 inline-block">
+            ERRORCODE: {statusCode}
+          </span>
         </Typography>
         <Button
           color="primary"
