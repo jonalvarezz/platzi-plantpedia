@@ -36,7 +36,7 @@
     "@next/bundle-analyzer": "^10.2.3",
     "@types/cookie": "^0.4.0",
     "@types/lodash": "^4.14.170",
-    "@types/react": "^17.0.6",
+    "@types/react": "^17.0.9",
     "autoprefixer": "^10.2.5",
     "clsx": "^1.1.1",
     "graphql": "^15.5.0",
