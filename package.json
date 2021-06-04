@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.4",
+    "cookie": "^0.4.1",
     "next": "10.2.3",
     "react": "17.0.2",
     "react-dom": "17.0.2"
@@ -33,6 +34,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@next/bundle-analyzer": "^10.2.3",
+    "@types/cookie": "^0.4.0",
     "@types/lodash": "^4.14.170",
     "@types/react": "^17.0.6",
     "autoprefixer": "^10.2.5",
