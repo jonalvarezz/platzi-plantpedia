@@ -37,7 +37,7 @@
     "@types/cookie": "^0.4.0",
     "@types/lodash": "^4.14.170",
     "@types/react": "^17.0.11",
-    "autoprefixer": "^10.2.5",
+    "autoprefixer": "^10.2.6",
     "clsx": "^1.1.1",
     "graphql": "^15.5.0",
     "lodash": "^4.17.21",
