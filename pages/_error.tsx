@@ -1,4 +1,6 @@
-import { NextPage } from 'next'
+import { NextPage, GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 
 import { Layout } from '@components/Layout'
 import { Typography } from '@ui/Typography'
@@ -11,7 +13,13 @@ type ErrorPageProps = {
   message?: string
 }
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: await serverSideTranslations(locale!),
+})
+
 const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode, message }) => {
+  const { t } = useTranslation(['page-errors'])
+
   if (statusCode === 404) {
     return <NotFound />
   }
@@ -22,9 +30,7 @@ const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode, message }) => {
 
   let errorMessage = message
   if (!message) {
-    errorMessage = statusCode
-      ? 'An error occurred on the server'
-      : 'An error occurred on the client'
+    errorMessage = statusCode ? t('serverError') : t('clientError')
   }
 
   return (
@@ -47,9 +53,9 @@ const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode, message }) => {
           color="primary"
           variant="contained"
           href="/"
-          title="Go back home"
+          title={t('goHome')}
         >
-          Go back home
+          {t('goHome')}
         </Button>
       </div>
     </Layout>

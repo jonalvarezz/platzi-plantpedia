@@ -1,5 +1,7 @@
 import flatMap from 'lodash/flatMap'
 import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 
 import { getPlant, getPlantList, getCategoryList } from '@api'
@@ -34,6 +36,7 @@ export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
 
   try {
     const plant = await getPlant(slug, preview, locale)
+    const i18nConf = await serverSideTranslations(locale!)
 
     // Sidebar – This could be a single request since we are using GraphQL :)
     const otherEntries = await getPlantList({
@@ -46,6 +49,7 @@ export const getStaticProps: GetStaticProps<PlantEntryPageProps> = async ({
         plant,
         otherEntries,
         categories,
+        ...i18nConf,
       },
       revalidate: 5 * 60, // once every five minutes
     }
@@ -96,6 +100,8 @@ export default function PlantEntryPage({
   otherEntries,
   categories,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const { t } = useTranslation(['page-plant-entry'])
+
   return (
     <Layout>
       <Grid container spacing={4}>
@@ -119,7 +125,7 @@ export default function PlantEntryPage({
         <Grid item xs={12} md={4} lg={3} component="aside">
           <section>
             <Typography variant="h5" component="h3" className="mb-4">
-              Recent posts
+              {t('recentPosts')}
             </Typography>
             {otherEntries.map((plantEntry) => (
               <article className="mb-4" key={plantEntry.id}>
@@ -129,7 +135,7 @@ export default function PlantEntryPage({
           </section>
           <section className="mt-10">
             <Typography variant="h5" component="h3" className="mb-4">
-              Categories
+              {t('categories')}
             </Typography>
             <ul className="list">
               {categories.map((category) => (

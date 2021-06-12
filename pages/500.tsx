@@ -1,20 +1,30 @@
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
+
 import { Layout } from '@components/Layout'
 import { Typography } from '@ui/Typography'
 import { Button } from '@ui/Button'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: await serverSideTranslations(locale!),
+})
 
 export default function NotFoundPage({
   statusCode = 500,
 }: {
   statusCode?: number
 }) {
+  const { t } = useTranslation(['page-errors'])
+
   return (
     <Layout>
       <div className="text-center">
         <Typography variant="h2" className="mb-6">
-          🍄 Something went wrong
+          🍄 {t('somethingWentWrong')}
         </Typography>
         <Typography variant="body1" className="mb-6">
-          It's not you, it's us. Please try it again in a few minutes.
+          {t('errorMessage')}
         </Typography>
         <Typography variant="body1" className="mb-6">
           <span className="bg-gray-300 inline-block">
@@ -25,9 +35,9 @@ export default function NotFoundPage({
           color="primary"
           variant="contained"
           href="/"
-          title="Go back home"
+          title={t('goHome')}
         >
-          Go back home
+          {t('goHome')}
         </Button>
       </div>
     </Layout>

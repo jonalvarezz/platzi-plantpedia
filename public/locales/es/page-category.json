@@ -1,0 +1,4 @@
+{
+  "category": "Categoria: {{name}}",
+  "categoryHasNoEntries": "No pudimos encontrar ninguna entrada para {{name}}"
+}
