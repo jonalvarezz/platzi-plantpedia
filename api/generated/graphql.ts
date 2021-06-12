@@ -1137,7 +1137,7 @@ export type IGetPlantListByAuthorQuery = (
 
 export type IGetPlantListByCategoryQueryVariables = Exact<{
   category: Scalars['String'];
-  locale: Scalars['String'];
+  locale?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
 }>;
 
@@ -1289,7 +1289,7 @@ export const GetPlantListByAuthorDocument = gql`
 }
     ${PlantFieldsFragmentDoc}`;
 export const GetPlantListByCategoryDocument = gql`
-    query getPlantListByCategory($category: String!, $locale: String!, $limit: Int = 10) {
+    query getPlantListByCategory($category: String!, $locale: String, $limit: Int = 10) {
   categoryCollection(limit: 1, locale: $locale, where: {slug: $category}) {
     items {
       ...CategoryFields
