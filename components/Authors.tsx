@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { getAuthorList, QueryStatus } from '@api'
+import { useAuthors } from '@api/query/useAuthors'
 import { Grid } from '@ui/Grid'
 import { Typography } from '@ui/Typography'
 import { Image } from '@components/Image'
@@ -10,7 +9,7 @@ type AuthorProps = {
 }
 
 export function Authors({ className }: AuthorProps) {
-  const { data, status } = useAuthors()
+  const { data, status } = useAuthors({ limit: 10 })
 
   if (data == null || status !== 'success') {
     const dummyItems = Array.from({ length: 4 }, (_, i) => `item-${i}`)
@@ -50,29 +49,4 @@ export function Authors({ className }: AuthorProps) {
       ))}
     </Grid>
   )
-}
-
-function useAuthors() {
-  const [status, setStatus] = useState<QueryStatus>('idle')
-  const [data, setData] = useState<Author[] | null>(null)
-
-  useEffect(
-    () => {
-      setStatus('loading')
-      getAuthorList({ limit: 10 })
-        .then((returnedData) => {
-          setData(returnedData)
-          setStatus('success')
-        })
-        .catch(() => setStatus('error'))
-    },
-    [
-      // Run effect once
-    ]
-  )
-
-  return {
-    status,
-    data,
-  }
 }

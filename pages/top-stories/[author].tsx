@@ -1,18 +1,17 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
+import { Layout } from '@components/Layout'
 import { Typography } from '@ui/Typography'
 import { VerticalTabs, TabItem } from '@ui/Tabs'
 import { Alert } from '@ui/Alert'
-import { Layout } from '@components/Layout'
 import { PlantCollection } from '@components/PlantCollection'
 import { AuthorCard } from '@components/AuthorCard'
 
-import { getAuthorList, getPlantListByAuthor, QueryStatus } from '@api'
-import { IGetPlantListByAuthorQueryVariables } from '@api/generated/graphql'
+import { getAuthorList } from '@api'
+import { usePlantListByAuthor } from '@api/query/usePlantListByAuthor'
 
 import ErrorPage from '../_error'
 
@@ -98,52 +97,34 @@ type AuthorTopStoriesProps = Author
 
 function AuthorTopStories(author: AuthorTopStoriesProps) {
   const { t } = useTranslation(['page-top-stories'])
-  const { data: plants, status } = usePlantListByAuthor({
-    authorId: author.id,
-    limit: 12,
-  })
+  const {
+    data: plants,
+    isError,
+    isSuccess,
+  } = usePlantListByAuthor(
+    {
+      authorId: author.id,
+      limit: 12,
+    },
+    {
+      staleTime: 1000 * 60 * 5, // 5min
+    }
+  )
 
   return (
     <div>
       <section className="pb-16">
         <AuthorCard {...author} />
       </section>
-      {status === 'error' ? (
+      {isError ? (
         <Alert severity="error">{t('somethingWentWrong')}</Alert>
       ) : null}
-      {status === 'success' && plants.length === 0 ? (
+      {isSuccess && plants != null && plants.length === 0 ? (
         <Alert severity="info">
           {t('authorHasNoStories', { name: author.fullName })}
         </Alert>
       ) : null}
-      <PlantCollection plants={plants} />
+      {isSuccess && plants != null ? <PlantCollection plants={plants} /> : null}
     </div>
   )
-}
-
-export const usePlantListByAuthor = (
-  args: IGetPlantListByAuthorQueryVariables
-) => {
-  const [plantList, setPlantList] = useState<Plant[]>([])
-  const [status, setStatus] = useState<QueryStatus>('idle')
-  const [error, setError] = useState<Error | null>(null)
-
-  useEffect(() => {
-    setStatus('loading')
-    getPlantListByAuthor(args)
-      .then((receivedPlants) => {
-        setPlantList(receivedPlants)
-        setStatus('success')
-      })
-      .catch((e) => {
-        setError(e)
-        setStatus('error')
-      })
-  }, [])
-
-  return {
-    data: plantList,
-    status,
-    error,
-  }
 }
