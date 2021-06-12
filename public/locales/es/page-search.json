@@ -1,0 +1,7 @@
+{
+  "search": "Búsqueda",
+  "term": "Buscar por",
+  "notFound": "Ups, no encontramos nada por \"{{term}}\"",
+  "loading": "Cargando",
+  "loadMore": "Ver más"
+}
