@@ -21,8 +21,12 @@ export function TopArea() {
 }
 
 function LoginLogout() {
-  const [session] = useSession()
+  const [session, loading] = useSession()
   const { t } = useTranslation(['common'])
+
+  if (loading) {
+    return null
+  }
 
   if (session == null) {
     return <Button onClick={() => signIn()}>{t('signIn')}</Button>
