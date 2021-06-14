@@ -6,5 +6,7 @@
   "gettingStarted": "Getting started",
   "about": "About",
   "aboutDescription": "Platzi's Next.js Course by",
-  "imagesFrom": "Images from"
+  "imagesFrom": "Images from",
+  "signIn": "Sign in",
+  "signOut": "Sign out"
 }

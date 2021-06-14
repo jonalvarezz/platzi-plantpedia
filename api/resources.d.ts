@@ -50,3 +50,9 @@ type PaginatedList<T> = {
   skip: number
   items: T[]
 }
+
+type User = {
+  name: string
+  email: string
+  image: string
+}
