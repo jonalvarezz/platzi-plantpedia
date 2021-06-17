@@ -21,6 +21,7 @@ export function Header() {
           <div>
             <NavLink href="/top-stories">{t('topStories')}</NavLink>
             <NavLink href="/search">{t('search')}</NavLink>
+            <NavLink href="/premium">{t('premium')}</NavLink>
           </div>
         </NavBar>
       </div>
