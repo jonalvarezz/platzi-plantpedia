@@ -1,7 +1,7 @@
 import { NextApiHandler } from 'next'
 import random from 'lodash/random'
 
-import { getSession } from 'next-auth/client'
+import { getSession } from '@auth/client'
 
 const premium: NextApiHandler = async (request, response) => {
   const session = await getSession({ req: request })

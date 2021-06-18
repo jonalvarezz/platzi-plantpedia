@@ -5,5 +5,8 @@
   "somethingWentWrong": "Something went wrong",
   "errorMessage": "It's not you, it's us. Please try it again in a few minutes.",
   "serverError": "An error occurred on the server",
-  "clientError": "An error occurred on the client"
+  "clientError": "An error occurred on the client",
+  "accessdenied": "Access denied",
+  "weAreSorryYouCantAccess": "We are sorry, you must sign in first to access this page",
+  "signIn": "Sign in"
 }

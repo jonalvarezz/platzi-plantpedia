@@ -22,7 +22,8 @@
       "@ui/*": ["ui/*"],
       "@api/*": ["api/*"],
       "@api": ["api/index.ts"],
-      "@components/*": ["components/*"]
+      "@components/*": ["components/*"],
+      "@auth/*": ["auth/*"]
     }
   },
   "include": ["next-env.d.ts", "api/**/*.d.ts", "**/*.ts", "**/*.tsx"],
