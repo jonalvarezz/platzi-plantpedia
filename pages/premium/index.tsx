@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { GetServerSideProps } from 'next'
 // i18n
 
@@ -23,7 +24,13 @@ export const getServerSideProps: GetServerSideProps<{}> = async (context) => {
 
 function PremiumPage() {
   const [session, loading] = useSession()
-  console.log(loading, session)
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetch('/api/premium')
+      .then((response) => response.json())
+      .then(({ data }) => setImageUrl(data))
+  }, [])
 
   if (loading) {
     return null
@@ -33,7 +40,13 @@ function PremiumPage() {
     return <Layout>Acceso denegado</Layout>
   }
 
-  return <Layout>Contenido secretísimo</Layout>
+  return (
+    <Layout>
+      <div>
+        {imageUrl == null ? null : <img src={imageUrl} alt="Random fox" />}
+      </div>
+    </Layout>
+  )
 }
 
 export default PremiumPage
