@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next'
 
 import { Typography } from '@ui/Typography'
 import { Layout } from '@components/Layout'
+import { AccessDenied } from '@components/AccessDenied'
 import { Comment, CommentProps } from '@components/Wall/Comment'
 import { Editor } from '@components/Wall/Editor'
 
@@ -50,6 +51,10 @@ export default function WallPage() {
     }
 
     setStories((previousStories) => [newStory, ...previousStories])
+  }
+
+  if (session == null) {
+    return <AccessDenied />
   }
 
   return (
