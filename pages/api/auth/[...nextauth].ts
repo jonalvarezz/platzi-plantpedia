@@ -12,7 +12,10 @@ const options: NextAuthOptions = {
   session: {
     // Use JWT to manage sessions since we aren't using a Database
     jwt: true,
+    maxAge: 60 * 15, // 15 min
   },
+  // Secure cookies will be automatically determined by NEXTAUTH_URL: true is https, false otherwise.
+  //   useSecureCookies: true,
   jwt: {
     encryption: true,
     // Take a look to .env.local.example to see how to generate these keys
