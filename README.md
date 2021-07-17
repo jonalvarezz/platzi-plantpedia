@@ -23,7 +23,7 @@ Este repositorio recopila el proyecto de la Saga de Next.js dictado por [@jonalv
 
 ### Tabla de contenidos
 * [¿Cómo trabajar en este proyecto?](#-cómo-trabajar-en-este-proyecto)
-* [Guía rápida de desarrollo](#-gu%C3%ADa-rápida-de-desarrollo)
+* [Guía rápida de desarrollo](#-gu%C3%ADa-rápida-para-desarrollar)
 * [¿Encontraste un error o mejora?](#-encontraste-un-error-o-mejora)
 
 ### 🔎 ¿Cómo trabajar en este proyecto?
