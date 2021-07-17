@@ -114,7 +114,7 @@ git pull mi-repo branch-a-hacer-push
 
 ## ⚙️ Importar contenido a Contentful
 
-El proyecto utiliza un Content Management System (CMS) llamado Contenful. En el primer curso de esta Saga [Next.js: Sitios Estáticos y Jamstack](https://platzi.com/cursos/nextjs-jamstack) vemos en detalle como configurarlo.
+El proyecto utiliza un Content Management System (CMS) llamado [Contenful](https://www.contentful.com/). En el primer curso de esta Saga [Next.js: Sitios Estáticos y Jamstack](https://platzi.com/cursos/nextjs-jamstack) vemos en detalle como configurarlo.
 
 Los pasos son:
 
@@ -123,8 +123,13 @@ Los pasos son:
 1. Crea un nuevo **Content Managment Token**, guarda su valor y el de tu **Space ID**.
    > 💡 Lo generas desde Your Space > Settings > API Keys > Content Management tokens.
 
-1. Modifica el archivo `import/config.json` con tus valores generados en el punto anterior.
+1. Modifica el archivo `import/config.json` con los valores del punto anterior.
 
+    ```sh
+    cd platzi-plantpedia
+    nano import/config.json
+    ```
+    
 1. Instala la herramienta CLI de Contentful:
 
     ```sh
