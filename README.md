@@ -118,7 +118,7 @@ El proyecto utiliza un Content Management System (CMS) llamado Contenful. En el 
 
 Los pasos son:
 
-1. Crea una cuenta en [Contentful](https://www.contentful.com)
+1. Crea una cuenta en [Contentful](https://www.contentful.com) y crea un nuevo espacio (Space) vacio.
 
 1. Identifica tu Space ID y crea un token de acceso.
    > 💡 Lo encuentras en Your Space > Settings > API Keys.
