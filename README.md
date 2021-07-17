@@ -24,6 +24,7 @@ Este repositorio recopila el proyecto de la Saga de Next.js dictado por [@jonalv
 ### Tabla de contenidos
 * [¿Cómo trabajar en este proyecto?](#-cómo-trabajar-en-este-proyecto)
 * [Guía rápida de desarrollo](#-gu%C3%ADa-rápida-para-desarrollar)
+* [Importar contenido a Contentful](#-importar-contenido-a-contentful)
 * [¿Encontraste un error o mejora?](#-encontraste-un-error-o-mejora)
 
 ### 🔎 ¿Cómo trabajar en este proyecto?
@@ -110,6 +111,46 @@ git pull mi-repo branch-a-hacer-push
 
 > ⚠️ Dependiendo del lugar en la saga donde te ubiques podrías necesitar algunas Variables de Entorno. Revisa [`.env.local.example`](https://github.com/jonalvarezz/platzi-plantpedia/blob/main/.env.local.example) y el [Curso de Next.js: Deploy a Producción](https://platzi.com/cursos/nextjs-deploy)
 
+
+### ⚙️ Importar contenido a Contentful
+
+El proyecto utiliza un Content Management System (CMS) llamado Contenful. En el primer curso de esta Saga [Next.js: Sitios Estáticos y Jamstack](https://platzi.com/cursos/nextjs-jamstack) vemos en detalle como configurarlo.
+
+Los pasos son:
+
+1. Crea una cuenta en [Contentful](https://www.contentful.com)
+
+1. Identifica tu Space ID y crea un token de acceso.
+   > 💡 Lo encuentras en Your Space > Settings > API Keys.
+
+1. Modifica el archivo `import/config.json` con tus valores generados en el punto anterior.
+
+1. Instala la herramienta CLI de Contentful:
+
+    ```sh
+    npm install -g contentful-cli
+    ```
+
+1. Corre el siguiente comando desde la raiz de este proyecto:
+
+    ```sh
+    cd platzi-plantpedia
+    contentful space import --config import/config.json
+    ```
+    
+    > 💡 La importación puede tardar varios minutos.
+    
+
+1. En el navegador, verifica que el contenido se haya importado en la pestaña **Model** y **Content**.
+
+    > 💡 Deberías ver al menos 400 registros creados entre entradas e imágenes.
+
+
+1. Adicionalmente, puedes interactuar con tu contenido utilizando el [explorador de GraphQL](https://www.contentful.com/developers/docs/references/graphql/):
+
+    Abre en tu navegador: `https://graphql.contentful.com/content/v1/spaces/{SPACE}/explore?access_token={CDA_TOKEN}`
+    
+    > 💡 Reemplaza `{SPACE}` y `{CDA_TOKEN}` por tus valores propios.
 
 
 ### 🐞 ¿Encontraste un error o mejora?
