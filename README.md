@@ -22,10 +22,10 @@ Este repositorio recopila el proyecto de la Saga de Next.js dictado por [@jonalv
 * [Curso de Next.js: Seguridad con OWASP](https://platzi.com/cursos/nextjs-seguridad-owasp)
 
 ## Tabla de contenidos
-* [¿Cómo trabajar en este proyecto?](#-cómo-trabajar-en-este-proyecto)
-* [Guía rápida de desarrollo](#-gu%C3%ADa-rápida-para-desarrollar)
-* [Importar contenido a Contentful](#%EF%B8%8F-importar-contenido-a-contentful)
-* [¿Encontraste un error o mejora?](#-encontraste-un-error-o-mejora)
+* [🔎 ¿Cómo trabajar en este proyecto?](#-cómo-trabajar-en-este-proyecto)
+* [🤖 Guía rápida de desarrollo](#-gu%C3%ADa-rápida-para-desarrollar)
+* [⚙️ Importar contenido a Contentful](#%EF%B8%8F-importar-contenido-a-contentful)
+* [🐞 ¿Encontraste un error o mejora?](#-encontraste-un-error-o-mejora)
 
 ## 🔎 ¿Cómo trabajar en este proyecto?
 El curso es totalmente práctico y progresivo. Este repositorio sólo existe como una guía para cuando lo necesites. Puedes realizar todo el curso en tu propio proyecto y tu propio repositorio.
