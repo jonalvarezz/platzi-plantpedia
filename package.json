@@ -37,7 +37,7 @@
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@next/bundle-analyzer": "^10.2.3",
     "@types/cookie": "^0.4.0",
-    "@types/lodash": "^4.14.170",
+    "@types/lodash": "^4.14.171",
     "@types/react": "^17.0.11",
     "@types/sanitize-html": "^2.3.1",
     "autoprefixer": "^10.2.6",
