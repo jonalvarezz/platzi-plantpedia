@@ -27,10 +27,10 @@ Este repositorio recopila el proyecto de la Saga de Next.js dictado por [@jonalv
 * [¿Encontraste un error o mejora?](#-encontraste-un-error-o-mejora)
 
 ### 🔎 ¿Cómo trabajar en este proyecto?
-El curso es totalmente práctico, progresivo y está dividido por etiquetas de Git. Este repositorio sólo existe como una guía para cuando lo necesites. Puedes realizar todo el curso en tu propio proyecto y tu propio repositorio.
+El curso es totalmente práctico y progresivo. Este repositorio sólo existe como una guía para cuando lo necesites. Puedes realizar todo el curso en tu propio proyecto y tu propio repositorio.
 
-Avanzamos en el curso a un nuevo tema y no puedes o no quieres completar los cambios anteriores para continuar? 
-Empieza desde la etiqueta git correspondiente al módulo del curso que te interese
+
+El repositorio y toda la saga está dividido por etiquetas de Git. Empieza desde la etiqueta git correspondiente al módulo del curso que te interese:
 
 1.  Clona el repositorio, si no lo has hecho aún:
 
