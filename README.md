@@ -21,13 +21,13 @@ Este repositorio recopila el proyecto de la Saga de Next.js dictado por [@jonalv
 * [Curso de Next.js: Autenticación](https://platzi.com/cursos/nextjs-auth)
 * [Curso de Next.js: Seguridad con OWASP](https://platzi.com/cursos/nextjs-seguridad-owasp)
 
-### Tabla de contenidos
+## Tabla de contenidos
 * [¿Cómo trabajar en este proyecto?](#-cómo-trabajar-en-este-proyecto)
 * [Guía rápida de desarrollo](#-gu%C3%ADa-rápida-para-desarrollar)
-* [Importar contenido a Contentful](#-importar-contenido-a-contentful)
+* [Importar contenido a Contentful](#%EF%B8%8F-importar-contenido-a-contentful)
 * [¿Encontraste un error o mejora?](#-encontraste-un-error-o-mejora)
 
-### 🔎 ¿Cómo trabajar en este proyecto?
+## 🔎 ¿Cómo trabajar en este proyecto?
 El curso es totalmente práctico y progresivo. Este repositorio sólo existe como una guía para cuando lo necesites. Puedes realizar todo el curso en tu propio proyecto y tu propio repositorio.
 
 
@@ -76,7 +76,7 @@ El repositorio y toda la saga está dividido por etiquetas de Git. Empieza desde
     > 💡 En la sección de [Releases](https://github.com/jonalvarezz/platzi-plantpedia/releases) puedes encontrar toda la lista de etiquetas.
 
 
-#### ¿Cómo subo mis cambios a otro repositorio?
+### ¿Cómo subo mis cambios a otro repositorio?
 Git permite manejar varios repositorios remotos en una misma copia local. [Aquí encuentras más información](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes) y te dejaré el cheatsheet a continuación:
 ```sh
 # Crea tu nuevo repositorio en GitHub/GitLab/otro. 
@@ -93,7 +93,7 @@ git push mi-repo branch-a-hacer-push
 git pull mi-repo branch-a-hacer-push
 ```
 
-### 🤖 Guía Rápida Para Desarrollar
+## 🤖 Guía Rápida Para Desarrollar
 
 1. Instala dependencias
 
@@ -112,7 +112,7 @@ git pull mi-repo branch-a-hacer-push
 > ⚠️ Dependiendo del lugar en la saga donde te ubiques podrías necesitar algunas Variables de Entorno. Revisa [`.env.local.example`](https://github.com/jonalvarezz/platzi-plantpedia/blob/main/.env.local.example) y el [Curso de Next.js: Deploy a Producción](https://platzi.com/cursos/nextjs-deploy)
 
 
-### ⚙️ Importar contenido a Contentful
+## ⚙️ Importar contenido a Contentful
 
 El proyecto utiliza un Content Management System (CMS) llamado Contenful. En el primer curso de esta Saga [Next.js: Sitios Estáticos y Jamstack](https://platzi.com/cursos/nextjs-jamstack) vemos en detalle como configurarlo.
 
@@ -153,7 +153,7 @@ Los pasos son:
     > 💡 Reemplaza `{SPACE}` y `{CDA_TOKEN}` por tus valores propios.
 
 
-### 🐞 ¿Encontraste un error o mejora?
+## 🐞 ¿Encontraste un error o mejora?
 Ayuda a otros estudiantes con eso que acabas de descubrir que haría este curso y respositorio mucho mejor.
 * En [Issues](https://github.com/jonalvarezz/platzi-plantpedia/issues/new) puedes reportar errores, agregar sugerencias y comentarios.
 * Por su parte, los [Pull Request](https://github.com/jonalvarezz/platzi-plantpedia/pulls) siempre estarán abiertos para recibir mejoras puntuales.
