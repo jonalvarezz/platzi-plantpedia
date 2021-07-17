@@ -120,8 +120,8 @@ Los pasos son:
 
 1. Crea una cuenta en [Contentful](https://www.contentful.com) y crea un nuevo espacio (Space) vacio.
 
-1. Identifica tu Space ID y crea un token de acceso.
-   > 💡 Lo encuentras en Your Space > Settings > API Keys.
+1. Crea un nuevo **Content Managment Token**, guarda su valor y el de tu **Space ID**.
+   > 💡 Lo generas desde Your Space > Settings > API Keys > Content Management tokens.
 
 1. Modifica el archivo `import/config.json` con tus valores generados en el punto anterior.
 
