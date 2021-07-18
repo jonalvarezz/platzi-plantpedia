@@ -59,7 +59,8 @@ El repositorio y toda la saga está dividido por etiquetas de Git. Empieza desde
     ```sh
     0-inicio
     1-incremental-rendering
-    2-env-vars
+    10-react-query
+    11-memoization
     ...
     ```
 
