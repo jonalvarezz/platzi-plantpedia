@@ -158,6 +158,52 @@ Los pasos son:
     > 💡 Reemplaza `{SPACE}` y `{CDA_TOKEN}` por tus valores propios.
 
 
+
+## 🧑‍🏫 Otras preguntas y respuestas
+
+<details><summary>¿Cómo se creo la carpeta `api` y `api/generated`?</summary><p>
+
+> 💡 Si utilizas este repositorio como lo vimos en clase y usas el [contenido de Contentful que se provee](#%EF%B8%8F-importar-contenido-a-contentful), no es necesario correr o realizar algo para la auto-generación de código.
+
+Gracias a que utilizamos GraphQL, **auto-generamos** el archivo `api/generated/graphql.ts` para producir:
+* Los tipos de datos del Modelo de nuestro contenido
+* El tipo esperado en la respuesta de cada API
+* Una función lista (`getSdk`) para realizar el fetch de cada URL.
+
+> 💡 El código es auto-generado usando `graphql-codegen`. No se vió en clase pero se dejo como reto avanzado.
+
+Otros datos claves son:
+* `queries.graphql` indica todo lo que se debe auto-generar.
+* `codegen.yml` es el archivo de configuración.
+* La auto-generación se puede correr con:
+
+  ```sh
+  ACCESS_TOKEN=<access_token> SPACE_ID=<space_id> yarn build:schema
+  ```
+
+Luego, el archivo `api/index.ts` y `api/selectors.ts` son una capa que ge creado encima – un _wrapper_ – para exportar funciones y tipos más fáciles de usar.
+
+</p></details>
+
+<details><summary>La librería X no está en su última versión</summary><p>
+
+
+
+Si te encuentras trabajando desde una de las etiquetas de git es posible que las librerías no estén en su versión más actual. 
+
+Para obtener el proyecto funcionando con las versiones más actualizadas deberás crear un branch desde el último commit de `main`:
+
+```sh
+git fetch
+git checkout -b dev origin/main`
+```
+
+> 💡 El último commit también representa el proyecto terminado con todas las sagas incluidas.
+
+Las versiones de las librerías solo se mantienen actualizadas al final proyecto pero no se hace en cada etiqueta de git para no introducir cambios que causen que el código sea diferente al visto en la clase.
+</p></details>
+
+
 ## 🐞 ¿Encontraste un error o mejora?
 Ayuda a otros estudiantes con eso que acabas de descubrir que haría este curso y respositorio mucho mejor.
 * En [Issues](https://github.com/jonalvarezz/platzi-plantpedia/issues/new) puedes reportar errores, agregar sugerencias y comentarios.
