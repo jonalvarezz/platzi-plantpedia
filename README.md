@@ -25,6 +25,7 @@ Este repositorio recopila el proyecto de la Saga de Next.js dictado por [@jonalv
 * [🔎 ¿Cómo trabajar en este proyecto?](#-cómo-trabajar-en-este-proyecto)
 * [🤖 Guía rápida de desarrollo](#-gu%C3%ADa-rápida-para-desarrollar)
 * [⚙️ Importar contenido a Contentful](#%EF%B8%8F-importar-contenido-a-contentful)
+* [🧑‍🏫 Otras preguntas y respuestas](#-otras-preguntas-y-respuestas)
 * [🐞 ¿Encontraste un error o mejora?](#-encontraste-un-error-o-mejora)
 
 ## 🔎 ¿Cómo trabajar en este proyecto?
