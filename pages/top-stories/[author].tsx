@@ -1,7 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import { Layout } from '@components/Layout'
 import { Typography } from '@ui/Typography'
@@ -20,7 +18,7 @@ type TopStoriesPageProps = {
 }
 
 export const getServerSideProps: GetServerSideProps<TopStoriesPageProps> =
-  async ({ locale, params }) => {
+  async ({ params }) => {
     const authorHandle = String(params?.author)
 
     try {
@@ -44,7 +42,6 @@ export const getServerSideProps: GetServerSideProps<TopStoriesPageProps> =
       return {
         props: {
           authors,
-          ...(await serverSideTranslations(locale!)),
         },
       }
     } catch (e) {
@@ -57,14 +54,13 @@ export const getServerSideProps: GetServerSideProps<TopStoriesPageProps> =
 export default function TopStories({
   authors,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { t } = useTranslation(['page-top-stories'])
   // Heads-up: `router.query` comes populated from the server as we are using `getServerSideProps`
   // which means, `router.query.author` will be ready since the very first render.
   const router = useRouter()
   const currentAuthor = router.query.author
 
   if (typeof currentAuthor !== 'string' || authors.length === 0) {
-    return <ErrorPage message={t('noInfoAvailable')} />
+    return <ErrorPage message="No information available" />
   }
 
   const tabs: TabItem[] = authors.map((author) => ({
@@ -77,7 +73,7 @@ export default function TopStories({
     <Layout>
       <main className="pt-10">
         <Typography variant="h2" className="text-center pb-16">
-          {t('top10Stories')}
+          Top 10 Stories
         </Typography>
         <VerticalTabs
           tabs={tabs}
@@ -96,7 +92,6 @@ export default function TopStories({
 type AuthorTopStoriesProps = Author
 
 function AuthorTopStories(author: AuthorTopStoriesProps) {
-  const { t } = useTranslation(['page-top-stories'])
   const {
     data: plants,
     isError,
@@ -116,13 +111,9 @@ function AuthorTopStories(author: AuthorTopStoriesProps) {
       <section className="pb-16">
         <AuthorCard {...author} />
       </section>
-      {isError ? (
-        <Alert severity="error">{t('somethingWentWrong')}</Alert>
-      ) : null}
+      {isError ? <Alert severity="error">Something went wrong</Alert> : null}
       {isSuccess && plants != null && plants.length === 0 ? (
-        <Alert severity="info">
-          {t('authorHasNoStories', { name: author.fullName })}
-        </Alert>
+        <Alert severity="info">{author.fullName} has no stories</Alert>
       ) : null}
       {isSuccess && plants != null ? <PlantCollection plants={plants} /> : null}
     </div>
