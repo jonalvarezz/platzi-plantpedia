@@ -76,9 +76,10 @@ El repositorio y toda la saga está dividido por etiquetas de Git. Empieza desde
 
     > 💡 En la sección de [Releases](https://github.com/jonalvarezz/platzi-plantpedia/releases) puedes encontrar toda la lista de etiquetas.
 
+<details><summary>¿Cómo subo mis cambios a otro repositorio?</summary><p>
 
-### ¿Cómo subo mis cambios a otro repositorio?
 Git permite manejar varios repositorios remotos en una misma copia local. [Aquí encuentras más información](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes) y te dejaré el cheatsheet a continuación:
+  
 ```sh
 # Crea tu nuevo repositorio en GitHub/GitLab/otro. 
 # Asumamos la URL es git@github.com:jonalvarezz/mi-repo-mas-bello.git
@@ -93,6 +94,8 @@ git push mi-repo branch-a-hacer-push
 # Para pull
 git pull mi-repo branch-a-hacer-push
 ```
+</p></details>
+
 
 ## 🤖 Guía Rápida Para Desarrollar
 
