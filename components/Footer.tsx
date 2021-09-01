@@ -33,7 +33,9 @@ export const Footer = ({ className }: { className?: string }) => {
             </Typography>
             <ul className="p0">
               <li className="pb-1">
-                <a href="/getting-started">{t('gettingStarted')}</a>
+                <Link href="/docs">
+                  <a>{t('gettingStarted')}</a>
+                </Link>
               </li>
               <li className="pb-1">
                 <Link href="/search">
