@@ -26,7 +26,7 @@
     "react-query": "^3.19.0"
   },
   "devDependencies": {
-    "@apollo/client": "^3.4.1",
+    "@apollo/client": "^3.4.10",
     "@contentful/rich-text-plain-text-renderer": "^15.0.0",
     "@contentful/rich-text-react-renderer": "^15.0.0",
     "@graphql-codegen/cli": "^1.21.5",
