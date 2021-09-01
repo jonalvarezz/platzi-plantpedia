@@ -1,0 +1,7 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "jsx-a11y/anchor-is-valid": "off",
+    "react/jsx-no-target-blank": "off"
+  }
+}
