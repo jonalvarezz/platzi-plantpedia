@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { GetServerSideProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 
 import { Typography } from '@ui/Typography'
 import { Layout } from '@components/Layout'
@@ -11,6 +13,7 @@ import { getSession, useSession } from '@auth/client'
 
 export const getServerSideProps: GetServerSideProps<{}> = async (context) => {
   const session = await getSession(context)
+  const i18n = await serverSideTranslations(context.locale!)
 
   if (session == null) {
     return {
@@ -22,7 +25,7 @@ export const getServerSideProps: GetServerSideProps<{}> = async (context) => {
   }
 
   return {
-    props: { session },
+    props: { session, ...i18n },
   }
 }
 
@@ -31,6 +34,7 @@ type Story = Pick<CommentProps, 'name' | 'imageUrl' | 'text'> & { id: string }
 export default function WallPage() {
   const [session] = useSession()
   const [stories, setStories] = useState<Story[]>([])
+  const { t } = useTranslation(['page-wall'])
 
   const addStory = (text: string) => {
     const message = text.trim()
@@ -54,9 +58,9 @@ export default function WallPage() {
   }
 
   return (
-    <Layout title="Wall">
+    <Layout title={t('wall')}>
       <div className="text-center pb-6">
-        <Typography variant="h2">Wall</Typography>
+        <Typography variant="h2">{t('wall')}</Typography>
         <div className="max-w-5xl mx-auto mb-6 mt-4">
           <Editor onSubmit={addStory} />
         </div>
