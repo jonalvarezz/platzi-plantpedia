@@ -7,6 +7,9 @@ const config = {
   images: {
     domains: ['images.ctfassets.net'],
   },
+  experimental: {
+    nftTracing: true,
+  },
   i18n,
 }
 
