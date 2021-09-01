@@ -512,12 +512,12 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@contentful/rich-text-plain-text-renderer@^15.0.0":
-  version "15.0.0"
-  resolved "https://registry.yarnpkg.com/@contentful/rich-text-plain-text-renderer/-/rich-text-plain-text-renderer-15.0.0.tgz#407a0f0c89c65293303f6b1ae1a99ab2e381abdb"
-  integrity sha512-/trUuE7hPJRtEHSHbOr0CGenEfInfGOCsIQPXKdgrtu/7lF0DT3WTGGNsfPGN91ezeMhTlUjtL3mZwJZt57KTg==
+"@contentful/rich-text-plain-text-renderer@^15.1.0":
+  version "15.1.0"
+  resolved "https://registry.yarnpkg.com/@contentful/rich-text-plain-text-renderer/-/rich-text-plain-text-renderer-15.1.0.tgz#d6deb9f78de24b606d96dffd00abe8e2f957801e"
+  integrity sha512-aPyDMQpb5rXfTJFRDur10qNZm1roKtXcXi6nIUP582NSLEzkp5GRydJsbp0Zcu+8qLcNMfvc7nwn4725P+Ma8w==
   dependencies:
-    "@contentful/rich-text-types" "^15.0.0"
+    "@contentful/rich-text-types" "^15.1.0"
 
 "@contentful/rich-text-react-renderer@^15.0.0":
   version "15.0.0"
@@ -526,10 +526,10 @@
   dependencies:
     "@contentful/rich-text-types" "^15.0.0"
 
-"@contentful/rich-text-types@^15.0.0":
-  version "15.0.0"
-  resolved "https://registry.yarnpkg.com/@contentful/rich-text-types/-/rich-text-types-15.0.0.tgz#bd676960dea3e4b5a56fd6653d8cc800a81d6bca"
-  integrity sha512-e7aXF/BhXPOpLW+PsbD57Fyt0meiRYT3nTct2iLGa2WYRZMM6E+clnCAXhSRBQ8qhAso7SSUGeiBMxPeaO3KKQ==
+"@contentful/rich-text-types@^15.0.0", "@contentful/rich-text-types@^15.1.0":
+  version "15.1.0"
+  resolved "https://registry.yarnpkg.com/@contentful/rich-text-types/-/rich-text-types-15.1.0.tgz#5637452257e6c7c6fc406ec1ec6ab7fcc1158105"
+  integrity sha512-3PgQi/B5yKC3xXDar1Ry4i4l9jgt56PFZ40cOkE+oCNLmNlFtZolo6cTrf4VunuufSsCfjTs4iWovy7fbM1I8Q==
 
 "@emotion/hash@^0.8.0":
   version "0.8.0"
