@@ -12,7 +12,7 @@ export default function Home() {
       <div className="max-w-5xl mx-auto my-10">
         <Grid component="ul" container spacing={2}>
           {documentationList.map((doc) => (
-            <Grid component="li" item className="" xs={6}>
+            <Grid key={doc.title} component="li" item className="" xs={6}>
               <a
                 href={doc.link}
                 target="_blank"

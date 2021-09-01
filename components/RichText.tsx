@@ -12,18 +12,20 @@ type RichTextProps = {
 
 const options: Options = {
   renderNode: {
-    [BLOCKS.PARAGRAPH]: (_, children) => (
-      <Typography variant="body1" gutterBottom color="textSecondary">
-        {children}
-      </Typography>
-    ),
+    [BLOCKS.PARAGRAPH]: function Paragraph(_, children) {
+      return (
+        <Typography variant="body1" gutterBottom color="textSecondary">
+          {children}
+        </Typography>
+      )
+    },
   },
 }
 
 export const RichText = ({ richText, className }: RichTextProps) => {
   return (
     <div className={className}>
-      {documentToReactComponents((richText as unknown) as Document, options)}
+      {documentToReactComponents(richText as unknown as Document, options)}
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import clsx from 'clsx'
 import { useTranslation } from 'next-i18next'
 import { Grid } from '@ui/Grid'
@@ -23,7 +24,7 @@ export const Footer = ({ className }: { className?: string }) => {
           >
             <PlantpediaLogo />
             <Typography variant="h5" component="a" href="/" title="Go home">
-              Platzi's Plantpedia
+              Platzi&apos;s Plantpedia
             </Typography>
           </Grid>
           <Grid item xs={6} sm={4}>
@@ -32,13 +33,19 @@ export const Footer = ({ className }: { className?: string }) => {
             </Typography>
             <ul className="p0">
               <li className="pb-1">
-                <a href="/getting-started">{t('gettingStarted')}</a>
+                <Link href="/docs">
+                  <a>{t('gettingStarted')}</a>
+                </Link>
               </li>
               <li className="pb-1">
-                <a href="/search">{t('search')}</a>
+                <Link href="/search">
+                  <a>{t('search')}</a>
+                </Link>
               </li>
               <li className="pb-1">
-                <a href="/top-stories">{t('topStories')}</a>
+                <Link href="/top-stories">
+                  <a>{t('topStories')}</a>
+                </Link>
               </li>
             </ul>
           </Grid>

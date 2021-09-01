@@ -8,7 +8,7 @@ import Document, {
 } from 'next/document'
 
 // Not directly exported by NextJS (next/types). May change across versions.
-import { Enhancer, AppType } from 'next/dist/next-server/lib/utils'
+import type { Enhancer, AppType } from 'next/dist/shared/lib/utils'
 
 import { ServerStyleSheets } from '@ui/ssr'
 
@@ -37,6 +37,7 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
   const sheets = new ServerStyleSheets()
   const originalRenderPage = ctx.renderPage
 
+  // eslint-disable-next-line react/display-name
   const enhanceApp: Enhancer<AppType> = (App) => (props) =>
     sheets.collect(<App {...props} />)
 
