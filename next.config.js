@@ -4,9 +4,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 const config = {
-  future: {
-    webpack5: true,
-  },
   images: {
     domains: ['images.ctfassets.net'],
   },

@@ -1,4 +1,4 @@
-import { NextPage, GetStaticProps } from 'next'
+import { NextPage, GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
@@ -13,9 +13,20 @@ type ErrorPageProps = {
   message?: string
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
-  props: await serverSideTranslations(locale!),
-})
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  res,
+}) => {
+  const i18nConf = await serverSideTranslations(locale!)
+  const statusCode = res ? res.statusCode : 404
+
+  return {
+    props: {
+      statusCode,
+      ...i18nConf,
+    },
+  }
+}
 
 const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode, message }) => {
   const { t } = useTranslation(['page-errors'])
@@ -60,11 +71,6 @@ const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode, message }) => {
       </div>
     </Layout>
   )
-}
-
-ErrorPage.getInitialProps = ({ res, err }) => {
-  const statusCode = res ? res.statusCode : err ? err.statusCode : 404
-  return { statusCode }
 }
 
 export default ErrorPage
