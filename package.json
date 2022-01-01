@@ -33,7 +33,7 @@
     "@graphql-codegen/cli": "^1.21.5",
     "@graphql-codegen/typescript": "^1.23.0",
     "@graphql-codegen/typescript-graphql-request": "^3.2.1",
-    "@graphql-codegen/typescript-operations": "^1.18.0",
+    "@graphql-codegen/typescript-operations": "^2.2.2",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@next/bundle-analyzer": "^11.0.1",
